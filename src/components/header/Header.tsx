@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
