@@ -124,6 +124,24 @@ table {
   border-spacing: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover,
+a:focus,
+a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
+svg:not(:root).svg-inline--fa,
+svg:not(:host).svg-inline--fa {
+  overflow: visible;
+  box-sizing: content-box;
+}
+
 *,
 ::after,
 ::before {
@@ -137,4 +155,9 @@ html {
 body {
   font-size: 1.6rem;
   font-family: "Open Sans", serif;
+}
+
+:root {
+  --primary-color: #6bc67c;
+  --slideshow-height: 270px;
 }

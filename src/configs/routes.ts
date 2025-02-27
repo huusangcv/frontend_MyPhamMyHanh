@@ -1,7 +1,9 @@
 const routes = {
   home: "/",
-  about: "/about",
-  contact: "/contact",
+  about: "/gioi-thieu",
+  contact: "/lien-he",
+  certificate: "/bang-khen",
+  news: "/tin-tuc",
   login: "/login",
   register: "/register",
   profile: "/profile",

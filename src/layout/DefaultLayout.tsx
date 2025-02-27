@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import Header from "../components/header/Header";
 import { Box, Container } from "@mui/material";
+import Sidebar from "../components/sidebar/Sidebar";
+import styles from "./DefaultLayout.module.scss";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
 
 interface DefaultLayoutProps {
   children: ReactNode;
@@ -10,9 +15,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <>
       <Header></Header>
-      <Container maxWidth="md">
-        <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}>{children}</Box>
-      </Container>
+      <div className={cx("sidebar-container")}>
+        <Sidebar />
+        <div className={cx("sidebar-content")}>
+          <Container maxWidth="lg" style={{ minHeight: 1000, margin: 0 }}>
+            <Box sx={{ bgcolor: "#fff", height: "100vh" }}>{children}</Box>
+          </Container>
+        </div>
+      </div>
     </>
   );
 };

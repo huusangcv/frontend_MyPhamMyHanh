@@ -1,0 +1,289 @@
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import styles from "./SildeSlick.module.scss";
+import classNames from "classnames/bind";
+import img1 from "../../assets/product-1.jpg";
+import img5 from "../../assets/product-5.jpg";
+const cx = classNames.bind(styles);
+
+function NextArrow({ onClick }: { onClick: () => void }) {
+  return (
+    <div className={cx("arrow", "arrow-next")} onClick={onClick}>
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="chevron-right"
+        className="svg-inline--fa fa-chevron-right "
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 320 512"
+      >
+        <path
+          fill="currentColor"
+          d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+        ></path>
+      </svg>
+    </div>
+  );
+}
+
+function PrevArrow({ onClick }: { onClick: () => void }) {
+  return (
+    <div className={cx("arrow", "arrow-prev")} onClick={onClick}>
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="chevron-left"
+        className="svg-inline--fa fa-chevron-left "
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 320 512"
+      >
+        <path
+          fill="currentColor"
+          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+        ></path>
+      </svg>
+    </div>
+  );
+}
+const SlideSlick = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    nextArrow: (
+      <NextArrow
+        onClick={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    ),
+    prevArrow: (
+      <PrevArrow
+        onClick={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    ),
+  };
+  return (
+    <div className={cx("slider-container")}>
+      <Slider {...settings}>
+        <div>
+          <div
+            className={cx("slide-item")}
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(96,179,129,1) 27%, rgba(196,227,111,1) 100%)",
+            }}
+          >
+            <div className={cx("slide-item__content")}>
+              <h2 className="sub-title">
+                <a href="#!">Dầu</a>
+              </h2>
+              <p className="desc">
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
+                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
+                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
+                cùng cần thiết.
+              </p>
+              <div>
+                <a
+                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ctaBtn"
+                  style={
+                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
+                  }
+                >
+                  Xem sản phẩm
+                </a>
+              </div>
+            </div>
+            <div className={cx("slide-item__image")}>
+              <a href="#!">
+                <img src={img1} alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className={cx("slide-item")}
+            style={{
+              background:
+                "linear-gradient(to right, rgb(104, 40, 250), rgb(255, 186, 164))",
+            }}
+          >
+            <div className={cx("slide-item__content")}>
+              <h2 className="sub-title">
+                <a href="#!">Mỹ phẩm</a>
+              </h2>
+              <p className="desc">
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
+                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
+                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
+                cùng cần thiết.
+              </p>
+              <div>
+                <a
+                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ctaBtn"
+                  style={
+                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
+                  }
+                >
+                  Xem sản phẩm
+                </a>
+              </div>
+            </div>
+            <div className={cx("slide-item__image")}>
+              <a href="#!">
+                <img
+                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
+                  alt=""
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className={cx("slide-item")}
+            style={{
+              background:
+                "linear-gradient(to right, rgb(254, 33, 94), rgb(255, 148, 2))",
+            }}
+          >
+            <div className={cx("slide-item__content")}>
+              <h2 className="sub-title">
+                <a href="#!">Mỹ phẩm</a>
+              </h2>
+              <p className="desc">
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
+                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
+                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
+                cùng cần thiết.
+              </p>
+              <div>
+                <a
+                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ctaBtn"
+                  style={
+                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
+                  }
+                >
+                  Xem sản phẩm
+                </a>
+              </div>
+            </div>
+            <div className={cx("slide-item__image")}>
+              <a href="#!">
+                <img
+                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
+                  alt=""
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className={cx("slide-item")}
+            style={{
+              background:
+                "linear-gradient(to right, rgb(254, 33, 94), rgb(255, 148, 2))",
+            }}
+          >
+            <div className={cx("slide-item__content")}>
+              <h2 className="sub-title">
+                <a href="#!">Mỹ phẩm</a>
+              </h2>
+              <p className="desc">
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
+                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
+                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
+                cùng cần thiết.
+              </p>
+              <div>
+                <a
+                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ctaBtn"
+                  style={
+                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
+                  }
+                >
+                  Xem sản phẩm
+                </a>
+              </div>
+            </div>
+            <div className={cx("slide-item__image")}>
+              <a href="#!">
+                <img
+                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
+                  alt=""
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className={cx("slide-item")}
+            style={{
+              background:
+                "linear-gradient(to right, rgb(0, 126, 254), rgb(6, 195, 254))",
+            }}
+          >
+            <div className={cx("slide-item__content")}>
+              <h2 className="sub-title">
+                <a href="#!">Mỹ phẩm</a>
+              </h2>
+              <p className="desc">
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
+                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
+                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
+                cùng cần thiết.
+              </p>
+              <div>
+                <a
+                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ctaBtn"
+                  style={
+                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
+                  }
+                >
+                  Xem sản phẩm
+                </a>
+              </div>
+            </div>
+            <div className={cx("slide-item__image")}>
+              <a href="#!">
+                <img src={img5} alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </Slider>
+    </div>
+  );
+};
+
+export default SlideSlick;
