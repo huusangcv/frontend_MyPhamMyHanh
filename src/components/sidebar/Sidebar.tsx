@@ -4,7 +4,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import FeedIcon from "@mui/icons-material/Feed";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 const cx = classNames.bind(styles);
@@ -50,17 +49,6 @@ const Sidebar = () => {
           >
             <WorkspacePremiumIcon />
             <span>Bằng khen</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            aria-current="page"
-            to="/"
-            className={cx("sidebar__item", { active: active === "/about" })}
-            onClick={() => handleClick("/about")}
-          >
-            <ProductionQuantityLimitsIcon />
-            <span>Sản phẩm</span>
           </Link>
         </li>
         <li>

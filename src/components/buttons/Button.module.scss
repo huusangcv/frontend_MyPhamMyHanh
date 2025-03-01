@@ -25,4 +25,8 @@
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+
+  @media (max-width: 767.98px) {
+    display: none;
+  }
 }

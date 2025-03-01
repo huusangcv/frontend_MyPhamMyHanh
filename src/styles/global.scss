@@ -1,3 +1,25 @@
+.MuiBox-root {
+  width: calc(100vw - 170px);
+}
+
+.MuiButtonBase-root {
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.MuiBadge-root {
+  span {
+    background: #6bc67c;
+  }
+}
+@media (max-width: 767.98px) {
+  .MuiBox-root {
+    width: calc(100vw - 50px);
+  }
+}
+
 .header {
   border-bottom: 1px solid #e8ebed;
 }

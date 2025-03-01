@@ -1,0 +1,49 @@
+.product-menu {
+  position: relative;
+  .menu-heading {
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-weight: 600;
+    gap: 4px;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+
+  .menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: -10px;
+    box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+    transition: allease-in-out 0.3s;
+    animation: __fadeIn_qhx2q_1ease_1th8k_1 0.3s;
+    border-radius: 10px;
+    padding-left: 0;
+    margin: 0;
+    overflow: hidden;
+    will-change: opacity, transform;
+    color: #1d2129;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+    padding: 10px 20px;
+
+    li {
+      padding: 4px 0;
+    }
+
+    .list-link {
+      white-space: nowrap;
+      padding: 5px 0;
+      &:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .menu-dropdown.active {
+    display: flex;
+  }
+}

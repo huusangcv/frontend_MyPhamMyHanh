@@ -12,6 +12,100 @@
   border: 2px solid rgb(232, 232, 232);
   transition: border-color 0.2sease-in-out;
 
+  &__inner {
+    z-index: 9999;
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate3d(433.333px, 62.6667px, 0px);
+  }
+
+  &__wapper {
+    background: #fff;
+    box-shadow: 0 -4px 32px #0003;
+    transition: allease-in-out 0.3s;
+    // animation: _fadeIn_qhx2q_1ease 0.3s;
+    border-radius: 10px;
+    padding-left: 0;
+    margin: 0;
+    overflow: hidden;
+    will-change: opacity, transform;
+    color: #1d2129;
+  }
+
+  &__result {
+    width: 420px;
+    color: var(--desc-color);
+    min-width: 230px;
+    min-height: 50px;
+    max-height: calc(90vh - var(--header-height));
+    padding: 12px 24px;
+    font-size: 1.4rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 6px 0 0;
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 6px;
+
+    h5 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    a {
+      font-size: 1.4rem;
+      color: var(--desc-color);
+    }
+  }
+
+  &__avatar {
+    font-size: 3.6px;
+    background: transparent;
+    border-radius: 50%;
+
+    img:not(._crown_hzxfy_16) {
+      width: 9em;
+      height: 9em;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+
+    span {
+      font-size: 1.4rem;
+      color: #292929;
+      margin-left: 12px;
+      line-height: 1.6;
+      overflow: hidden;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  }
   &__icon {
     display: flex;
     justify-content: center;

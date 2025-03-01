@@ -142,6 +142,22 @@ svg:not(:host).svg-inline--fa {
   box-sizing: content-box;
 }
 
+button {
+  outline: none;
+  border: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+  font-weight: 600;
+}
+
 *,
 ::after,
 ::before {
@@ -160,4 +176,18 @@ body {
 :root {
   --primary-color: #6bc67c;
   --slideshow-height: 270px;
+  --desc-color: #0000008a;
+  --header-height: 66px;
+  --white-color: #fff;
+  --text-color: #333;
+  --gray-color: #666;
+  --text-color: #333;
+  --plum-color: #b80257;
+  --fb-color: #4080ff;
+  --mail-color: #f47425;
+  --invalid-color: #f33a58;
+  --desc-color: #0000008a;
+  --first-color: #1dbfaf;
+  --second-color: #1dbfaf;
+  --button-color: #1dbfaf;
 }
