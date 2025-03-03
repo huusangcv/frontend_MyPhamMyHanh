@@ -38,6 +38,14 @@
   font-family: Montserrat;
 }
 
+.is-size-7 {
+  font-size: 1rem !important;
+}
+
+.has-text-centered {
+  text-align: center !important;
+}
+
 .ctaBtn {
   margin-top: 12px;
   text-align: center;
@@ -124,4 +132,145 @@
       }
     }
   }
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+.is-flex {
+  display: flex !important;
+}
+
+.is-align-items-center {
+  align-items: center !important;
+}
+
+.wmde-markdown {
+  img {
+    margin-top: 10;
+    margin: 0 auto !important;
+  }
+}
+
+.slick-list {
+  padding: 10px 0;
+}
+
+//callToAction for product detail
+.button {
+  background-color: #fff;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  color: #363636;
+  cursor: pointer;
+  justify-content: center;
+  padding: calc(0.5em - 1px) 1em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.title.is-6 {
+  font-size: 1.6rem;
+}
+
+#callToAction {
+  justify-content: space-between;
+  padding: 0 10px 10px;
+  text-align: left;
+  width: 100%;
+
+  button {
+    height: 40px;
+  }
+
+  .temp-price {
+    align-items: flex-start;
+    flex-flow: column;
+    margin-right: 10px;
+    gap: 6px;
+
+    em {
+      color: #797979;
+      font-size: 14px;
+    }
+  }
+
+  button#buyNow {
+    background-color: #1bba38;
+    color: #fff;
+    display: flex;
+    flex-flow: column;
+    line-height: 1.2;
+    min-width: 150px;
+
+    strong {
+      display: block;
+    }
+
+    button#addToCart {
+      align-items: center;
+      border: 1px solid crimson;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      width: 60px;
+    }
+  }
+}
+
+.progress {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 9999px;
+  display: block;
+  height: 1rem;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+p.name-letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #50943c;
+  color: #fff;
+  background-color: #ddd;
+  border-radius: 50%;
+  font-weight: 600;
+  height: 32px;
+  overflow: hidden;
+  width: 32px;
+}
+
+.block-info__name {
+  align-items: center;
+  display: flex;
+  gap: 15px;
+
+  span.name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .date-time {
+    align-items: center;
+    color: #707070;
+    display: flex;
+    font-size: 12px;
+    gap: 5px;
+    padding-top: 3px;
+    text-align: right;
+  }
+}
+
+.bought-cps {
+  color: #229a16;
+  font-size: 13px;
+  gap: 3px;
 }

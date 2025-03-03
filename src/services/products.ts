@@ -5,8 +5,8 @@ const productMethods = {
     const result = await axios.get(`products?page=${page}&limit=${limit}`);
     return result;
   },
-  getDetailProduct: async (id: string) => {
-    const result = await axios.get(`products/${id}`);
+  getDetailProduct: async (slug: string) => {
+    const result = await axios.get(`products/slug/${slug}`);
     return result;
   },
   searchProducts: async (q: string) => {

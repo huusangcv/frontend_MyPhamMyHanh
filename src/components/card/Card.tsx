@@ -13,6 +13,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Rating } from "@mui/material";
 import { useAppDispatch } from "../../../hooks";
 import { addItemToCart } from "../../redux/features/cart/cartSlice";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 export default function CardItem() {
   const dispatch = useAppDispatch();
@@ -22,6 +24,7 @@ export default function CardItem() {
     name: string;
     price: number;
     discount: number;
+    slug: string;
     category_id: string;
     images: string[];
   }
@@ -46,7 +49,7 @@ export default function CardItem() {
       }
     };
     fetchProducts();
-  });
+  }, []);
 
   React.useEffect(() => {
     const fetchCategories = async () => {
@@ -61,7 +64,7 @@ export default function CardItem() {
       }
     };
     fetchCategories();
-  });
+  }, []);
 
   const formatter = new Intl.NumberFormat("vi-VN", {
     style: "decimal",
@@ -72,16 +75,16 @@ export default function CardItem() {
     <>
       {products.map((product) => (
         <Card sx={{ maxWidth: 345 }} key={product._id} className={cx("card")}>
-          <a href="#!">
+          <Link to={`/san-pham/${product.slug}`}>
             <CardMedia
               component="img"
               alt="green iguana"
               height="140"
               image={`http://localhost:8080${product.images[0]}`}
             />
-          </a>
+          </Link>
           <CardContent>
-            <a href="#!">
+            <Link to={`/san-pham/${product.slug}`}>
               <Typography
                 gutterBottom
                 variant="h5"
@@ -90,7 +93,7 @@ export default function CardItem() {
               >
                 {product.name}
               </Typography>
-            </a>
+            </Link>
             {(product.discount > 0 && (
               <div className={cx("wrap-price")}>
                 <Typography
@@ -146,17 +149,27 @@ export default function CardItem() {
             <div className={cx("cta-wrap")}>
               <Button
                 size="small"
-                onClick={() =>
+                onClick={() => {
                   dispatch(
                     addItemToCart({
                       id: product._id,
                       name: product.name,
                       image: product.images[0],
-                      price: product.price,
+                      price: product.price * (1 - product.discount / 100),
                       quantity: 1,
                     })
-                  )
-                }
+                  );
+                  toast.success("Thêm sản phẩm vào giỏ hàng thành công", {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }}
               >
                 <AddShoppingCartIcon />
               </Button>

@@ -65,6 +65,8 @@ export const cartSlice = createSlice({
             state.items = state.items.filter((item) => item.id !== newItem.id);
           } else {
             existingItem.quantity += 1;
+            state.totalPrice += newItem.price;
+            state.totalQuantity += 1;
           }
         }
         state.totalPrice -= newItem.price;
