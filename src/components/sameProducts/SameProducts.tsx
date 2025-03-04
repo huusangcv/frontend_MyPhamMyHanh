@@ -7,16 +7,24 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import productMethods from "../../services/products";
 import categoryMethods from "../../services/categories";
-import classNames from "classnames/bind";
-import styles from "./Card.module.scss";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { Rating } from "@mui/material";
 import { useAppDispatch } from "../../../hooks";
 import { addItemToCart } from "../../redux/features/cart/cartSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import RatingByProduct from "../ratingByProduct/RatingByProduct";
+import classNames from "classnames/bind";
+import styles from "./SameProducts.module.scss";
+import reviewMethods from "../../services/reviews";
 const cx = classNames.bind(styles);
-export default function CardItem() {
+interface PropsSameProduct {
+  categoryId: string;
+  currentProduct: string;
+}
+export default function SameProducts({
+  categoryId,
+  currentProduct,
+}: PropsSameProduct) {
   const dispatch = useAppDispatch();
 
   interface Product {
@@ -34,9 +42,15 @@ export default function CardItem() {
     _id: string;
     name: string;
   }
+
+  interface Review {
+    _id: string;
+    rating: number;
+  }
+
   const [products, setProducts] = React.useState<Product[]>([]);
   const [categories, setCategories] = React.useState<Category[]>([]);
-
+  const [reviews, setReviews] = React.useState<Review[]>([]);
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -50,6 +64,23 @@ export default function CardItem() {
       }
     };
     fetchProducts();
+  }, []);
+
+  React.useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const { status, data } = await reviewMethods.getReviewsByProduct(
+          currentProduct
+        );
+
+        if (status) {
+          setReviews(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchReviews();
   }, []);
 
   React.useEffect(() => {
@@ -72,11 +103,18 @@ export default function CardItem() {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
+
+  const caclReview = (reviews: Review[]): number => {
+    const lengthReview = reviews.length;
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return totalRating / lengthReview;
+  };
   return (
     <>
       {products.map(
         (product) =>
-          product.bestseller && (
+          product.category_id === categoryId &&
+          product._id !== currentProduct && (
             <Card
               sx={{ maxWidth: 345 }}
               key={product._id}
@@ -128,7 +166,7 @@ export default function CardItem() {
                 )) || (
                   <Typography
                     gutterBottom
-                    variant="h5"
+                    variant="h6"
                     component="div"
                     className={cx("price")}
                   >
@@ -139,21 +177,21 @@ export default function CardItem() {
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {categories.map((category) => {
                     if (product.category_id === category._id) {
-                      return (
-                        <span
-                          key={category._id}
-                          className={cx("category-name")}
-                        >
-                          {category.name}
-                        </span>
-                      );
+                      return category.name;
                     }
                   })}
                 </Typography>
               </CardContent>
 
               <CardActions style={{ justifyContent: "space-between" }}>
-                <RatingByProduct currentProduct={product._id} />
+                {(reviews.length > 0 && (
+                  <Rating
+                    name="half-rating-read"
+                    precision={0.5}
+                    value={parseFloat(caclReview(reviews).toFixed(0))}
+                    readOnly
+                  />
+                )) || <div></div>}
 
                 <div className={cx("cta-wrap")}>
                   <Button

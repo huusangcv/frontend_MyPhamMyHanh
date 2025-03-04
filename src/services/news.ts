@@ -5,8 +5,8 @@ const newsMethods = {
     const result = await axios.get(`news`);
     return result;
   },
-  getDetailNews: async (id: string) => {
-    const result = await axios.get(`news/${id}`);
+  getDetailNews: async (slug: string) => {
+    const result = await axios.get(`news/${slug}`);
     return result;
   },
   searchNews: async (q: string) => {

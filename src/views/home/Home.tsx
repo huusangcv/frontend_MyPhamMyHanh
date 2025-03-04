@@ -5,10 +5,12 @@ import { Box } from "@mui/material";
 import CardItem from "../../components/card/Card";
 import News from "../../components/news/News";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const Home = () => {
   useEffect(() => {
+    document.title = "Trang chủ | Mỹ phẩm Mỹ Hạnh";
     scroll({
       top: 0,
     });
@@ -62,7 +64,7 @@ const Home = () => {
             <span>Tin tức nổi bật</span>
           </h2>
           <div className={cx("view-all")}>
-            <a href="">
+            <Link to="/tin-tuc">
               Xem tất cả
               <svg
                 aria-hidden="true"
@@ -79,7 +81,7 @@ const Home = () => {
                   d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
                 ></path>
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -20,10 +20,6 @@
   }
 }
 
-.header {
-  border-bottom: 1px solid #e8ebed;
-}
-
 .sub-title {
   a {
     color: #fff;
@@ -273,4 +269,39 @@ p.name-letter {
   color: #229a16;
   font-size: 13px;
   gap: 3px;
+}
+
+svg:not(:root).svg-inline--fa,
+svg:not(:host).svg-inline--fa {
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+._icon_1jdb1_1 {
+  color: #1b74e4;
+  margin-left: 6px;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+.d-none {
+  display: none;
+}
+
+@media (max-width: 1199.98px) {
+  .d-lg-none {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .d-md-block {
+    display: block !important;
+  }
 }

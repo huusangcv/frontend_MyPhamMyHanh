@@ -175,6 +175,22 @@ button {
   background: none;
 }
 
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+}
+
+a:hover,
+a:focus,
+a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
 *,
 ::after,
 ::before {
@@ -207,4 +223,5 @@ body {
   --first-color: #1dbfaf;
   --second-color: #1dbfaf;
   --button-color: #1dbfaf;
+  --comment-image-border-color: rgba(0, 0, 0, 0.05);
 }

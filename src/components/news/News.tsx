@@ -9,6 +9,7 @@ import newsMethods from "../../services/news";
 import usersMethods from "../../services/users";
 import { CardActions } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 export default function News() {
   interface News {
@@ -17,6 +18,7 @@ export default function News() {
     image: string;
     view: number;
     author: string;
+    slug: string;
   }
 
   interface User {
@@ -67,16 +69,16 @@ export default function News() {
     <>
       {news.map((news) => (
         <Card sx={{ maxWidth: 345 }} key={news._id} className={cx("card")}>
-          <a href="#!">
+          <Link to={`/tin-tuc/${news.slug}`}>
             <CardMedia
               component="img"
               alt="green iguana"
               height="140"
               image={`http://localhost:8080${news.image}`}
             />
-          </a>
+          </Link>
           <CardContent>
-            <a href="#!">
+            <Link to={`/tin-tuc/${news.slug}`}>
               <Typography
                 gutterBottom
                 variant="h5"
@@ -85,32 +87,30 @@ export default function News() {
               >
                 {news.title}
               </Typography>
-            </a>
+            </Link>
           </CardContent>
           <CardActions>
-            <div className={cx("more-info")}>
-              {users.map((user) => {
-                if (user._id === news.author) {
-                  return (
-                    <div key={user._id}>
-                      <div className={cx("info-item")}>
-                        <div className={cx("avatar")}>
-                          <img
-                            src={`http://localhost:8080${user.image}`}
-                            alt=""
-                          />
-                        </div>
-                        <span>{user.username}</span>
+            {users.map((user) => {
+              if (user._id === news.author) {
+                return (
+                  <div key={user._id} className={cx("more-info")}>
+                    <div className={cx("info-item")}>
+                      <div className={cx("avatar")}>
+                        <img
+                          src={`http://localhost:8080${user.image}`}
+                          alt=""
+                        />
                       </div>
-                      <div className={cx("view")}>
-                        {formatter.format(news.view)}
-                        <VisibilityIcon />
-                      </div>
+                      <span>{user.username}</span>
                     </div>
-                  );
-                }
-              })}
-            </div>
+                    <div className={cx("view")}>
+                      {formatter.format(news.view)}
+                      <VisibilityIcon />
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </CardActions>
         </Card>
       ))}

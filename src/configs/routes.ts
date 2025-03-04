@@ -5,6 +5,7 @@ const routes = {
   contact: "/lien-he",
   certificate: "/bang-khen",
   news: "/tin-tuc",
+  newsDetail: "/tin-tuc/:slug",
   login: "/login",
   register: "/register",
   profile: "/profile",
