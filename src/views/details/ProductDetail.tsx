@@ -14,6 +14,7 @@ import usersMethods from "../../services/users";
 import ImagesReview from "../../components/imagesReview/ImagesReview";
 import segmentMethods from "../../services/segments";
 import SameProducts from "../../components/sameProducts/SameProducts";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 const cx = classNames.bind(styles);
 const ProductDetail = () => {
   interface Product {
@@ -32,12 +33,14 @@ const ProductDetail = () => {
   interface Category {
     _id: string;
     name: string;
+    slug: string;
   }
 
   interface News {
     _id: string;
     title: string;
     image: string;
+    slug: string;
   }
 
   interface Review {
@@ -91,7 +94,7 @@ const ProductDetail = () => {
         const { status, data } = await productMethods.getProducts();
 
         if (status) {
-          setProducts(data);
+          setProducts(data.products);
         }
       } catch (error) {
         console.log(error);
@@ -107,8 +110,6 @@ const ProductDetail = () => {
           slug as string
         );
 
-        console.log("check >>data", data);
-
         if (status) {
           if (data.reviews) {
             setReviews(data.reviews);
@@ -122,7 +123,9 @@ const ProductDetail = () => {
         console.log(error);
       }
     };
-    fetchProduct();
+    if (slug !== "") {
+      fetchProduct();
+    }
   }, [slug]);
 
   useEffect(() => {
@@ -146,7 +149,7 @@ const ProductDetail = () => {
         const { status, data } = await newsMethods.getNews();
 
         if (status) {
-          setNews(data);
+          setNews(data.news);
         }
       } catch (error) {
         console.log(error);
@@ -186,7 +189,7 @@ const ProductDetail = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `Sản phẩm | ${product.name}`;
+    document.title = `${product.name}`;
     scroll({
       top: 0,
     });
@@ -210,11 +213,35 @@ const ProductDetail = () => {
       sameProduct._id !== product._id
   );
 
-  console.log("check sameProducts", sameProducts);
+  const category = categories.find(
+    (category) => category._id === product.category_id
+  );
 
   return (
     <div className={cx("wapper")}>
       <div className={cx("product-detail")}>
+        <div className={"bannerTopHead topBarHeader"}>
+          <div className={"block-breadcrumbs affix"}>
+            <div className="container">
+              <Breadcrumb
+                breadcrums={[
+                  {
+                    name: "Sản phẩm",
+                    to: "/products/all",
+                  },
+                  {
+                    name: `${category ? category.name : "..."}`,
+                    to: `/products/${category ? category.slug : "..."}`,
+                  },
+                  {
+                    name: `${product.name}`,
+                    to: "",
+                  },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
         <section className={cx("block-detail-product")}>
           <div className={cx("box-header")}>
             <div className={cx("box-product-name")}>
@@ -386,10 +413,7 @@ const ProductDetail = () => {
                     <div className={cx("primary-note")}>{product.note}</div>
                   </div>
                   <div className={cx("content-desc")}>
-                    <MDEditor.Markdown
-                      source={product.description}
-                      style={{ whiteSpace: "pre-wrap" }}
-                    />
+                    <MDEditor.Markdown source={product.description} />
                   </div>
                 </div>
               </div>
@@ -420,9 +444,8 @@ const ProductDetail = () => {
                   if (index <= 4) {
                     return (
                       <div className={cx("sforum__content")} key={news._id}>
-                        <a
-                          target="_blank"
-                          href="https://cellphones.com.vn/sforum/caviar-galaxy-s25-ultra-john-wick"
+                        <Link
+                          to={`/news/detail/${news.slug}`}
                           className={cx("sforum__content-item")}
                         >
                           <img
@@ -434,13 +457,13 @@ const ProductDetail = () => {
                           <div className={cx("content-item__text")}>
                             {news.title}
                           </div>
-                        </a>
+                        </Link>
                       </div>
                     );
                   }
                 })}
                 <div className={cx("block-sforum_btn-showmore")}>
-                  <Link to="/tin-tuc" className={cx("btn-show-more")}>
+                  <Link to="/news/all" className={cx("btn-show-more")}>
                     Xem tất cả bài viết
                     <div>
                       <svg

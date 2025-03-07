@@ -1,12 +1,13 @@
 import classNames from "classnames/bind";
 import styles from "./News.module.scss";
-import { Avatar, Grid } from "@mui/material";
+import { Avatar, Grid, Pagination, PaginationItem, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import newsMethods from "../../services/news";
 import usersMethods from "../../services/users";
 import MDEditor from "@uiw/react-md-editor";
 import tagMethods from "../../services/tags";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import queryString from "query-string";
 
 const cx = classNames.bind(styles);
 const NewsList = () => {
@@ -32,19 +33,39 @@ const NewsList = () => {
   interface Tag {
     _id: string;
     name: string;
+    slug: string;
   }
+  const location = useLocation();
+  const { slug } = useParams();
+  const { page } = queryString.parse(location.search, {
+    parseNumbers: true,
+  });
 
   const [news, setNews] = useState<News[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const { data, status } = await newsMethods.getNews();
+        if (slug === "all") {
+          const { data, status } = await newsMethods.getNews(page as number);
 
-        if (status) {
-          setNews(data);
+          if (status) {
+            setNews(data.news);
+            setTotalPages(data.totalPages);
+          }
+        } else {
+          const { data, status } = await newsMethods.getNewsByTag(
+            slug as string,
+            page as number
+          );
+
+          if (status) {
+            setNews(data.news);
+            setTotalPages(data.totalPages);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -52,7 +73,7 @@ const NewsList = () => {
     };
 
     fetchNews();
-  }, []);
+  }, [page, slug]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -116,6 +137,22 @@ const NewsList = () => {
     }
 
     return timeAgo;
+  };
+
+  const countWords = (markdownContent: string) => {
+    // Xóa các thẻ Markdown và đếm số từ
+    const text = markdownContent
+      .replace(/[#*`_>[\]()]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return text.length > 0 ? text.split(" ").length : 0;
+  };
+
+  const calculateReadingTime = (markdownContent: string) => {
+    const wordsPerMinute = 100; // Tốc độ đọc trung bình
+    const wordCount = countWords(markdownContent);
+    const minutes = Math.ceil(wordCount / wordsPerMinute);
+    return minutes;
   };
 
   return (
@@ -190,7 +227,7 @@ const NewsList = () => {
             <div className={cx("actions")}></div>
             <div className={cx("body")}>
               <div className={cx("info")}>
-                <Link to={`/tin-tuc/${news.slug}`}>
+                <Link to={`/news/detail/${news.slug}`}>
                   <h2 className={cx("title")}>{news.title}</h2>
                 </Link>
                 <p className={cx("desc")}>
@@ -200,15 +237,21 @@ const NewsList = () => {
                   />
                 </p>
                 <div className={cx("meta-info")}>
-                  <a className={cx("tags")} href="/blog/tag/reactjs?page=1">
-                    {tags.map((tag) => tag._id === news.tag_id && tag.name)}
-                  </a>
+                  {tags.map(
+                    (tag) =>
+                      tag._id === news.tag_id && (
+                        <Link className={cx("tags")} to={`/news/${tag.slug}`}>
+                          {tag.name}
+                        </Link>
+                      )
+                  )}
                   <span>{caclTimePost(news.createdAt)}</span>
-                  {/* <span className="_dot_3m11s_103">·</span>6 phút đọc */}
+                  <span className={cx("dot")}>·</span>
+                  {calculateReadingTime(news.content)} phút đọc
                 </div>
               </div>
               <div className={cx("thumb", "d-lg-none")}>
-                <Link to={`/tin-tuc/${news.slug}`}>
+                <Link to={`/news/detail/${news.slug}`}>
                   <img
                     src={`http://localhost:8080${news.image}`}
                     alt='Hoàng Bảo Trung - Học viên tiêu biểu của F8 tỏa sáng với dự án "AI Powered Learning"'
@@ -218,16 +261,40 @@ const NewsList = () => {
             </div>
           </div>
         ))}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <Stack spacing={2}>
+              <Pagination
+                showFirstButton
+                showLastButton
+                size="large"
+                color="primary"
+                count={totalPages}
+                renderItem={(item) => (
+                  <PaginationItem
+                    component={Link}
+                    to={`${item.page === 1 ? "" : `?page=${item.page}`}`}
+                    {...item}
+                  />
+                )}
+                boundaryCount={2}
+              />
+            </Stack>
+          </div>
+        )}
       </Grid>
       <Grid item md={4}>
         <div className={cx("wapper-right", "d-lg-none")}>
           <h3>Xem các bài viết theo chủ đề</h3>
           <ul className={cx("topic")}>
-            {tags.map((tag) => (
-              <li key={tag._id}>
-                <Link to="">{tag.name}</Link>
-              </li>
-            ))}
+            {tags.map(
+              (tag) =>
+                tag.slug !== slug && (
+                  <li key={tag._id}>
+                    <Link to={`/news/${tag.slug}`}>{tag.name}</Link>
+                  </li>
+                )
+            )}
           </ul>
         </div>
         <div

@@ -4,6 +4,7 @@ import ProductDetail from "../views/details/ProductDetail";
 import Home from "../views/home/Home";
 import NewsDetail from "../views/news/NewsDetail";
 import NewsList from "../views/news/NewsList";
+import Products from "../views/product/Products";
 
 const publicRoutes = [
   {
@@ -13,6 +14,10 @@ const publicRoutes = [
   {
     path: configs.routes.about,
     component: About,
+  },
+  {
+    path: configs.routes.products,
+    component: Products,
   },
   {
     path: configs.routes.productDetail,

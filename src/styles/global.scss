@@ -150,6 +150,8 @@
   img {
     margin-top: 10;
     margin: 0 auto !important;
+    border-radius: 16px;
+    display: block;
   }
 }
 
@@ -303,5 +305,76 @@ svg:not(:host).svg-inline--fa {
 @media (max-width: 767.98px) {
   .d-md-block {
     display: block !important;
+  }
+}
+
+.pagination {
+  margin-top: 20px;
+  .MuiPagination-ul {
+    display: flex;
+    justify-content: center;
+  }
+
+  a.Mui-selected {
+    color: #fff;
+    background-color: var(--primary-color) !important;
+
+    &:hover {
+      background-color: var(--primary-color) !important;
+    }
+  }
+}
+
+//breadcrumb
+//Breadcrumb
+.bannerTopHead {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  .breadcrumb {
+    padding: 0 115px;
+  }
+
+  a {
+    font-size: 1.2rem !important;
+  }
+
+  .block-breadcrumbs {
+    padding-left: 115px;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 2px 6px 0 rgba(60, 64, 67, 0.1),
+      0 4px 8px 0 rgba(60, 64, 67, 0.15);
+    display: flex;
+    height: 30px;
+    overflow-x: auto;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+
+    &.affix {
+      left: 0;
+      position: fixed;
+      top: 66px;
+      z-index: 2;
+    }
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+  }
+
+  li p {
+    font-size: 1.2rem;
+  }
+
+  li:hover a {
+    text-decoration: underline;
+  }
+
+  svg {
+    fill: var(--primary-color) !important;
   }
 }

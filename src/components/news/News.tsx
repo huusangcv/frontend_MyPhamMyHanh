@@ -35,7 +35,7 @@ export default function News() {
         const { status, data } = await newsMethods.getNews();
 
         if (status) {
-          setNews(data);
+          setNews(data.news);
         }
       } catch (error) {
         console.log(error);
@@ -69,7 +69,7 @@ export default function News() {
     <>
       {news.map((news) => (
         <Card sx={{ maxWidth: 345 }} key={news._id} className={cx("card")}>
-          <Link to={`/tin-tuc/${news.slug}`}>
+          <Link to={`/news/detail/${news.slug}`}>
             <CardMedia
               component="img"
               alt="green iguana"
@@ -78,7 +78,7 @@ export default function News() {
             />
           </Link>
           <CardContent>
-            <Link to={`/tin-tuc/${news.slug}`}>
+            <Link to={`/news/detail/${news.slug}`}>
               <Typography
                 gutterBottom
                 variant="h5"

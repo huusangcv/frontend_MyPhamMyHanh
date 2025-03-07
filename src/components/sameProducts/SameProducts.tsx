@@ -57,7 +57,7 @@ export default function SameProducts({
         const { status, data } = await productMethods.getProducts();
 
         if (status) {
-          setProducts(data);
+          setProducts(data.products);
         }
       } catch (error) {
         console.log(error);
@@ -120,7 +120,7 @@ export default function SameProducts({
               key={product._id}
               className={cx("card")}
             >
-              <Link to={`/san-pham/${product.slug}`}>
+              <Link to={`/product/${product.slug}`}>
                 <CardMedia
                   component="img"
                   alt="green iguana"
@@ -129,7 +129,7 @@ export default function SameProducts({
                 />
               </Link>
               <CardContent>
-                <Link to={`/san-pham/${product.slug}`}>
+                <Link to={`/product/${product.slug}`}>
                   <Typography
                     gutterBottom
                     variant="h5"

@@ -4,17 +4,26 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import FeedIcon from "@mui/icons-material/Feed";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 const cx = classNames.bind(styles);
 const Sidebar = () => {
+  const location = useLocation();
+  const isDetailPage = location.pathname.startsWith("/news/detail/");
+  const isProductPage = location.pathname.startsWith("/product/");
   const [active, setActive] = useState("/");
-
   const handleClick = (path: string) => {
     setActive(path);
   };
+
   return (
-    <div className={cx("sidebar")}>
+    <div
+      className={cx(
+        "sidebar",
+        isProductPage && "hidden",
+        isDetailPage && "hidden"
+      )}
+    >
       <ul className={cx("sidebar__list")}>
         <li>
           <Link
@@ -54,9 +63,9 @@ const Sidebar = () => {
         <li>
           <Link
             aria-current="page"
-            to="/tin-tuc"
-            className={cx("sidebar__item", { active: active === "/tin-tuc" })}
-            onClick={() => handleClick("/tin-tuc")}
+            to="/news/all"
+            className={cx("sidebar__item", { active: active === "/news" })}
+            onClick={() => handleClick("/news/all")}
           >
             <FeedIcon />
             <span>Tin tức</span>

@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import productMethods from "../../services/products";
 import { Link } from "react-router-dom";
+import newsMethods from "../../services/news";
 const cx = classNames.bind(styles);
 const Search = () => {
   interface Product {
@@ -14,9 +15,17 @@ const Search = () => {
     slug: string;
   }
 
+  interface News {
+    _id: string;
+    title: string;
+    image: string;
+    slug: string;
+  }
+
   const [searchName, setSearchName] = useState("");
   const [showClearIcon, setShowClearIcon] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [news, setNews] = useState<News[]>([]);
   const [showResultSearch, setShowResultSearch] = useState<boolean>(true);
   useEffect(() => {
     const fetchSearchProducts = async () => {
@@ -33,7 +42,26 @@ const Search = () => {
       }
     };
 
-    fetchSearchProducts();
+    if (searchName !== "") {
+      fetchSearchProducts();
+    }
+  }, [searchName]);
+
+  useEffect(() => {
+    const fetchSearchNews = async () => {
+      try {
+        const { data, status } = await newsMethods.searchNews(searchName);
+
+        if (status) {
+          setNews(data.news);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (searchName !== "") {
+      fetchSearchNews();
+    }
   }, [searchName]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,11 +136,13 @@ const Search = () => {
                 <>
                   <div className={cx("search__heading")}>
                     <h5>SẢN PHẨM</h5>
-                    <a className={cx("search__seemore")}>Xem thêm</a>
+                    <Link to="/products/all" className={cx("search__seemore")}>
+                      Xem thêm
+                    </Link>
                   </div>
                   {products.map((product) => (
                     <Link
-                      to={`/san-pham/${product.slug}`}
+                      to={`/product/${product.slug}`}
                       className={cx("search__item")}
                       key={product._id}
                       onClick={() => setShowResultSearch(false)}
@@ -124,6 +154,33 @@ const Search = () => {
                         />
                       </div>
                       <span>{product.name}</span>
+                    </Link>
+                  ))}
+                </>
+              )}
+
+              {news.length > 0 && (
+                <>
+                  <div className={cx("search__heading")}>
+                    <h5>Tin tức</h5>
+                    <Link to="/news" className={cx("search__seemore")}>
+                      Xem thêm
+                    </Link>
+                  </div>
+                  {news.map((news) => (
+                    <Link
+                      to={`/news/${news.slug}`}
+                      className={cx("search__item")}
+                      key={news._id}
+                      onClick={() => setShowResultSearch(false)}
+                    >
+                      <div className={cx("search__avatar")}>
+                        <img
+                          src={`http://localhost:8080${news.image}`}
+                          alt={news.title}
+                        />
+                      </div>
+                      <span>{news.title}</span>
                     </Link>
                   ))}
                 </>

@@ -1,0 +1,65 @@
+.footer {
+  margin-top: 30px;
+  background: orange;
+
+  .wapper {
+    overflow: hidden;
+    padding: 68px 180px 40px;
+    color: #a9b3bb;
+    background-color: #181821;
+
+    @media (max-width: 1599.98px) {
+      padding-left: 150px;
+      padding-right: 150px;
+    }
+
+    @media (max-width: 991.98px) {
+      padding: 32px 24px 40px;
+    }
+
+    .contact-list {
+      position: relative;
+      margin-top: 20px;
+      font-size: 1.4rem;
+      line-height: 2.2rem;
+      color: #a9b3bb;
+    }
+
+    .heading {
+      font-size: 1.8rem;
+      line-height: 1.6;
+      color: #fff;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    .list {
+      margin-top: 20px;
+      padding-left: 0;
+
+      li {
+        position: relative;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+        margin-bottom: 8px;
+      }
+
+      a {
+        color: #a9b3bb;
+        cursor: pointer;
+        position: relative;
+        transition: ease 0.2s;
+
+        &:hover {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .logo {
+    width: 200px;
+    margin-right: 10px;
+    border-radius: 8px;
+  }
+}

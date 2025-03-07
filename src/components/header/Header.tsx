@@ -19,7 +19,7 @@ const Header = () => {
         <img
           src={logoDesktop}
           alt="Logo"
-          width={200}
+          width={150}
           className={cx("logo-desktop", "logo")}
         />
         <img

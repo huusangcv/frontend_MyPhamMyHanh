@@ -5,6 +5,12 @@ const productMethods = {
     const result = await axios.get(`products?page=${page}&limit=${limit}`);
     return result;
   },
+  getProductsByCategory: async (slug: string, page = 1, limit = 9) => {
+    const result = await axios.get(
+      `products/category/${slug}?page=${page}&limit=${limit}`
+    );
+    return result;
+  },
   getDetailProduct: async (slug: string) => {
     const result = await axios.get(`products/slug/${slug}`);
     return result;

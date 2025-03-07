@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 import Header from "../components/header/Header";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Sidebar from "../components/sidebar/Sidebar";
 import styles from "./DefaultLayout.module.scss";
 import classNames from "classnames/bind";
 import { ToastContainer } from "react-toastify";
+import Footer from "../components/footer/Footer";
 const cx = classNames.bind(styles);
 
 interface DefaultLayoutProps {
@@ -18,11 +19,10 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <div className={cx("sidebar-container")}>
         <Sidebar />
         <div className={cx("sidebar-content")}>
-          <Container maxWidth="lg" style={{ minHeight: 1000, margin: 0 }}>
-            <Box sx={{ bgcolor: "#fff", height: "100vh" }}>{children}</Box>
-          </Container>
+          <Box sx={{ bgcolor: "#fff" }}>{children}</Box>
         </div>
       </div>
+      <Footer />
       <ToastContainer />
     </>
   );

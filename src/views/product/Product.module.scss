@@ -1,0 +1,117 @@
+.wapper {
+  padding: 20px;
+
+  .our-products {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+
+  .heading {
+    font-size: 3rem;
+    text-transform: uppercase;
+  }
+
+  .body {
+    width: 100%;
+    min-height: 1000px;
+    border-top: 1px solid #ebebeb;
+    .sidebar-category {
+      border-right: 1px solid #ebebeb;
+      min-height: 100vh;
+      .heading {
+        padding-top: 20px;
+        text-transform: uppercase;
+        font-size: 1.8rem;
+      }
+    }
+
+    .list-products {
+      min-height: 1000px;
+      padding: 20px;
+    }
+
+    .list-categories {
+      margin-top: 10px;
+      padding-left: 10px;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+      height: 496px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      .category-arrow {
+        display: none;
+        transition: ease 0.2s;
+        svg {
+          fill: #fff;
+        }
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        transition: ease 0.2s;
+        cursor: pointer;
+        list-style-type: none;
+        max-height: 40px;
+
+        // &::before {
+        //   right: -32px;
+        //   border-top: 16px solid transparent;
+        //   border-left: 16px solid var(--primary-color);
+        //   border-bottom: 15px solid transparent;
+        //   border-right: 16px solid transparent;
+        //   z-index: 100;
+        //   position: absolute;
+        //   top: 1.9px;
+        //   margin: auto;
+        //   content: "";
+        // }
+
+        a {
+          padding: 10px;
+          width: 100%;
+        }
+
+        &.active {
+          border: none;
+          color: var(--primary-color);
+          padding: 15px 0 15px 15px;
+          background: var(--primary-color);
+          color: #fff;
+
+          .category-arrow {
+            display: block;
+          }
+
+          a {
+            padding: 10px;
+          }
+        }
+
+        &:hover {
+          border: none;
+          color: var(--primary-color);
+          padding: 15px 0 15px 15px;
+          background: var(--primary-color);
+          color: #fff;
+
+          .category-arrow {
+            display: block;
+          }
+
+          a {
+            padding: 0 10px;
+          }
+        }
+
+        &:hover &::before {
+          display: block;
+        }
+      }
+    }
+  }
+}

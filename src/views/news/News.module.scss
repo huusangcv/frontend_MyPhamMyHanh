@@ -18,6 +18,7 @@
 }
 
 .wapper {
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -205,12 +206,45 @@
 }
 
 .wapper-detail {
+  margin-bottom: 40px;
+
   .heading {
     margin-top: 30px;
     font-size: 2.5rem;
     line-height: 1.4;
     font-weight: 700;
     color: #222;
+  }
+
+  .aside {
+    position: sticky;
+    top: 116px;
+    padding-right: 48px;
+
+    .userName {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #292929;
+      margin-bottom: 0;
+    }
+
+    .userTitle {
+      font-size: 1.4rem;
+      color: #757575;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    .wapper {
+      .btnReact {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+    }
   }
 
   .wapper {
@@ -261,4 +295,11 @@
       vertical-align: bottom;
     }
   }
+}
+
+.dot {
+  padding: 0 4px;
+  color: #757575;
+  font-weight: 500;
+  margin: 0;
 }

@@ -3,12 +3,14 @@ import styles from "./ProductMenu.module.scss";
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import categoryMethods from "../../services/categories";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const ProductMenu = () => {
   interface Category {
     _id: string;
     name: string;
+    slug: string;
   }
 
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
@@ -41,9 +43,9 @@ const ProductMenu = () => {
       >
         {categories.map((category) => (
           <li key={category._id}>
-            <a href="#!" className={cx("list-link")}>
+            <Link to={`/products/${category.slug}`} className={cx("list-link")}>
               {category.name}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
