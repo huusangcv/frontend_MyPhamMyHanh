@@ -279,7 +279,7 @@ const ProductDetail = () => {
                         <div className={cx("swiper-slide")}>
                           <img
                             className={cx("img")}
-                            src={`http://localhost:8080${product.images[imageIndex]}`}
+                            src={`https://backend-myphammyhanh-k43b.onrender.com${product.images[imageIndex]}`}
                             alt=""
                           />
                         </div>
@@ -304,7 +304,7 @@ const ProductDetail = () => {
                         >
                           <img
                             className={cx("img")}
-                            src={`http://localhost:8080${image}`}
+                            src={`https://backend-myphammyhanh-k43b.onrender.com${image}`}
                             alt=""
                           />
                         </div>
@@ -449,7 +449,7 @@ const ProductDetail = () => {
                           className={cx("sforum__content-item")}
                         >
                           <img
-                            src={`http://localhost:8080${news.image}`}
+                            src={`https://backend-myphammyhanh-k43b.onrender.com${news.image}`}
                             alt={news.title}
                             loading="lazy"
                             className={cx("content-item__img")}
@@ -683,7 +683,7 @@ const ProductDetail = () => {
                                     <Avatar
                                       key={user._id}
                                       alt={user.username}
-                                      src={`http://localhost:8080${user.image}`}
+                                      src={`https://backend-myphammyhanh-k43b.onrender.com${user.image}`}
                                     />
                                   ) : (
                                     "S"

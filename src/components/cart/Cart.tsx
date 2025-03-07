@@ -59,7 +59,7 @@ const Cart = () => {
                     <div className={cx("product__item")} key={cart.id}>
                       <a href="#!">
                         <img
-                          src={`http://localhost:8080${cart.image}`}
+                          src={`https://backend-myphammyhanh-k43b.onrender.com${cart.image}`}
                           alt=""
                           className={cx("product__thumb")}
                         />

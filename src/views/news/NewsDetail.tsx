@@ -244,7 +244,7 @@ const NewsDetail = () => {
                               )}
                             >
                               <Avatar
-                                src={`http://localhost:8080${user.image}`}
+                                src={`https://backend-myphammyhanh-k43b.onrender.com${user.image}`}
                                 alt={user.username}
                               />
                               {user.roles === "admin" && (
