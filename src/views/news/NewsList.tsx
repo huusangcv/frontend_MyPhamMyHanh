@@ -189,7 +189,7 @@ const NewsList = () => {
                           )}
                         >
                           <Avatar
-                            src={`https://backend-myphammyhanh-k43b.onrender.com${user.image}`}
+                            src={`https://api.regis.id.vn${user.image}`}
                             alt={user.username}
                           />
                           {user.roles === "admin" && (
@@ -253,7 +253,7 @@ const NewsList = () => {
               <div className={cx("thumb", "d-lg-none")}>
                 <Link to={`/news/detail/${news.slug}`}>
                   <img
-                    src={`https://backend-myphammyhanh-k43b.onrender.com${news.image}`}
+                    src={`https://api.regis.id.vn${news.image}`}
                     alt='Hoàng Bảo Trung - Học viên tiêu biểu của F8 tỏa sáng với dự án "AI Powered Learning"'
                   />
                 </Link>

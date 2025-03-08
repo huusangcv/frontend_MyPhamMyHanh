@@ -20,7 +20,7 @@ export default function ImagesReview({ imagesReviews }: QuiltedImageListProps) {
           rows={(index === 0 && 2) || 1}
         >
           <img
-            src={`https://backend-myphammyhanh-k43b.onrender.com${imagesReview}`}
+            src={`https://api.regis.id.vn${imagesReview}`}
             alt="s"
             loading="lazy"
           />

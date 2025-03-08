@@ -74,7 +74,7 @@ export default function News() {
               component="img"
               alt="green iguana"
               height="140"
-              image={`https://backend-myphammyhanh-k43b.onrender.com${news.image}`}
+              image={`https://api.regis.id.vn${news.image}`}
             />
           </Link>
           <CardContent>
@@ -97,7 +97,7 @@ export default function News() {
                     <div className={cx("info-item")}>
                       <div className={cx("avatar")}>
                         <img
-                          src={`https://backend-myphammyhanh-k43b.onrender.com${user.image}`}
+                          src={`https://api.regis.id.vn${user.image}`}
                           alt=""
                         />
                       </div>

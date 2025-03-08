@@ -149,7 +149,7 @@ const Search = () => {
                     >
                       <div className={cx("search__avatar")}>
                         <img
-                          src={`https://backend-myphammyhanh-k43b.onrender.com${product.images[0]}`}
+                          src={`https://api.regis.id.vn${product.images[0]}`}
                           alt={product.name}
                         />
                       </div>
@@ -176,7 +176,7 @@ const Search = () => {
                     >
                       <div className={cx("search__avatar")}>
                         <img
-                          src={`https://backend-myphammyhanh-k43b.onrender.com${news.image}`}
+                          src={`https://api.regis.id.vn${news.image}`}
                           alt={news.title}
                         />
                       </div>

@@ -125,7 +125,7 @@ export default function SameProducts({
                   component="img"
                   alt="green iguana"
                   height="140"
-                  image={`https://backend-myphammyhanh-k43b.onrender.com${product.images[0]}`}
+                  image={`https://api.regis.id.vn${product.images[0]}`}
                 />
               </Link>
               <CardContent>

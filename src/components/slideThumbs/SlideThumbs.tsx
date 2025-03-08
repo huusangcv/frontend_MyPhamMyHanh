@@ -23,7 +23,7 @@ const SlideThumbs = ({ images }: Image) => {
           <div key={index}>
             <img
               className={cx("thumb")}
-              src={`https://backend-myphammyhanh-k43b.onrender.com${image}`}
+              src={`https://api.regis.id.vn${image}`}
               alt=""
             />
           </div>

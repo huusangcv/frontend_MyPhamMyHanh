@@ -1,6 +1,6 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "https://backend-myphammyhanh-k43b.onrender.com/v1/",
+  baseURL: "https://api.regis.id.vn/v1/",
   timeout: 5000,
 });
 
