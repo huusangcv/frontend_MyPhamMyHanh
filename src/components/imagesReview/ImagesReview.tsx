@@ -20,7 +20,7 @@ export default function ImagesReview({ imagesReviews }: QuiltedImageListProps) {
           rows={(index === 0 && 2) || 1}
         >
           <img
-            src={`https://api.regis.id.vn${imagesReview}`}
+            src={`http://localhost:8080${imagesReview}`}
             alt="s"
             loading="lazy"
           />

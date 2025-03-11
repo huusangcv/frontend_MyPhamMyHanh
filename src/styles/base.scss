@@ -206,6 +206,10 @@ body {
   font-family: "Open Sans", serif;
 }
 
+[data-tippy-root] {
+  max-width: calc(100vw - 10px);
+}
+
 :root {
   --primary-color: #6bc67c;
   --slideshow-height: 270px;
@@ -224,5 +228,48 @@ body {
   --second-color: #1dbfaf;
   --button-color: #1dbfaf;
   --layout-sidebar-width: 96px;
+  --comment-interactive-color: #0093fc;
+  --comment-interactive-color-hover: #54b8ff;
+  --comment-best-answer-color: #48bd79;
+  --comment-option-separator-color: #fff;
+  --comment-option-bg: #eef4fc;
+  --comment-option-box-shadow: 0px 8px 16px 0px rgba(35, 115, 159, 0.16);
+  --comment-button-normal-bg: #fff;
+  --comment-app-bg: #fff;
+  --comment-editor-bg: #eef4fc;
+  --comment-editor-focus-bg: #fff;
+  --comment-editor-text-color: #323c4a;
+  --comment-blockquote-border-color: #00aaaa;
+  --comment-placeholder-bg: #eef4fc;
+  --comment-placeholder-color: #808b9a;
+  --comment-title-color: #4e586b;
+  --comment-text-color: #2e3441;
+  --comment-border-color: #dae4f0;
+  --comment-mention-bg: #f6f7f9;
   --comment-image-border-color: rgba(0, 0, 0, 0.05);
+  --comment-primary-button-bg: #0093fc;
+  --comment-theme-color-info: #3498db;
+  --comment-theme-color-success: #07bc0c;
+  --comment-theme-color-warning: #f1c40f;
+  --comment-theme-color-error: #e74c3c;
+  --comment-modal-overlay: rgba(244, 244, 244, 0.8);
+  --comment-modal-bg: #fff;
+  --comment-modal-close-bg: rgba(22, 24, 35, 0.08);
+  --comment-modal-close-color: #4c4c4c;
+  --comment-reaction-list-bg: #fff;
+  --comment-reaction-tab-hover-bg: #f4f4f4;
+}
+
+body.no-scroll {
+  overflow: hidden; /* Ẩn thanh cuộn */
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }

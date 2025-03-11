@@ -23,7 +23,7 @@ const SlideThumbs = ({ images }: Image) => {
           <div key={index}>
             <img
               className={cx("thumb")}
-              src={`https://api.regis.id.vn${image}`}
+              src={`http://localhost:8080${image}`}
               alt=""
             />
           </div>

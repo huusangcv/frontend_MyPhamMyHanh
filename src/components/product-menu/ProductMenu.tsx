@@ -4,50 +4,77 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import categoryMethods from "../../services/categories";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory } from "../../redux/features/category/categorySlice";
+import { RootState } from "../../redux/store";
 
 const cx = classNames.bind(styles);
-const ProductMenu = () => {
-  interface Category {
-    _id: string;
-    name: string;
-    slug: string;
-  }
 
+interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
+const ProductMenu: React.FC = () => {
+  const dispatch = useDispatch();
+  const categories: Category[] = useSelector(
+    (state: RootState) => state.category.categories
+  );
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Category[]>([]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const { data, status } = await categoryMethods.getCategories();
         if (status) {
-          setCategories(data);
+          dispatch(setCategory(data));
+        } else {
+          console.error("Failed to fetch categories");
         }
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching categories: ", error);
       }
     };
-    fetchCategories();
-  }, []);
+
+    if (categories.length === 0) {
+      fetchCategories();
+    }
+  }, [categories, dispatch]);
+
+  const handleToggleDropdown = () => {
+    setShowDropDown((prev) => !prev);
+  };
 
   return (
     <div className={cx("product-menu")}>
       <h2
         className={cx("menu-heading")}
-        onMouseOver={() => setShowDropDown(true)}
+        onClick={handleToggleDropdown} // Sử dụng onClick để mở/đóng dropdown
+        onMouseEnter={() => setShowDropDown(true)} // Hiện dropdown khi hover
       >
         Sản phẩm <ArrowDropDownIcon />
       </h2>
       <ul
-        className={cx("menu-dropdown", showDropDown && "active")}
+        className={cx("menu-dropdown", { active: showDropDown })} // Sử dụng đối tượng để thêm class
         onMouseLeave={() => setShowDropDown(false)}
       >
-        {categories.map((category) => (
-          <li key={category._id}>
-            <Link to={`/products/${category.slug}`} className={cx("list-link")}>
-              {category.name}
-            </Link>
+        {categories?.length > 0 ? (
+          categories.map((category) => (
+            <li key={category._id}>
+              <Link
+                to={`/products/${category.slug}`}
+                className={cx("list-link")}
+              >
+                {category.name}
+              </Link>
+            </li>
+          ))
+        ) : (
+          <li>
+            <span className={cx("list-link")}>Không có danh mục nào</span>
           </li>
-        ))}
+        )}
       </ul>
     </div>
   );

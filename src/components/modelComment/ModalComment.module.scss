@@ -1,0 +1,215 @@
+.wapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 35;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  will-change: opacity;
+  animation: var(fade-out) 0.5s;
+
+  &.closing {
+    animation: var(fade-out) 0.5s forwards;
+    transform: translateX(-100%);
+  }
+
+  .overplay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background-color: #0009;
+  }
+
+  .container {
+    margin-left: auto;
+    z-index: 2;
+    width: 43%;
+    min-width: 800px;
+    max-width: 100%;
+    background-color: #fff;
+    box-shadow: #00000026 0 4px 12px;
+    cursor: default;
+    position: relative;
+    will-change: transform;
+    animation: _slide-in_clz7v_1ease 0.5s;
+    overflow: hidden;
+
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 6px;
+      z-index: 99;
+      font-size: 2rem;
+      color: #757575;
+      padding: 16px 20px;
+      -webkit-user-select: none;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .body {
+      position: relative;
+      max-height: 100vh;
+      padding: 40px 30px 60px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 100vh;
+
+      .wapper {
+        padding: 50px 30px 60px;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        &__inner {
+          width: 40px;
+          display: inline-block;
+          cursor: pointer;
+        }
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        display: inline-block;
+        cursor: pointer;
+
+        .content {
+          position: relative;
+          padding-top: 100%;
+        }
+      }
+
+      .avatar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .comment {
+        width: calc(100% - 48px);
+
+        &__wapper {
+          display: flex;
+          align-items: center;
+          position: relative;
+          font-size: 1.4rem;
+          border: 1px solid transparent;
+          border-radius: 8px;
+          color: var(--comment-editor-text-color);
+          background: var(--comment-editor-bg);
+          transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .inner {
+          width: 100%;
+        }
+
+        .text-input {
+          border: none;
+          outline: none;
+          background: none;
+          width: 100%;
+          padding: 30px 20px;
+        }
+      }
+
+      .wapper__comments {
+        position: relative;
+        z-index: 999;
+
+        .header {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .title {
+          color: var(--comment-title-color);
+          font-size: 18px;
+          white-space: nowrap;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+}
+
+.buttonsBar {
+  display: flex;
+
+  .message {
+    color: var(--comment-theme-color-error);
+    margin-top: 8px;
+    font-size: 1.3rem;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+    margin: 24px 0 0 auto;
+    .button {
+      min-width: 160px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 14px;
+      overflow: hidden;
+      background-color: #5ebbff;
+      background: linear-gradient(#5ebbff80 40%, #a174ff80);
+      transition: opacity 0.2s;
+      outline: none;
+      border: none;
+      -webkit-user-select: none;
+      user-select: none;
+      padding: 0;
+      cursor: pointer;
+
+      .inner {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 4px 16px;
+        border-radius: inherit;
+        border: 1px solid transparent;
+        background-color: var(--comment-button-normal-bg);
+        background-clip: padding-box;
+      }
+
+      .title {
+        white-space: nowrap;
+        font-weight: 700;
+        line-height: 1.8;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: transparent;
+        background: linear-gradient(to bottom right, #5ebbff, #a174ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      &.primary {
+        .inner {
+          border: none;
+          background-color: var(--comment-primary-button-bg);
+        }
+        .title {
+          background-image: none;
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,14 @@ const newsMethods = {
     const result = await axios.get(`news/search?q=${q}`);
     return result;
   },
+  // likeNews: async (id: string, data) => {
+  //   const result = await axios.get(`news/like/${id}`, data);
+  //   return result;
+  // },
+  // unlikeNews: async (id: string, data) => {
+  //   const result = await axios.get(`news/unlike/${id}`, data);
+  //   return result;
+  // },
 };
 
 export default newsMethods;

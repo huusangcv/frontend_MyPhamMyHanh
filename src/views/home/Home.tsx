@@ -7,6 +7,7 @@ import News from "../../components/news/News";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import productMethods from "../../services/products";
+import SkeletonLoading from "../../components/skeletonLoading/SkeletonLoading";
 interface Product {
   _id: string;
   name: string;
@@ -22,6 +23,7 @@ interface Product {
 const cx = classNames.bind(styles);
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,6 +32,7 @@ const Home = () => {
 
         if (status) {
           setProducts(data.products);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -84,10 +87,12 @@ const Home = () => {
             gap: 2,
           }}
         >
-          <CardItem products={products} isBestseller />
+          {(isLoading && <SkeletonLoading />) || (
+            <CardItem products={products} isBestseller />
+          )}
         </Box>
       </div>
-      <div className={cx("wapper")}>
+      <div className={cx("wapper")} style={{ marginTop: 20 }}>
         <div className={cx("heading-wrap")}>
           <h2 className={cx("heading")}>
             <span>Tin tức nổi bật</span>
