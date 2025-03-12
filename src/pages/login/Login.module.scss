@@ -1,0 +1,88 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  margin: 0 auto;
+
+  &__inner {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+
+    .wapper__group {
+      text-align: left;
+      color: #292929;
+      width: 100%;
+    }
+  }
+}
+
+.labelGroup {
+  display: flex;
+  justify-content: space-between;
+
+  .label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 10px 0 10px 8px;
+    display: block;
+  }
+}
+
+.inputWrap {
+  background-color: #ff00001a;
+  position: relative;
+  background: #fff;
+  border: 1.5px solid;
+  border-radius: 44px;
+  overflow: hidden;
+  height: 44px;
+  display: flex;
+  input {
+    // color: var(--invalid-color);
+    display: block;
+    width: 100%;
+    padding: 12px 42px 12px 20px;
+    border: none;
+    outline: none;
+    font-size: 1.4rem;
+    background-color: transparent;
+
+    @media (min-width: 0px) and (max-width: 739px) {
+      font-size: 1.6rem;
+    }
+  }
+}
+.registerOrLogin {
+  margin-top: 10px;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  padding: 24px 16px 0;
+  a {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+}
+
+.forgotPassword {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.wapper__footer {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  width: min(400px, 100%);
+  font-size: 1.1rem;
+  color: #666;
+
+  a {
+    text-decoration: underline;
+  }
+}

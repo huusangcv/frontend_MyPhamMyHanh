@@ -52,7 +52,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
     }
 
     return () => {
-      document.body.classList.remove("no-scroll"); // Đảm bảo xóa lớp khi component unmount
+      document.body.classList.remove("no-scroll");
     };
   }, [isClosing]);
 
@@ -165,10 +165,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
                 </div>
               </div>
 
-              <div
-                className={cx("wapper__comments")}
-                style={{ marginTop: (showCommentBtn && "145px") || "80px" }}
-              >
+              <div className={cx("wapper__comments")}>
                 <div className={cx("header")}>
                   <div className={cx("title")}>{comments.length} bình luận</div>
                 </div>
@@ -224,7 +221,10 @@ const ModelComment: React.FC<PropsModelComment> = ({
           </Grid>
         </div>
       </div>
-      <div className={cx("overplay")} onClick={onHandleClosing}></div>
+      <div
+        className={cx(isClosing || "overplay")}
+        onClick={onHandleClosing}
+      ></div>
     </div>
   );
 };

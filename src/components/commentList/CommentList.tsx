@@ -72,10 +72,14 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
     useState<string>("");
   const [isShowOptionsForReply, setIsShowOptionsForReply] =
     useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showReplyComment, setShowReplyComment] = useState<string>("");
+  const [showReplyInReplyComment, setShowReplyInReplyComment] =
+    useState<string>("");
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [textReply, setTextReply] = useState<string>("");
   const [textAdjust, setTextAdjust] = useState<string>("");
+  const [textReplyInReply, setTextReplyInReply] = useState<string>("");
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -148,6 +152,14 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
     }
   };
 
+  const handleShowReplyInReplyComment = (id: string) => {
+    if (showReplyInReplyComment === id) {
+      setShowReplyInReplyComment("");
+    } else {
+      setShowReplyInReplyComment(id);
+    }
+  };
+
   const handleDeleteComment = async (id: string) => {
     if (confirm("Bạn có muốn xoá bình luận này không??")) {
       try {
@@ -185,10 +197,10 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
     }
   };
 
-  const handleReplyComment = async (commentId: string) => {
+  const handleReplyComment = async (commentId: string, userId: string) => {
     setIsLoading(true);
     const data = {
-      user_id: "67cb984e1714ee5ce945adc6",
+      user_id: userId,
       content: textReply,
     };
     try {
@@ -262,6 +274,35 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
         );
         setIsLoading(false);
         setIsShowAdjustReplyComment("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReplyInReply = async (commentId: string, userId: string) => {
+    setIsLoading(true);
+    const data = {
+      user_id: userId,
+      content: textReplyInReply,
+    };
+    try {
+      const result = await replyMethods.createReplyPost(
+        commentId as string,
+        data
+      );
+      if (result.status) {
+        setReplies((prevReply) => [result.data.newReply, ...prevReply]);
+        handleSetComments((prevComment) =>
+          prevComment.filter((comment) =>
+            comment._id === result.data.comment._id
+              ? comment.replies.push(result.data.newReply._id)
+              : comment
+          )
+        );
+        setShowReplyComment("");
+        setIsLoading(false);
+        setTextReplyInReply("");
       }
     } catch (error) {
       console.log(error);
@@ -408,11 +449,19 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                   </div>
                 </div>
                 <div className={cx("comment")}>
-                  <div className={cx("comment__wapper")}>
+                  <div
+                    className={cx(
+                      "comment__wapper",
+                      isShowAdjustComment !== "" && "focus"
+                    )}
+                  >
                     <div className={cx("inner")}>
                       <input
                         type="text"
-                        className={cx("text-input")}
+                        className={cx(
+                          "text-input",
+                          isShowAdjustComment !== "" && "focus"
+                        )}
                         style={{ paddingLeft: 10 }}
                         value={textAdjust}
                         onChange={(e) => setTextAdjust(e.target.value)}
@@ -496,7 +545,12 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                       <button
                         type="button"
                         className={cx("button", "primary")}
-                        onClick={() => handleReplyComment(comment._id)}
+                        onClick={() =>
+                          handleReplyComment(
+                            comment._id,
+                            "67cb984e1714ee5ce945adc6"
+                          )
+                        }
                       >
                         <div className={cx("inner")}>
                           <span
@@ -512,217 +566,303 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                 </div>
               </div>
             )}
-            {replies &&
-              replies.length > 0 &&
-              replies.map(
-                (reply) =>
-                  comment.replies &&
-                  comment.replies.length > 0 &&
-                  comment.replies.map(
-                    (commentReply) =>
-                      commentReply === reply._id && (
-                        <div className={cx("replies")} key={reply._id}>
-                          <div className={cx("wapper", "replyMode")}>
-                            <div className={cx("header")}>
-                              <div className={cx("user")}>
-                                <Avatar className={cx("avatar")} />
-                                <div className={cx("info")}>
-                                  <div className={cx("userName")}>
-                                    {users.map(
-                                      (user) =>
-                                        user._id === reply.user_id &&
-                                        user.username
-                                    )}
-                                  </div>
-                                  <div className={cx("createdAt")}>
-                                    {caclTimePost(reply.createdAt)}
+            <div style={{ marginTop: 15 }}>
+              {replies &&
+                replies.length > 0 &&
+                replies.map(
+                  (reply) =>
+                    comment.replies &&
+                    comment.replies.length > 0 &&
+                    comment.replies.map(
+                      (commentReply) =>
+                        commentReply === reply._id && (
+                          <div className={cx("replies")} key={reply._id}>
+                            <div className={cx("wapper", "replyMode")}>
+                              <div className={cx("header")}>
+                                <div className={cx("user")}>
+                                  <Avatar className={cx("avatar")} />
+                                  <div className={cx("info")}>
+                                    <div className={cx("userName")}>
+                                      {users.map(
+                                        (user) =>
+                                          user._id === reply.user_id &&
+                                          user.username
+                                      )}
+                                    </div>
+                                    <div className={cx("createdAt")}>
+                                      {caclTimePost(reply.createdAt)}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className={cx("body")}>
-                              <div className={cx("wapper__content")}>
-                                <p>
-                                  <div className={cx("mention")}>
-                                    @
-                                    {users.map(
-                                      (user) =>
-                                        user._id === comment.user_id &&
-                                        user.username
-                                    )}
-                                  </div>
-                                  {reply.content}
-                                </p>
+                              <div className={cx("body")}>
+                                <div className={cx("wapper__content")}>
+                                  <p>
+                                    <div className={cx("mention")}>
+                                      @
+                                      {
+                                        users.find(
+                                          (user) => user._id === comment.user_id
+                                        )?.username
+                                      }
+                                    </div>
+                                    {reply.content}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div className={cx("reactionBar")}>
-                              <div className={cx("inner")}>
-                                <div className={cx("left")}>
-                                  <span>
+                              <div className={cx("reactionBar")}>
+                                <div className={cx("inner")}>
+                                  <div className={cx("left")}>
+                                    <span>
+                                      <button
+                                        type="button"
+                                        className={cx("interaction")}
+                                        title="Thích"
+                                        aria-expanded="false"
+                                      >
+                                        Thích
+                                      </button>
+                                    </span>
                                     <button
                                       type="button"
                                       className={cx("interaction")}
-                                      title="Thích"
-                                      aria-expanded="false"
+                                      title="Phản hồi"
+                                      onClick={() =>
+                                        handleShowReplyInReplyComment(reply._id)
+                                      }
                                     >
-                                      Thích
+                                      Phản hồi
                                     </button>
-                                  </span>
-                                  <button
-                                    type="button"
-                                    className={cx("interaction")}
-                                    title="Phản hồi"
-                                    // onClick={() => setShowCommentBtn(true)}
-                                  >
-                                    Phản hồi
-                                  </button>
-                                </div>
+                                  </div>
 
-                                <div className={cx("right")}>
-                                  <button
-                                    type="button"
-                                    className={cx("moreBtn")}
-                                    title="Xem thêm"
-                                    aria-expanded="false"
-                                    onClick={() =>
-                                      handleShowOptionForReply(reply._id)
-                                    }
-                                  >
-                                    <svg
-                                      className="svg-inline--fa"
-                                      width="14"
-                                      height="4"
-                                      viewBox="0 0 14 4"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
+                                  <div className={cx("right")}>
+                                    <button
+                                      type="button"
+                                      className={cx("moreBtn")}
+                                      title="Xem thêm"
+                                      aria-expanded="false"
+                                      onClick={() =>
+                                        handleShowOptionForReply(reply._id)
+                                      }
                                     >
-                                      <path
-                                        d="M3.75 2C3.75 2.96875 2.9375 3.75 2 3.75C1.03125 3.75 0.25 2.96875 0.25 2C0.25 1.0625 1.03125 0.25 2 0.25C2.9375 0.25 3.75 1.0625 3.75 2ZM8.75 2C8.75 2.96875 7.9375 3.75 7 3.75C6.03125 3.75 5.25 2.96875 5.25 2C5.25 1.0625 6.03125 0.25 7 0.25C7.9375 0.25 8.75 1.0625 8.75 2ZM10.25 2C10.25 1.0625 11.0312 0.25 12 0.25C12.9375 0.25 13.75 1.0625 13.75 2C13.75 2.96875 12.9375 3.75 12 3.75C11.0312 3.75 10.25 2.96875 10.25 2Z"
-                                        fill="#54B8FF"
-                                      ></path>
-                                    </svg>
-                                  </button>
-                                  {isShowOptionsForReply === reply._id && (
-                                    <div
-                                      data-tippy-root
-                                      id="tippy-24"
-                                      className={cx("wapper__optionsList")}
-                                    >
-                                      <ul className={cx("options__list")}>
-                                        <li>
-                                          <button
-                                            type="button"
-                                            className={cx("option")}
-                                            onClick={() => {
-                                              handleShowAdjustReplyComment(
-                                                reply._id
-                                              );
-                                              setIsShowOptionsForReply("");
+                                      <svg
+                                        className="svg-inline--fa"
+                                        width="14"
+                                        height="4"
+                                        viewBox="0 0 14 4"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M3.75 2C3.75 2.96875 2.9375 3.75 2 3.75C1.03125 3.75 0.25 2.96875 0.25 2C0.25 1.0625 1.03125 0.25 2 0.25C2.9375 0.25 3.75 1.0625 3.75 2ZM8.75 2C8.75 2.96875 7.9375 3.75 7 3.75C6.03125 3.75 5.25 2.96875 5.25 2C5.25 1.0625 6.03125 0.25 7 0.25C7.9375 0.25 8.75 1.0625 8.75 2ZM10.25 2C10.25 1.0625 11.0312 0.25 12 0.25C12.9375 0.25 13.75 1.0625 13.75 2C13.75 2.96875 12.9375 3.75 12 3.75C11.0312 3.75 10.25 2.96875 10.25 2Z"
+                                          fill="#54B8FF"
+                                        ></path>
+                                      </svg>
+                                    </button>
+                                    {isShowOptionsForReply === reply._id && (
+                                      <div
+                                        data-tippy-root
+                                        id="tippy-24"
+                                        className={cx("wapper__optionsList")}
+                                      >
+                                        <ul className={cx("options__list")}>
+                                          <li>
+                                            <button
+                                              type="button"
+                                              className={cx("option")}
+                                              onClick={() => {
+                                                handleShowAdjustReplyComment(
+                                                  reply._id
+                                                );
+                                                setIsShowOptionsForReply("");
+                                              }}
+                                            >
+                                              Chỉnh sửa
+                                            </button>
+                                          </li>
+                                          <li>
+                                            <button
+                                              type="button"
+                                              className={cx("option")}
+                                              onClick={() =>
+                                                handleDeleteReply(
+                                                  comment._id,
+                                                  reply._id
+                                                )
+                                              }
+                                            >
+                                              Xóa bình luận
+                                            </button>
+                                          </li>
+                                          <li>
+                                            <button
+                                              type="button"
+                                              className={cx("option")}
+                                            >
+                                              Báo cáo bình luận
+                                            </button>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {isShowAdjustReplyComment === reply._id && (
+                              <div className={cx("wapper__adjust")}>
+                                <div className={cx("user")}>
+                                  <div className={cx("wapper__inner")}>
+                                    <div className={cx("content")}>
+                                      <Avatar
+                                        src="https://ophim17.cc/_next/image?url=https%3A%2F%2Fimg.ophim.live%2Fuploads%2Fmovies%2Ftro-choi-con-muc-phan-2-thumb.jpg&w=384&q=75"
+                                        className={cx("avatar")}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className={cx("comment")}>
+                                  <div className={cx("comment__wapper")}>
+                                    <div className={cx("inner")}>
+                                      <input
+                                        type="text"
+                                        className={cx("text-input")}
+                                        style={{ paddingLeft: 10 }}
+                                        value={textAdjust}
+                                        onChange={(e) =>
+                                          setTextAdjust(e.target.value)
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className={cx("buttonsBar")}>
+                                    <p className={cx("message")}></p>
+                                    <div className={cx("buttons")}>
+                                      <button
+                                        type="button"
+                                        className={cx("button")}
+                                        onClick={() =>
+                                          setIsShowAdjustReplyComment("")
+                                        }
+                                      >
+                                        <div className={cx("inner")}>
+                                          <span className={cx("title")}>
+                                            Hủy
+                                          </span>
+                                        </div>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className={cx("button", "primary")}
+                                        onClick={() =>
+                                          handleAdjustReplyComment(
+                                            comment._id,
+                                            reply._id
+                                          )
+                                        }
+                                      >
+                                        <div className={cx("inner")}>
+                                          <span
+                                            className={cx("title")}
+                                            style={{
+                                              width: (isLoading && 20) || "",
                                             }}
                                           >
-                                            Chỉnh sửa
-                                          </button>
-                                        </li>
-                                        <li>
-                                          <button
-                                            type="button"
-                                            className={cx("option")}
-                                            onClick={() =>
-                                              handleDeleteReply(
-                                                comment._id,
-                                                reply._id
-                                              )
-                                            }
-                                          >
-                                            Xóa bình luận
-                                          </button>
-                                        </li>
-                                        <li>
-                                          <button
-                                            type="button"
-                                            className={cx("option")}
-                                          >
-                                            Báo cáo bình luận
-                                          </button>
-                                        </li>
-                                      </ul>
+                                            {(isLoading && <Spinner />) ||
+                                              "Bình luận"}
+                                          </span>
+                                        </div>
+                                      </button>
                                     </div>
-                                  )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
+
+                            {showReplyInReplyComment === reply._id && (
+                              <div className={cx("wapper__adjust")}>
+                                <div className={cx("user")}>
+                                  <div className={cx("wapper__inner")}>
+                                    <div className={cx("content")}>
+                                      <Avatar
+                                        src="https://ophim17.cc/_next/image?url=https%3A%2F%2Fimg.ophim.live%2Fuploads%2Fmovies%2Ftro-choi-con-muc-phan-2-thumb.jpg&w=384&q=75"
+                                        className={cx("avatar")}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className={cx("comment")}>
+                                  <div className={cx("comment__wapper")}>
+                                    <div className={cx("inner")}>
+                                      <span
+                                        className={cx("mention", "tagUser")}
+                                      >
+                                        @
+                                        {users.map(
+                                          (user) =>
+                                            user._id === reply.user_id &&
+                                            user.username
+                                        )}
+                                      </span>
+                                      <input
+                                        type="text"
+                                        className={cx("text-input")}
+                                        style={{ paddingLeft: 10 }}
+                                        value={textReplyInReply}
+                                        onChange={(e) =>
+                                          setTextReplyInReply(e.target.value)
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className={cx("buttonsBar")}>
+                                    <p className={cx("message")}></p>
+                                    <div className={cx("buttons")}>
+                                      <button
+                                        type="button"
+                                        className={cx("button")}
+                                        onClick={() =>
+                                          setShowReplyInReplyComment("")
+                                        }
+                                      >
+                                        <div className={cx("inner")}>
+                                          <span className={cx("title")}>
+                                            Hủy
+                                          </span>
+                                        </div>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className={cx("button", "primary")}
+                                        onClick={() =>
+                                          handleReplyInReply(
+                                            comment._id,
+                                            "67cd9d5a8899dbbe323dda72"
+                                          )
+                                        }
+                                      >
+                                        <div className={cx("inner")}>
+                                          <span
+                                            className={cx("title")}
+                                            style={{
+                                              width: (isLoading && 20) || "",
+                                            }}
+                                          >
+                                            {(isLoading && <Spinner />) ||
+                                              "Bình luận"}
+                                          </span>
+                                        </div>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                          {isShowAdjustReplyComment === reply._id && (
-                            <div className={cx("wapper__adjust")}>
-                              <div className={cx("user")}>
-                                <div className={cx("wapper__inner")}>
-                                  <div className={cx("content")}>
-                                    <Avatar
-                                      src="https://ophim17.cc/_next/image?url=https%3A%2F%2Fimg.ophim.live%2Fuploads%2Fmovies%2Ftro-choi-con-muc-phan-2-thumb.jpg&w=384&q=75"
-                                      className={cx("avatar")}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className={cx("comment")}>
-                                <div className={cx("comment__wapper")}>
-                                  <div className={cx("inner")}>
-                                    <input
-                                      type="text"
-                                      className={cx("text-input")}
-                                      style={{ paddingLeft: 10 }}
-                                      value={textAdjust}
-                                      onChange={(e) =>
-                                        setTextAdjust(e.target.value)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                                <div className={cx("buttonsBar")}>
-                                  <p className={cx("message")}></p>
-                                  <div className={cx("buttons")}>
-                                    <button
-                                      type="button"
-                                      className={cx("button")}
-                                      onClick={() =>
-                                        setIsShowAdjustReplyComment("")
-                                      }
-                                    >
-                                      <div className={cx("inner")}>
-                                        <span className={cx("title")}>Hủy</span>
-                                      </div>
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className={cx("button", "primary")}
-                                      onClick={() =>
-                                        handleAdjustReplyComment(
-                                          comment._id,
-                                          reply._id
-                                        )
-                                      }
-                                    >
-                                      <div className={cx("inner")}>
-                                        <span
-                                          className={cx("title")}
-                                          style={{
-                                            width: (isLoading && 20) || "",
-                                          }}
-                                        >
-                                          {(isLoading && <Spinner />) ||
-                                            "Bình luận"}
-                                        </span>
-                                      </div>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )
-                  )
-              )}
+                        )
+                    )
+                )}
+            </div>
           </>
         ))}
     </div>

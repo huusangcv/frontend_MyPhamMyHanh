@@ -202,8 +202,18 @@ html {
 }
 
 body {
-  font-size: 1.6rem;
   font-family: "Open Sans", serif;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  color: var(--theme-text-color-2);
+  background-color: #fff;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-user-drag: none;
+  -ms-content-zooming: none;
 }
 
 [data-tippy-root] {
@@ -228,6 +238,11 @@ body {
   --second-color: #1dbfaf;
   --button-color: #1dbfaf;
   --layout-sidebar-width: 96px;
+  --invalid-color: #f33a58;
+  --button-color: #1dbfaf;
+  --divider-color: #dee3e9;
+  --media-inner-border: rgba(28, 43, 51, 0.1);
+  --button-image: linear-gradient(70.06deg, #2cccff -5%, #22dfbf 106%);
   --comment-interactive-color: #0093fc;
   --comment-interactive-color-hover: #54b8ff;
   --comment-best-answer-color: #48bd79;
@@ -261,7 +276,8 @@ body {
 }
 
 body.no-scroll {
-  overflow: hidden; /* Ẩn thanh cuộn */
+  overflow-y: hidden;
+  padding-right: 15px;
 }
 
 @keyframes fade-out {

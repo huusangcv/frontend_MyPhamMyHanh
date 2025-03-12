@@ -12,7 +12,6 @@ import ProductMenu from "../product-menu/ProductMenu";
 const cx = classNames.bind(styles);
 const Header = () => {
   const navigate = useNavigate();
-
   return (
     <header className={cx("header")}>
       <a onClick={() => navigate("/")}>

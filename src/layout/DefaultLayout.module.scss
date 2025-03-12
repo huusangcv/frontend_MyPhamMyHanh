@@ -31,3 +31,168 @@
   font-size: 1.6rem;
   line-height: 1.6;
 }
+
+.wapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .overplay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #0006;
+    animation-name: _inline-ubw0l11_trvls_1;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+  }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    width: min(576px, 100% - 32px);
+    height: min(660px, 100% - 32px);
+    background: #fff;
+    border-radius: 16px;
+    overflow-y: auto;
+    animation-name: _inline-ubw0l1t_trvls_1;
+    animation-duration: 0.3s;
+  }
+
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #333;
+    background: #16182308;
+    font-size: 2.8rem;
+    line-height: 0;
+    cursor: pointer;
+  }
+
+  .magic {
+    position: fixed;
+    z-index: -1;
+    top: 0px;
+    left: 0px;
+    max-width: 100%;
+    height: 100%;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -2;
+      background: #fff;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.08;
+      background-image: radial-gradient(#ffffff40, #fff0 40%),
+        radial-gradient(
+          hsl(44, 100%, 66%) 30%,
+          hsl(338, 68%, 65%),
+          hsla(338, 68%, 65%, 0.4) 41%,
+          transparent 52%
+        ),
+        radial-gradient(hsl(272, 100%, 60%) 37%, transparent 46%),
+        linear-gradient(155deg, transparent 65%, hsl(142, 70%, 49%) 95%),
+        linear-gradient(45deg, #0065e0, #0f8bff);
+      background-size:
+        200% 200%,
+        285% 500%,
+        285% 500%,
+        cover,
+        cover;
+      background-position:
+        bottom left,
+        109% 68%,
+        109% 68%,
+        center,
+        center;
+    }
+  }
+
+  .content__inner {
+    width: 100%;
+    height: 100%;
+    border: none;
+
+    .wapper__content {
+      padding: 30px;
+
+      .wapper__inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  }
+
+  .header {
+    margin-top: 50px;
+  }
+
+  .logo {
+    border-radius: 8px;
+    height: 40px;
+    object-fit: cover;
+    width: 40px;
+  }
+
+  .heading {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 12px 0;
+  }
+
+  .description {
+    width: min(400px, 90%);
+    margin: 0 auto;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    opacity: 0.7;
+  }
+}
+
+.main {
+  margin-top: 12px;
+}
+
+@keyframes _inline-ubw0l1t_trvls_1 {
+  0% {
+    scale: 0;
+    opacity: 0;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}

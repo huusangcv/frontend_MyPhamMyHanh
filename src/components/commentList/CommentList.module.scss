@@ -97,12 +97,11 @@
 .replies {
   margin-left: 30px;
   border-left: 1px solid var(--comment-border-color);
-
   .wapper {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: 20px;
+    margin: 0;
     padding: 8px;
     border-radius: 8px;
 
@@ -176,6 +175,11 @@
     color: var(--comment-editor-text-color);
     background: var(--comment-editor-bg);
     transition: border-color 0.3s, background-color 0.3s;
+
+    &.focus {
+      background: #fff;
+      border-color: var(--comment-interactive-color);
+    }
   }
 
   .inner {
@@ -188,6 +192,10 @@
     background: none;
     width: 100%;
     padding: 30px 20px 30px 5px;
+
+    &.focus {
+      padding: 30px 20px;
+    }
   }
 }
 
@@ -326,6 +334,11 @@
     color: var(--comment-editor-text-color);
     background: var(--comment-editor-bg);
     transition: border-color 0.3s, background-color 0.3s;
+
+    &.focus {
+      background: #fff;
+      border-color: var(--comment-interactive-color);
+    }
   }
 
   .inner {
@@ -344,6 +357,10 @@
     background: none;
     width: 100%;
     padding: 30px 20px;
+
+    &.focus {
+      padding: 30px 20px;
+    }
   }
 }
 
