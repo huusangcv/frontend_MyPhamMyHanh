@@ -72,7 +72,12 @@
     gap: 16px;
   }
 
+  .right {
+    position: relative;
+  }
+
   .interaction {
+    cursor: pointer;
     color: var(--comment-interactive-color);
     font-size: 1.4rem;
     font-weight: 600;
@@ -125,11 +130,11 @@
 }
 
 .wapper__optionsList {
-  // z-index: 9999;
-  // position: absolute;
-  // inset: -150px -40px auto auto;
-  // margin: 0px;
-  // transform: translate3d(-46px, 312px, 0px);
+  z-index: 9999;
+  position: absolute;
+  top: -100px;
+  right: 12px;
+  margin: 15px;
 
   .options__list {
     display: flex;
@@ -138,7 +143,7 @@
     border-radius: 8px;
     overflow: hidden;
     margin-right: 10px;
-    // box-shadow: var(--comment-option-box-shadow);
+    box-shadow: var(--comment-option-box-shadow);
   }
 
   .option {
@@ -155,5 +160,200 @@
     &:hover {
       filter: brightness(0.95);
     }
+  }
+}
+
+.comment {
+  width: calc(100% - 48px);
+
+  &__wapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 1.4rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--comment-editor-text-color);
+    background: var(--comment-editor-bg);
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+
+  .inner {
+    width: 100%;
+  }
+
+  .text-input {
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    padding: 30px 20px 30px 5px;
+  }
+}
+
+.wapper__comments {
+  position: relative;
+  z-index: 999;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .title {
+    color: var(--comment-title-color);
+    font-size: 18px;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+}
+
+.buttonsBar {
+  display: flex;
+
+  .message {
+    color: var(--comment-theme-color-error);
+    margin-top: 8px;
+    font-size: 1.3rem;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+    margin: 24px 0 0 auto;
+    .button {
+      min-width: 160px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 14px;
+      overflow: hidden;
+      background-color: #5ebbff;
+      background: linear-gradient(#5ebbff80 40%, #a174ff80);
+      transition: opacity 0.2s;
+      outline: none;
+      border: none;
+      -webkit-user-select: none;
+      user-select: none;
+      padding: 0;
+      cursor: pointer;
+
+      .inner {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 4px 16px;
+        border-radius: inherit;
+        border: 1px solid transparent;
+        background-color: var(--comment-button-normal-bg);
+        background-clip: padding-box;
+      }
+
+      .title {
+        white-space: nowrap;
+        font-weight: 700;
+        line-height: 1.8;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: transparent;
+        background: linear-gradient(to bottom right, #5ebbff, #a174ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      &.primary {
+        .inner {
+          border: none;
+          background-color: var(--comment-primary-button-bg);
+        }
+        .title {
+          background-image: none;
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.wapper__reply {
+  padding: 10px 30px 60px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  &__inner {
+    width: 40px;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  display: inline-block;
+  cursor: pointer;
+
+  .content {
+    position: relative;
+    padding-top: 100%;
+  }
+}
+
+.avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.comment {
+  width: calc(100% - 48px);
+
+  &__wapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 1.4rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--comment-editor-text-color);
+    background: var(--comment-editor-bg);
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .mention {
+    white-space: nowrap;
+  }
+
+  .text-input {
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    padding: 30px 20px;
+  }
+}
+
+///adjust commment
+.wapper__adjust {
+  display: flex;
+  gap: 8px;
+  padding-left: 25px;
+  .content {
+    position: initial;
+    padding: 0;
   }
 }

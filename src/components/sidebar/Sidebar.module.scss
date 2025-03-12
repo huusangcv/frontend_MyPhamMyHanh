@@ -52,14 +52,15 @@
   }
 
   @media (max-width: 767.98px) {
-    position: fixed;
-    top: unset;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 0;
-    border-top: 1px solid #e8ebed;
+    // position: fixed;
+    // top: unset;
+    // left: 0;
+    // bottom: 0;
+    // width: 100%;
+    // padding: 0;
+    // border-top: 1px solid #e8ebed;
     // background: #fff;
+    display: none;
 
     &.hidden::after {
       content: none;

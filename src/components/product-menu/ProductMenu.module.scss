@@ -1,4 +1,7 @@
 .product-menu {
+  @media (max-width: 767.98px) {
+    display: none;
+  }
   position: relative;
   .menu-heading {
     display: flex;
