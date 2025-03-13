@@ -5,6 +5,8 @@ import CommentList from "../commentList/CommentList";
 import { useEffect, useState } from "react";
 import commentPostMethods from "../../services/commentsPost";
 import Spinner from "../Spinner/Spinner";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const cx = classNames.bind(styles);
 interface Comment {
@@ -43,6 +45,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
+  const profile = useSelector((state: RootState) => state.profile);
 
   useEffect(() => {
     if (isClosing) {
@@ -59,7 +62,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
   const handleComment = async () => {
     setIsLoading(true);
     const data = {
-      user_id: "67cc7857b67122f5dfdd41b3",
+      user_id: profile._id,
       news_id: "67cc82ef67a5a003aa8bbd2a",
       content: text,
     };
@@ -110,7 +113,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
                   <div className={cx("wapper__inner")}>
                     <div className={cx("content")}>
                       <Avatar
-                        src="https://ophim17.cc/_next/image?url=https%3A%2F%2Fimg.ophim.live%2Fuploads%2Fmovies%2Ftro-choi-con-muc-phan-2-thumb.jpg&w=384&q=75"
+                        src={`http://localhost:8080${profile.image}`}
                         alt={user.username}
                         className={cx("avatar")}
                       />

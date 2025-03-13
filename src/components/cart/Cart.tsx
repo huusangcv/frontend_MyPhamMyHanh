@@ -51,7 +51,7 @@ const Cart = () => {
             <div className={cx("cart__dropdown")} onMouseLeave={handleShowCart}>
               <ul className={cx("wapper-dropdown")}>
                 <div className={cx("cart__header")}>
-                  <div className={cx("heading")}>Đơn hàng của tôi</div>
+                  <div className={cx("heading")}>Giỏ hàng của tôi</div>
                   <div className={cx("view-all-orders-btn")}>Xem tất cả </div>
                 </div>
                 <div className={cx("cart__content")}>

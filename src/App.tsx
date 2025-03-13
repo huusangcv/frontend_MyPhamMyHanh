@@ -2,7 +2,14 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { publicRoutes } from "./routes";
 import DefaultLayout from "./layout/DefaultLayout";
 import { Fragment } from "react/jsx-runtime";
-// import DefaultLayout from "./layout/DefaultLayout";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { useDispatch } from "react-redux";
+import { setShowAccountModal } from "./redux/features/isShowAccountModal/isShowAccountModalSlice";
+import usersMethods from "./services/users";
+import { setProfile } from "./redux/features/profile/profileSlice";
 
 interface RouteType {
   path: string;
@@ -10,6 +17,60 @@ interface RouteType {
   layout?: React.FC | null;
 }
 const App = () => {
+  const isShowModalAccount = useSelector(
+    (state: RootState) => state.modalAccount
+  );
+
+  const profile = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fectchProfile = async (cookie: string) => {
+      try {
+        const res = await usersMethods.profile(cookie as string);
+        if (res.status) {
+          dispatch(setProfile(res.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const interval = setInterval(() => {
+      const cookie = Cookies.get("customer");
+
+      // Dừng interval nếu cookie tồn tại và modal đang hiển thị
+      if (cookie && isShowModalAccount) {
+        clearInterval(interval);
+        dispatch(setShowAccountModal(false));
+        if (cookie) {
+          fectchProfile(cookie);
+        }
+      } else if (!isShowModalAccount) {
+        clearInterval(interval);
+      }
+    }, 1000); // Kiểm tra mỗi giây
+
+    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
+  }, [isShowModalAccount, dispatch]);
+
+  useEffect(() => {
+    const cookie = Cookies.get("customer");
+    const fectchProfile = async (cookie: string) => {
+      try {
+        const res = await usersMethods.profile(cookie as string);
+        if (res.status) {
+          dispatch(setProfile(res.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (cookie && profile._id === "") {
+      fectchProfile(cookie);
+    }
+  }, [dispatch, profile]);
+
   return (
     <BrowserRouter>
       <Routes>

@@ -51,7 +51,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             </button>
 
             <iframe
-              src="https://accounts.regis.id.vn/login"
+              src="http://localhost:5174/login"
               frameBorder="0"
               className={cx("content__inner")}
             ></iframe>

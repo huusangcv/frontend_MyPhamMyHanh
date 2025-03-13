@@ -1,8 +1,9 @@
 .cart {
+  margin-right: 10px;
   &__dropdown {
     z-index: 9999;
     position: absolute;
-    inset: 0px 0px auto auto;
+    inset: -10px -50px auto auto;
     margin: 0px;
     transform: translate3d(-117.576px, 60px, 0px);
   }

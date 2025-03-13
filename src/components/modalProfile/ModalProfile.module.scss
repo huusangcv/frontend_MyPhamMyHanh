@@ -1,0 +1,74 @@
+.avatar-wrapper {
+  cursor: pointer;
+}
+
+.wapper__profile {
+  min-width: 230px;
+  padding: 8px 24px !important;
+  background: var(--white-color);
+  box-shadow: 0 -4px 32px #0003;
+  transition: all ease-in-out 0.3s;
+  animation: _fadeIn_qhx2q_1 ease 0.3s;
+  border-radius: 10px;
+  padding-left: 0;
+  margin: 0;
+  overflow: hidden;
+  will-change: opacity, transform;
+  color: #1d2129;
+
+  .avatarWapper {
+    margin: 10px 0;
+  }
+
+  hr {
+    margin: 8px 0;
+    border: none;
+    border-top: solid 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+  }
+
+  .info {
+    margin-left: 20px;
+
+    .name {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #292929;
+    }
+
+    .email {
+      margin-top: 8px;
+      font-size: 1.4rem;
+      color: #757575;
+    }
+  }
+
+  .list {
+    padding-left: 0;
+    margin: 0;
+
+    .item {
+      font-size: 1.4rem;
+      color: #666;
+      display: block;
+      padding: 10px 0;
+      cursor: pointer;
+    }
+  }
+}
+
+@keyframes _fadeIn_qhx2q_1 {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
