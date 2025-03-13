@@ -30,9 +30,8 @@ const Search = () => {
   useEffect(() => {
     const fetchSearchProducts = async () => {
       try {
-        const { data, status } = await productMethods.searchProducts(
-          searchName
-        );
+        const { data, status } =
+          await productMethods.searchProducts(searchName);
 
         if (status) {
           setProducts(data);
@@ -132,7 +131,7 @@ const Search = () => {
                 </svg>
                 <span>Kết quả cho '{searchName}'</span>
               </div>
-              {products.length > 0 && (
+              {products && products.length > 0 && (
                 <>
                   <div className={cx("search__heading")}>
                     <h5>SẢN PHẨM</h5>
@@ -159,7 +158,7 @@ const Search = () => {
                 </>
               )}
 
-              {news.length > 0 && (
+              {news && news.length > 0 && (
                 <>
                   <div className={cx("search__heading")}>
                     <h5>Tin tức</h5>
