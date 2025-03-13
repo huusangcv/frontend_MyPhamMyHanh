@@ -146,7 +146,7 @@ export default function CardItem({
                   </Typography>
                 </CardContent>
 
-                <CardActions style={{ justifyContent: "space-between" }}>
+                <CardActions sx={{ justifyContent: "space-between" }}>
                   <RatingByProduct currentProduct={product._id} />
 
                   <div className={cx("cta-wrap")}>
@@ -250,7 +250,7 @@ export default function CardItem({
               </Typography>
             </CardContent>
 
-            <CardActions style={{ justifyContent: "space-between" }}>
+            <CardActions sx={{ justifyContent: "space-between" }}>
               <RatingByProduct currentProduct={product._id} />
 
               <div className={cx("cta-wrap")}>

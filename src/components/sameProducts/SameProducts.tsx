@@ -73,9 +73,8 @@ export default function SameProducts({
   React.useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const { status, data } = await reviewMethods.getReviewsByProduct(
-          currentProduct
-        );
+        const { status, data } =
+          await reviewMethods.getReviewsByProduct(currentProduct);
 
         if (status) {
           setReviews(data);
@@ -194,7 +193,7 @@ export default function SameProducts({
                   </Typography>
                 </CardContent>
 
-                <CardActions style={{ justifyContent: "space-between" }}>
+                <CardActions sx={{ justifyContent: "space-between" }}>
                   {(reviews.length > 0 && (
                     <Rating
                       name="half-rating-read"
