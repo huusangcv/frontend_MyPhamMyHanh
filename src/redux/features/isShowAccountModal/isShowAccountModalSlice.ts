@@ -6,7 +6,8 @@ export const isShowAccountModalSlice = createSlice({
   name: "modalAccount",
   initialState,
   reducers: {
-    setShowAccountModal: (state, action) => (state = action.payload),
+    setShowAccountModal: (_state, action: { payload: boolean }): boolean =>
+      action.payload,
   },
 });
 
