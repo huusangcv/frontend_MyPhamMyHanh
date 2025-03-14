@@ -11,6 +11,8 @@ import { RootState } from "../../redux/store";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconComponent from "../iconCommpent/IconCompoent";
+import { useDispatch } from "react-redux";
+import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
 const cx = classNames.bind(styles);
 interface Comment {
   _id: string;
@@ -90,6 +92,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
   const [textAdjust, setTextAdjust] = useState<string>("");
   const [textReplyInReply, setTextReplyInReply] = useState<string>("");
   const profile = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -479,7 +482,11 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                           className={cx("interaction")}
                           title="Thích"
                           aria-expanded="false"
-                          onClick={() => handleLikeComment(comment._id)}
+                          onClick={() =>
+                            (profile._id === "" &&
+                              dispatch(setShowAccountModal(true))) ||
+                            handleLikeComment(comment._id)
+                          }
                         >
                           Thích
                         </button>
@@ -490,9 +497,11 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                       type="button"
                       className={cx("interaction")}
                       title="Phản hồi"
-                      onClick={() => {
-                        handleShowReply(comment._id);
-                      }}
+                      onClick={() =>
+                        (profile._id === "" &&
+                          dispatch(setShowAccountModal(true))) ||
+                        handleShowReply(comment._id)
+                      }
                     >
                       Phản hồi
                     </button>
@@ -841,6 +850,10 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                                             title="Thích"
                                             aria-expanded="false"
                                             onClick={() =>
+                                              (profile._id === "" &&
+                                                dispatch(
+                                                  setShowAccountModal(true)
+                                                )) ||
                                               handleLikeReplyComment(reply._id)
                                             }
                                           >
@@ -854,6 +867,10 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                                         className={cx("interaction")}
                                         title="Phản hồi"
                                         onClick={() =>
+                                          (profile._id === "" &&
+                                            dispatch(
+                                              setShowAccountModal(true)
+                                            )) ||
                                           handleShowReplyInReplyComment(
                                             reply._id
                                           )

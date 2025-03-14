@@ -108,9 +108,7 @@ const ModalProfile = () => {
             <hr />
             <ul className={cx("list")}>
               <li onClick={handleLogout}>
-                <Link className={cx("item")} to="/">
-                  Đăng xuất
-                </Link>
+                <div className={cx("item")}>Đăng xuất</div>
               </li>
             </ul>
           </ul>
