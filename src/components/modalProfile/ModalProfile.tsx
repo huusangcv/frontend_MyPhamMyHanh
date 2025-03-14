@@ -8,7 +8,6 @@ import usersMethods from "../../services/users";
 import { useDispatch } from "react-redux";
 import { setProfile } from "../../redux/features/profile/profileSlice";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 const styleModalProfile: CSSProperties = {
   zIndex: 9999,
