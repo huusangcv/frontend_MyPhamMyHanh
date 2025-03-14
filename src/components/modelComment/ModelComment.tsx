@@ -7,6 +7,8 @@ import commentPostMethods from "../../services/commentsPost";
 import Spinner from "../Spinner/Spinner";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
 
 const cx = classNames.bind(styles);
 interface Comment {
@@ -16,6 +18,7 @@ interface Comment {
   createdAt: string;
   replies: string[];
   news_id: string;
+  likes: string[];
 }
 interface User {
   _id: string;
@@ -46,6 +49,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
     setText(e.target.value);
   };
   const profile = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isClosing) {
@@ -85,6 +89,10 @@ const ModelComment: React.FC<PropsModelComment> = ({
     }
   };
 
+  const handleButtonComment = () => {
+    dispatch(setShowAccountModal(true));
+  };
+
   return (
     <div className={cx("wapper", { closing: isClosing })}>
       <div className={cx("container")}>
@@ -108,65 +116,80 @@ const ModelComment: React.FC<PropsModelComment> = ({
         <div className={cx("body")}>
           <Grid container>
             <Grid item md={12} style={{ height: "100%" }}>
-              <div className={cx("wapper")}>
-                <div className={cx("user")}>
-                  <div className={cx("wapper__inner")}>
-                    <div className={cx("content")}>
-                      <Avatar
-                        src={`http://localhost:8080${profile.image}`}
-                        alt={user.username}
-                        className={cx("avatar")}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={cx("comment")}>
-                  <div
-                    className={cx("comment__wapper", showCommentBtn && "focus")}
-                  >
-                    <div className={cx("inner")}>
-                      <input
-                        type="text"
-                        className={cx("text-input", showCommentBtn && "focus")}
-                        placeholder="Nhập bình luận mới của bạn"
-                        value={text}
-                        onChange={handleChange}
-                        onFocus={() => setShowCommentBtn(true)}
-                      />
-                    </div>
-                  </div>
-                  {showCommentBtn && (
-                    <div className={cx("buttonsBar")}>
-                      <p className={cx("message")}></p>
-                      <div className={cx("buttons")}>
-                        <button
-                          type="button"
-                          className={cx("button")}
-                          onClick={() => setShowCommentBtn(false)}
-                        >
-                          <div className={cx("inner")}>
-                            <span className={cx("title")}>Hủy</span>
-                          </div>
-                        </button>
-                        <button
-                          type="button"
-                          className={cx("button", "primary")}
-                          onClick={handleComment}
-                        >
-                          <div className={cx("inner")}>
-                            <span
-                              className={cx("title")}
-                              style={{ width: (isLoading && 20) || "" }}
-                            >
-                              {(isLoading && <Spinner />) || "Bình luận"}
-                            </span>
-                          </div>
-                        </button>
+              {(profile._id === "" && (
+                <button
+                  className={cx("button-comment")}
+                  onClick={handleButtonComment}
+                >
+                  Đăng nhập để bình luận ngay
+                </button>
+              )) || (
+                <div className={cx("wapper")}>
+                  <div className={cx("user")}>
+                    <div className={cx("wapper__inner")}>
+                      <div className={cx("content")}>
+                        <Avatar
+                          src={`http://localhost:8080${profile.image}`}
+                          alt={profile.username}
+                          className={cx("avatar")}
+                        />
                       </div>
                     </div>
-                  )}
+                  </div>
+                  <div className={cx("comment")}>
+                    <div
+                      className={cx(
+                        "comment__wapper",
+                        showCommentBtn && "focus"
+                      )}
+                    >
+                      <div className={cx("inner")}>
+                        <input
+                          type="text"
+                          className={cx(
+                            "text-input",
+                            showCommentBtn && "focus"
+                          )}
+                          placeholder="Nhập bình luận mới của bạn"
+                          value={text}
+                          onChange={handleChange}
+                          onFocus={() => setShowCommentBtn(true)}
+                        />
+                      </div>
+                    </div>
+                    {showCommentBtn && (
+                      <div className={cx("buttonsBar")}>
+                        <p className={cx("message")}></p>
+                        <div className={cx("buttons")}>
+                          <button
+                            type="button"
+                            className={cx("button")}
+                            onClick={() => setShowCommentBtn(false)}
+                          >
+                            <div className={cx("inner")}>
+                              <span className={cx("title")}>Hủy</span>
+                            </div>
+                          </button>
+                          <button
+                            type="button"
+                            className={cx("button", "primary")}
+                            onClick={handleComment}
+                          >
+                            <div className={cx("inner")}>
+                              <span
+                                className={cx("title")}
+                                style={{ width: (isLoading && 20) || "" }}
+                              >
+                                {(isLoading && <Spinner />) || "Bình luận"}
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className={cx("wapper__comments")}>
                 <div className={cx("header")}>

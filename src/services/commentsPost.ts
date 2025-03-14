@@ -7,6 +7,10 @@ interface PropsPost {
 interface PropsPostUpdate {
   content: string;
 }
+
+interface PropsDataLike {
+  userId: string;
+}
 const commentPostMethods = {
   getCommentsPost: async (newsId: string) => {
     const result = await axios.get(`commentsPost/news/${newsId}`);
@@ -22,6 +26,14 @@ const commentPostMethods = {
   },
   updateCommentPost: async (commentId: string, data: PropsPostUpdate) => {
     const result = await axios.patch(`commentsPost/${commentId}`, data);
+    return result;
+  },
+  likeCommentPost: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`commentsPost/like/${id}`, data);
+    return result;
+  },
+  unlikeCommentPost: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`commentsPost/unlike/${id}`, data);
     return result;
   },
 };

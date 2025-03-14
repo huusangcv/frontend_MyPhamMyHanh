@@ -7,6 +7,10 @@ interface PropsDataPost {
 interface Data {
   content: string;
 }
+
+interface PropsDataLike {
+  userId: string;
+}
 const replyMethods = {
   getReplies: async () => {
     const result = await axios.get(`repliesPost`);
@@ -27,6 +31,14 @@ const replyMethods = {
       `repliesPost/comment/${commentId}/${replyId}`,
       data
     );
+    return result;
+  },
+  likeReplyCommentPost: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`repliesPost/like/${id}`, data);
+    return result;
+  },
+  unlikeReplyCommentPost: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`repliesPost/unlike/${id}`, data);
     return result;
   },
 };

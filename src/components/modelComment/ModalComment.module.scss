@@ -112,7 +112,9 @@
           border-radius: 8px;
           color: var(--comment-editor-text-color);
           background: var(--comment-editor-bg);
-          transition: border-color 0.3s, background-color 0.3s;
+          transition:
+            border-color 0.3s,
+            background-color 0.3s;
 
           &.focus {
             background: #fff;
@@ -233,4 +235,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.button-comment {
+  cursor: pointer;
+  background: var(--comment-primary-button-bg);
+  padding: 8px;
+  border-radius: 8px;
+  color: #fff;
 }

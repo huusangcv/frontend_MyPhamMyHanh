@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const profileSlice = createSlice({
-  name: "profile",
+  name: "profile",  
   initialState,
   reducers: {
     setProfile: (_state, action) => action.payload,

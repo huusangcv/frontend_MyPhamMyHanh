@@ -85,12 +85,17 @@
     transition: color 0.2s;
   }
 
-  .moreBtn {
+  .moreBtn,
+  .reactionBtn {
     display: flex;
     align-items: center;
     gap: 4px;
     padding: 10px 5px;
     cursor: pointer;
+  }
+
+  .like {
+    color: #0866ff;
   }
 }
 
@@ -174,7 +179,9 @@
     border-radius: 8px;
     color: var(--comment-editor-text-color);
     background: var(--comment-editor-bg);
-    transition: border-color 0.3s, background-color 0.3s;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
 
     &.focus {
       background: #fff;
@@ -333,7 +340,9 @@
     border-radius: 8px;
     color: var(--comment-editor-text-color);
     background: var(--comment-editor-bg);
-    transition: border-color 0.3s, background-color 0.3s;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
 
     &.focus {
       background: #fff;
@@ -372,5 +381,19 @@
   .content {
     position: initial;
     padding: 0;
+  }
+}
+
+.viewMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  color: var(--comment-title-color);
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 }

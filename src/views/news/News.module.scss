@@ -236,13 +236,22 @@
     }
 
     .wapper {
+      color: #757575;
       .btnReact {
+        cursor: pointer;
         display: flex;
         align-items: center;
         gap: 8px;
         padding: 4px 8px;
         -webkit-user-select: none;
         user-select: none;
+
+        &.active {
+          color: #ed2b48;
+          svg {
+            fill: currentColor;
+          }
+        }
       }
     }
   }
