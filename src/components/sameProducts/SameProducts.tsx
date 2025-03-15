@@ -212,6 +212,8 @@ export default function SameProducts({
                             id: product._id,
                             name: product.name,
                             image: product.images[0],
+                            priceThrought: product.price,
+                            slug: product.slug,
                             price: product.price * (1 - product.discount / 100),
                             quantity: 1,
                           })
