@@ -11,6 +11,8 @@ import {
   increaseItemToCart,
   selectCart,
 } from "../../redux/features/cart/cartSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
 const cx = classNames.bind(styles);
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -28,6 +30,8 @@ const formatter = new Intl.NumberFormat("vi-VN", {
 const Cart = () => {
   const [showCart, setShowCart] = useState(false);
   const carts = useAppSelector(selectCart); // Assuming 'items' is the array in the cart state
+  const profile = useAppSelector((state) => state.profile);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleShowCart = () => {
@@ -52,25 +56,43 @@ const Cart = () => {
               <ul className={cx("wapper-dropdown")}>
                 <div className={cx("cart__header")}>
                   <div className={cx("heading")}>Giỏ hàng của tôi</div>
-                  <div className={cx("view-all-orders-btn")}>Xem tất cả </div>
+
+                  <div
+                    onClick={() =>
+                      profile._id === "" &&
+                      dispatch(setShowAccountModal(true) || navigate("/cart"))
+                    }
+                    className={cx("view-all-orders-btn")}
+                  >
+                    Xem tất cả
+                  </div>
                 </div>
                 <div className={cx("cart__content")}>
                   {carts.items.map((cart) => (
                     <div className={cx("product__item")} key={cart.id}>
-                      <a href="#!">
+                      <Link to={`/product/${cart.slug}`}>
                         <img
-                          src={`http://localhost:8080${cart.image}`}
+                          src={`https://api.regis.id.vn${cart.image}`}
                           alt=""
                           className={cx("product__thumb")}
                         />
-                      </a>
+                      </Link>
                       <div className={cx("product__info")}>
-                        <div className={cx("product__title")}>{cart.name}</div>
+                        <div className={cx("product__title")}>
+                          <Link to={`/product/${cart.slug}`}>{cart.name}</Link>
+                        </div>
                         <div className={cx("product__category")}>
                           Prie white
                         </div>
-                        <div className={cx("product__price")}>
-                          {formatter.format(cart.price * cart.quantity)}đ
+                        <div className={cx("product-info__box-price")}>
+                          <div className={cx("product__price")}>
+                            {formatter.format(cart.price)}đ
+                          </div>
+                          {cart.price - cart.priceThrought < 0 && (
+                            <div className={cx("product__price--through")}>
+                              {formatter.format(cart.priceThrought)}đ
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className={cx("quantity")}>
@@ -109,7 +131,10 @@ const Cart = () => {
                   <div className={cx("view-all-orders-btn")}>
                     Tổng tiền: {formatter.format(carts.totalPrice)}đ
                   </div>
-                  <div className={cx("payload__all-btn")}>
+                  <div
+                    className={cx("payload__all-btn")}
+                    onClick={() => dispatch(setShowAccountModal(true))}
+                  >
                     Thanh toán tất cả
                   </div>
                 </div>

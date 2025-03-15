@@ -6,17 +6,26 @@ import cartReducer from "./features/cart/cartSlice";
 import categoryReducer from "./features/category/categorySlice";
 import modalAccountReducer from "./features/isShowAccountModal/isShowAccountModalSlice";
 import profileReducer from "./features/profile/profileSlice";
+import paymentReducer from "./features/payment/paymentSlice";
+interface CartItem {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+}
 
 // Cấu hình persist
 const persistConfig = {
   key: "auth",
   storage,
-  whitelist: ["profile"], // Chỉ lưu profile
+  whitelist: ["cart", "payment", "profile"], // Chỉ lưu profile
 };
 
 // Kết hợp tất cả các reducer
 const rootReducer = combineReducers({
   cart: cartReducer,
+  payment: paymentReducer,
   category: categoryReducer,
   modalAccount: modalAccountReducer,
   profile: profileReducer,
@@ -42,6 +51,11 @@ export type RootState = ReturnType<typeof store.getState> & {
     username: string;
     roles: string;
     segment_ids: string[];
+  };
+  cart: {
+    items: CartItem[];
+    totalPrice: number;
+    totalQuantity: number;
   };
 };
 export type AppDispatch = typeof store.dispatch;

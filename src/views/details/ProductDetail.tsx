@@ -282,7 +282,7 @@ const ProductDetail = () => {
                           <div className={cx("swiper-slide")}>
                             <img
                               className={cx("img")}
-                              src={`http://localhost:8080${product.images[imageIndex]}`}
+                              src={`https://api.regis.id.vn${product.images[imageIndex]}`}
                               alt=""
                             />
                           </div>
@@ -308,7 +308,7 @@ const ProductDetail = () => {
                           >
                             <img
                               className={cx("img")}
-                              src={`http://localhost:8080${image}`}
+                              src={`https://api.regis.id.vn${image}`}
                               alt=""
                             />
                           </div>
@@ -453,7 +453,7 @@ const ProductDetail = () => {
                             className={cx("sforum__content-item")}
                           >
                             <img
-                              src={`http://localhost:8080${news.image}`}
+                              src={`https://api.regis.id.vn${news.image}`}
                               alt={news.title}
                               loading="lazy"
                               className={cx("content-item__img")}
@@ -687,7 +687,7 @@ const ProductDetail = () => {
                                       <Avatar
                                         key={user._id}
                                         alt={user.username}
-                                        src={`http://localhost:8080${user.image}`}
+                                        src={`https://api.regis.id.vn${user.image}`}
                                       />
                                     ) : (
                                       "S"

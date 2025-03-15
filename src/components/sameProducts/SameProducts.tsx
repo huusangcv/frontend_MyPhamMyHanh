@@ -135,7 +135,7 @@ export default function SameProducts({
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`http://localhost:8080${product.images[0]}`}
+                    image={`https://api.regis.id.vn${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>

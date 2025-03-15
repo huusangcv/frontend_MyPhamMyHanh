@@ -148,7 +148,7 @@ const Search = () => {
                     >
                       <div className={cx("search__avatar")}>
                         <img
-                          src={`http://localhost:8080${product.images[0]}`}
+                          src={`https://api.regis.id.vn${product.images[0]}`}
                           alt={product.name}
                         />
                       </div>
@@ -175,7 +175,7 @@ const Search = () => {
                     >
                       <div className={cx("search__avatar")}>
                         <img
-                          src={`http://localhost:8080${news.image}`}
+                          src={`https://api.regis.id.vn${news.image}`}
                           alt={news.title}
                         />
                       </div>

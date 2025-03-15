@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 // Định nghĩa kiểu cho sản phẩm
-interface CartItem {
+interface PaymentItem {
   id: string;
   name: string;
   image: string;
@@ -12,50 +12,57 @@ interface CartItem {
 }
 
 // Định nghĩa kiểu cho trạng thái giỏ hàng
-interface CartState {
-  items: CartItem[];
+interface PaymentState {
+  items: PaymentItem[];
   totalPrice: number;
   totalQuantity: number;
 }
 
 // Trạng thái ban đầu
-const initialState: CartState = {
+const initialState: PaymentState = {
   items: [],
   totalPrice: 0,
   totalQuantity: 0,
 };
 
-export const cartSlice = createSlice({
-  name: "cart",
+export const PaymentSlice = createSlice({
+  name: "Payment",
   initialState,
   reducers: {
-    addItemToCart(state, action: PayloadAction<CartItem>) {
+    addItemToPayment(state, action: PayloadAction<PaymentItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
 
-      if (existingItem) {
-        existingItem.quantity += newItem.quantity;
-      } else {
+      if (!existingItem) {
         state.items.push({
           ...newItem,
           quantity: newItem.quantity,
         });
+        state.totalPrice += newItem.price * newItem.quantity;
+        state.totalQuantity += newItem.quantity;
       }
-
-      state.totalPrice += newItem.price;
-      state.totalQuantity += newItem.quantity;
     },
-    removeItemToCart(state, action: PayloadAction<CartItem>) {
+    addAllItemsToPayment(state, action: PayloadAction<PaymentItem[]>) {
+      state.items = action.payload;
+      state.totalPrice += action.payload.reduce(
+        (total, current) => total + current.price * current.quantity,
+        0
+      );
+      state.totalQuantity += action.payload.reduce(
+        (total, current) => total + current.quantity,
+        0
+      );
+    },
+    removeItemToPayment(state, action: PayloadAction<PaymentItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
-
       if (existingItem) {
         state.items = state.items.filter((item) => item.id !== existingItem.id);
         state.totalPrice -= existingItem.price * existingItem.quantity;
         state.totalQuantity -= existingItem.quantity;
       }
     },
-    removeItemsToCart(state, action: PayloadAction<CartItem[]>) {
+    removeItemsToPayment(state, action: PayloadAction<PaymentItem[]>) {
       const itemsToRemove = action.payload;
 
       state.items = state.items.filter(
@@ -72,7 +79,7 @@ export const cartSlice = createSlice({
         0
       );
     },
-    increaseItemToCart(state, action: PayloadAction<CartItem>) {
+    increaseItemToPayment(state, action: PayloadAction<PaymentItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
 
@@ -83,7 +90,7 @@ export const cartSlice = createSlice({
       state.totalPrice += newItem.price;
       state.totalQuantity += 1;
     },
-    decreaseItemToCart(state, action: PayloadAction<CartItem>) {
+    decreaseItemToPayment(state, action: PayloadAction<PaymentItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
 
@@ -108,12 +115,13 @@ export const cartSlice = createSlice({
 // Action creators are generated for each case reducer function
 // Xuất các action
 export const {
-  addItemToCart,
-  removeItemToCart,
-  removeItemsToCart,
-  increaseItemToCart,
-  decreaseItemToCart,
-} = cartSlice.actions;
-export const selectCart = (state: RootState) => state.cart;
+  addItemToPayment,
+  addAllItemsToPayment,
+  removeItemToPayment,
+  removeItemsToPayment,
+  increaseItemToPayment,
+  decreaseItemToPayment,
+} = PaymentSlice.actions;
+export const selectPayment = (state: RootState) => state.payment;
 // Xuất reducer
-export default cartSlice.reducer;
+export default PaymentSlice.reducer;

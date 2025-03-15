@@ -81,7 +81,7 @@ export default function CardItem({
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`http://localhost:8080${product.images[0]}`}
+                    image={`https://api.regis.id.vn${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>
@@ -158,6 +158,8 @@ export default function CardItem({
                             id: product._id,
                             name: product.name,
                             image: product.images[0],
+                            priceThrought: product.price,
+                            slug: product.slug,
                             price: product.price * (1 - product.discount / 100),
                             quantity: 1,
                           })
@@ -188,7 +190,7 @@ export default function CardItem({
                 component="img"
                 alt="green iguana"
                 height="140"
-                image={`http://localhost:8080${product.images[0]}`}
+                image={`https://api.regis.id.vn${product.images[0]}`}
               />
             </Link>
             <CardContent>
@@ -262,6 +264,8 @@ export default function CardItem({
                         id: product._id,
                         name: product.name,
                         image: product.images[0],
+                        priceThrought: product.price,
+                        slug: product.slug,
                         price: product.price * (1 - product.discount / 100),
                         quantity: 1,
                       })

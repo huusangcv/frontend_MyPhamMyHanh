@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import { publicRoutes } from "./routes";
+import { privateRoutes, publicRoutes } from "./routes";
 import DefaultLayout from "./layout/DefaultLayout";
 import { Fragment } from "react/jsx-runtime";
 import { useEffect } from "react";
@@ -14,7 +14,7 @@ import { setProfile } from "./redux/features/profile/profileSlice";
 interface RouteType {
   path: string;
   component: React.FC;
-  layout?: React.FC | null;
+  layout?: React.FC<{ children: React.ReactNode }> | null;
 }
 const App = () => {
   const isShowModalAccount = useSelector(
@@ -74,28 +74,52 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {publicRoutes.map((route: RouteType, index: number) => {
-          const Page = route.component;
-          let Layout = DefaultLayout;
+        {(Cookies.get("customer") &&
+          profile._id !== "" &&
+          privateRoutes.map((route: RouteType, index: number) => {
+            const Page = route.component;
+            let Layout = DefaultLayout;
 
-          if (route.layout) {
-            Layout = route.layout;
-          } else if (route.layout === null) {
-            Layout = Fragment;
-          }
+            if (route.layout) {
+              Layout = route.layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
 
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <Layout>
-                  <Page></Page>
-                </Layout>
-              }
-            />
-          );
-        })}
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page></Page>
+                  </Layout>
+                }
+              />
+            );
+          })) ||
+          publicRoutes.map((route: RouteType, index: number) => {
+            const Page = route.component;
+            let Layout = DefaultLayout;
+
+            if (route.layout) {
+              Layout = route.layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
+
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page></Page>
+                  </Layout>
+                }
+              />
+            );
+          })}
       </Routes>
     </BrowserRouter>
   );

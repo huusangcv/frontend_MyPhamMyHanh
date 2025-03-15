@@ -176,12 +176,7 @@ button {
 }
 
 p {
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  unicode-bidi: isolate;
+  margin: 0;
 }
 
 a:hover,
@@ -278,6 +273,25 @@ body {
 body.no-scroll {
   overflow-y: hidden;
   padding-right: 15px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+.align-items-end {
+  align-items: end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
 }
 
 @keyframes fade-out {
