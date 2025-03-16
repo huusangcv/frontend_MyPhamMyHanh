@@ -1,17 +1,28 @@
 import classNames from "classnames/bind";
 import styles from "./PaymentInfo.module.scss";
 import { Link } from "react-router-dom";
-import { Autocomplete, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks";
 import addressMethods from "../../services/address";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 interface City {
   code: number;
   name: string;
   province_code: number;
   district_code: number;
 }
+interface Option {
+  value: number;
+  label: string;
+}
+
+const formatter = new Intl.NumberFormat("vi-VN", {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+});
+
 const cx = classNames.bind(styles);
 const PaymentInfo = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,21 +31,28 @@ const PaymentInfo = () => {
   const [phone, setPhone] = useState<string>("");
   const [note, setNote] = useState<string>("");
 
-  const [cities, setCities] = useState<City[]>([]);
+  const [cities, setCities] = useState<Option[]>([]);
   const [city, setCity] = useState<string>("");
-  const [districts, setDistricts] = useState<City[]>([]);
+  const [districts, setDistricts] = useState<Option[]>([]);
   const [district, setDistrict] = useState("");
-  const [wards, setWards] = useState<City[]>([]);
+  const [wards, setWards] = useState<Option[]>([]);
   const [ward, setWard] = useState("");
 
   const [currentAddress, setCurrentAddress] = useState<string>("pickup");
   const profile = useAppSelector((state) => state.profile);
+  const paymentInfo = useAppSelector((state) => state.payment);
 
   useEffect(() => {
     const fetchAddress = async () => {
       try {
         const response = await addressMethods.getAddress();
-        setCities(response.data);
+        const newCities = response.data.map((city: City) => {
+          return {
+            value: city.code,
+            label: city.name,
+          };
+        });
+        setCities(newCities);
       } catch (error) {
         console.log(error);
       }
@@ -42,43 +60,59 @@ const PaymentInfo = () => {
     fetchAddress();
   }, []);
 
-  const handleDistricts = async (code: number) => {
-    try {
-      const districts = await addressMethods.getDistricts();
-
-      const newDistricts = districts.data.filter(
-        (district: City) => code === district.province_code
-      );
-      setDistricts(newDistricts);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleWards = async (code: number) => {
-    try {
-      const wards = await addressMethods.getWards();
-
-      const newWards = wards.data.filter(
-        (ward: City) => code === ward.district_code
-      );
-      setWards(newWards);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log("check cities", cities);
-
   useEffect(() => {
     if (profile._id !== "") {
       setEmail(profile.email);
+      setPhone(profile.phone);
+      setName(profile.username);
     }
   }, [profile]);
 
-  const optionsCity = cities.map((city) => city.name);
-  const optionsDistricts = districts.map((district) => district.name);
-  const optionsWards = wards.map((ward) => ward.name);
+  const handleChangeCity = async (newValue: SingleValue<Option>) => {
+    if (newValue !== null) {
+      setCity(newValue.label);
+      try {
+        const res = await addressMethods.getDistricts(newValue.value);
+
+        const newDistricts = res.data.districts.map((district: City) => {
+          return {
+            value: district.code,
+            label: district.name,
+          };
+        });
+        setDistricts(newDistricts);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const handleChangeDistrict = async (newValue: SingleValue<Option>) => {
+    if (newValue !== null) {
+      setDistrict(newValue.label);
+      try {
+        const res = await addressMethods.getWards(newValue.value);
+        const newWards = res.data.wards.map((ward: City) => {
+          return {
+            value: ward.district_code,
+            label: ward.name,
+          };
+        });
+
+        setWards(newWards);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  console.log("check data", city, district, ward);
+
+  const handleChangeWard = (newValue: SingleValue<Option>) => {
+    if (newValue !== null) {
+      setWard(newValue.label);
+    }
+  };
+
   return (
     <div className={cx("supper-cart-container")}>
       <div className={cx("cart-header")} data-v-5273d083="">
@@ -127,40 +161,50 @@ const PaymentInfo = () => {
             className={cx("view-list")}
           >
             <div data-v-70c027c8="" className={cx("view-list__wrapper")}>
-              <div data-v-70c027c8="" className={cx("item")}>
-                <img
-                  data-v-70c027c8=""
-                  src="https://cdn2.cellphones.com.vn/100x100,webp,q100/media/catalog/product/d/i/dien-thoai-samsung-galaxy-s25-ultra_2__6.png"
-                  alt="Samsung Galaxy S25 Ultra 256GB-Xanh dương"
-                  loading="lazy"
-                  className={cx("item__img")}
-                />
-                <div data-v-70c027c8="" className={cx("item__info")}>
-                  <p data-v-70c027c8="" className={cx("item__name")}>
-                    Samsung Galaxy S25 Ultra 256GB-Xanh dương
-                  </p>
-                  <div data-v-70c027c8="" className={cx("item__price")}>
-                    <div data-v-70c027c8="">
-                      <div data-v-70c027c8="" className={cx("block-box-price")}>
-                        <div className={cx("box-info__box-price")}>
-                          <p className={cx("product__price--show")}>
-                            27.890.000đ
-                          </p>
-                          <p className={cx("product__price--through")}>
-                            33.990.000đ
-                          </p>
+              {paymentInfo &&
+                paymentInfo.items.length > 0 &&
+                paymentInfo.items.map((item, index) => (
+                  <div data-v-70c027c8="" className={cx("item")} key={index}>
+                    <img
+                      data-v-70c027c8=""
+                      src={`http://localhost:8080${item.image}`}
+                      alt="Samsung Galaxy S25 Ultra 256GB-Xanh dương"
+                      loading="lazy"
+                      className={cx("item__img")}
+                    />
+                    <div data-v-70c027c8="" className={cx("item__info")}>
+                      <p data-v-70c027c8="" className={cx("item__name")}>
+                        {item.name}
+                      </p>
+                      <div data-v-70c027c8="" className={cx("item__price")}>
+                        <div data-v-70c027c8="">
+                          <div
+                            data-v-70c027c8=""
+                            className={cx("block-box-price")}
+                          >
+                            <div className={cx("box-info__box-price")}>
+                              <p className={cx("product__price--show")}>
+                                {formatter.format(item.price)}đ
+                              </p>
+                              <p className={cx("product__price--through")}>
+                                {formatter.format(item.priceThrought)}đ
+                              </p>
+                            </div>
+                          </div>
                         </div>
+                        <p data-v-70c027c8="">
+                          Số lượng:
+                          <span
+                            data-v-70c027c8=""
+                            className={cx("text-danger")}
+                          >
+                            {item.quantity}
+                          </span>
+                        </p>
                       </div>
                     </div>
-                    <p data-v-70c027c8="">
-                      Số lượng:
-                      <span data-v-70c027c8="" className={cx("text-danger")}>
-                        1
-                      </span>
-                    </p>
                   </div>
-                </div>
-              </div>
+                ))}
             </div>
           </div>
 
@@ -174,7 +218,7 @@ const PaymentInfo = () => {
               <div data-v-761468d2="" className={cx("block-customer__main")}>
                 <div data-v-761468d2="" className={cx("customer-input__1")}>
                   <div data-v-761468d2="" className={cx("customer-name")}>
-                    <p data-v-761468d2="">Lê Hữu Sang</p>
+                    <p data-v-761468d2="">{profile.username}</p>
                     <span
                       data-v-6ee77bf0=""
                       data-v-761468d2=""
@@ -184,7 +228,7 @@ const PaymentInfo = () => {
                     </span>
                   </div>
                   <p data-v-761468d2="" className={cx("customer-phone")}>
-                    0358337215
+                    {profile.phone}
                   </p>
                 </div>
                 <div data-v-761468d2="" className={cx("customer-input__2")}>
@@ -271,10 +315,7 @@ const PaymentInfo = () => {
 
               {(currentAddress && currentAddress === "pickup" && (
                 <div className={cx("block-payment__main")}>
-                  <div
-                    className={cx("customer-receiver")}
-                    style={{ marginTop: 10 }}
-                  >
+                  <div className={cx("customer-receiver")}>
                     <TextField
                       id="standard-basic"
                       label="CỬA HÀNG"
@@ -306,10 +347,7 @@ const PaymentInfo = () => {
                 </div>
               )) || (
                 <div className={cx("block-payment__main")}>
-                  <div
-                    className={cx("customer-receiver")}
-                    style={{ marginTop: 10 }}
-                  >
+                  <div className={cx("customer-receiver")}>
                     <TextField
                       id="standard-basic"
                       label="TÊN NGƯỜI NHẬN"
@@ -333,97 +371,40 @@ const PaymentInfo = () => {
                       sx={{ width: "100%", height: "100%" }}
                     />
                   </div>
-                  <div
-                    className={cx("customer-receiver")}
-                    style={{ marginTop: 10 }}
-                  >
-                    <Autocomplete
-                      sx={{ width: "100%", height: "100%" }}
-                      value={city}
-                      onChange={(_event, newValue) => {
-                        if (newValue !== null) {
-                          setCity(newValue);
-                          if (cities && cities.length > 0) {
-                            const selectedCity = cities.find(
-                              (city: City) => city.name === newValue
-                            );
-                            if (selectedCity) {
-                              handleDistricts(selectedCity.code);
-                            }
-                          }
-                        } else {
-                          setCity("");
-                        }
-                      }}
-                      disablePortal
-                      options={optionsCity && optionsCity}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Tỉnh thành"
-                          variant="standard"
-                        />
-                      )}
+                  <div className={cx("customer-receiver")}>
+                    <Select
+                      placeholder="Chọn tỉnh/thành phố"
+                      defaultValue={cities[0]}
+                      className={cx("select")}
+                      onChange={handleChangeCity}
+                      options={cities}
                     />
-                    <Autocomplete
-                      sx={{ width: "100%", height: "100%" }}
-                      value={district}
-                      onChange={(_event, newValue) => {
-                        if (newValue !== null) {
-                          setDistrict(newValue);
-                          if (districts && districts.length > 0) {
-                            const selectedWard = districts.find(
-                              (district) => district.name === newValue
-                            );
-
-                            if (selectedWard) {
-                              handleWards(selectedWard.code);
-                            }
-                          }
-                        }
-                      }}
-                      disablePortal
-                      options={optionsDistricts || []}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Quận huyện"
-                          variant="standard"
-                        />
-                      )}
+                    <Select
+                      placeholder="Chọn quận/huyện"
+                      className={cx("select")}
+                      onChange={handleChangeDistrict}
+                      options={districts}
                     />
                   </div>
                   <div
                     className={cx("customer-receiver")}
                     style={{ marginTop: 10 }}
                   >
-                    <Autocomplete
-                      sx={{ width: "100%", height: "100%" }}
-                      value={ward}
-                      onChange={(_event, newValue) => {
-                        if (newValue !== null) {
-                          setWard(newValue);
-                        }
-                      }}
-                      disablePortal
-                      options={optionsWards}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Thị xã"
-                          variant="standard"
-                        />
-                      )}
+                    <Select
+                      placeholder="Chọn phường/xã"
+                      className={cx("select")}
+                      onChange={(newValue) => handleChangeWard(newValue)}
+                      options={wards}
                     />
                     <TextField
                       id="standard-basic"
                       label="ĐỊA CHỈ"
                       placeholder="Số nhà, tên đường"
                       variant="standard"
-                      value={email}
+                      value={address}
                       onChange={(e: {
                         target: { value: SetStateAction<string> };
-                      }) => setEmail(e.target.value)}
+                      }) => setAddress(e.target.value)}
                       sx={{ width: "100%", height: "100%" }}
                     />
                   </div>
@@ -469,7 +450,7 @@ const PaymentInfo = () => {
               className="price d-flex flex-column align-items-end"
             >
               <span data-v-46ce1f8b="" className={cx("total")}>
-                27.890.000đ
+                {formatter.format(paymentInfo.totalPrice)}đ
               </span>
             </div>
           </div>

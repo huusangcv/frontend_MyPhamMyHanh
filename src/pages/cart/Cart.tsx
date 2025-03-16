@@ -145,7 +145,6 @@ const Cart = () => {
                   <RoundedCheckbox
                     checked={checkedAll}
                     onChange={handleChangeAllChecked}
-                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </div>
                 <p>Chọn tất cả</p>
@@ -180,7 +179,6 @@ const Cart = () => {
                             false
                           }
                           onChange={() => handleSelectItems(item)}
-                          inputProps={{ "aria-label": "controlled" }}
                         />
                         <img
                           src={`http://localhost:8080${item.image}`}

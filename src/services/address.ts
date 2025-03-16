@@ -4,12 +4,16 @@ const addressMethods = {
     const result = await axios.get("https://provinces.open-api.vn/api/");
     return result;
   },
-  getDistricts: async () => {
-    const result = await axios.get("https://provinces.open-api.vn/api/d");
+  getDistricts: async (provinceCode: number) => {
+    const result = await axios.get(
+      `https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`
+    );
     return result;
   },
-  getWards: async () => {
-    const result = await axios.get("https://provinces.open-api.vn/api/w");
+  getWards: async (districtCode: number) => {
+    const result = await axios.get(
+      `https://provinces.open-api.vn/api/d/${districtCode}?depth=2`
+    );
     return result;
   },
 };
