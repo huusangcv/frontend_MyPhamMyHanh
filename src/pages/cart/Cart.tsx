@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./Cart.module.scss";
 import { styled } from "@mui/material/styles";
 import cartEmpty from "../../assets/cart_empty.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -58,6 +58,7 @@ const Cart = () => {
   const payment = useSelector((state: RootState) => state.payment);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cart.items.length > 0) {
@@ -182,7 +183,7 @@ const Cart = () => {
                           inputProps={{ "aria-label": "controlled" }}
                         />
                         <img
-                          src={`https://api.regis.id.vn${item.image}`}
+                          src={`http://localhost:8080${item.image}`}
                           width="350"
                           alt="iPhone 13-Đen"
                           loading="lazy"
@@ -373,9 +374,9 @@ const Cart = () => {
                   "btn-action",
                   payment.items.length > 0 || "disabled"
                 )}
-                disabled
+                onClick={() => navigate("/cart/payment-info")}
               >
-                Mua ngay{" "}
+                Mua ngay
                 {payment.items.length > 0 && `(${payment.totalQuantity})`}
               </button>
             </>

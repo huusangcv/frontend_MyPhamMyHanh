@@ -51,7 +51,7 @@ const ModalProfile = () => {
         <div className="_avatar_hzxfy_1">
           <Avatar
             sx={{ width: 30, height: 30 }}
-            src={`https://api.regis.id.vn${profile.image}`}
+            src={`http://localhost:8080${profile.image}`}
             alt={profile.username}
           />
         </div>
@@ -68,7 +68,7 @@ const ModalProfile = () => {
                 <div className="_avatar_hzxfy_1">
                   <Avatar
                     sx={{ width: 50, height: 50 }}
-                    src={`https://api.regis.id.vn${profile.image}`}
+                    src={`http://localhost:8080${profile.image}`}
                     alt={profile.username}
                   />
                 </div>

@@ -81,7 +81,7 @@ export default function CardItem({
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`https://api.regis.id.vn${product.images[0]}`}
+                    image={`http://localhost:8080${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>
@@ -190,7 +190,7 @@ export default function CardItem({
                 component="img"
                 alt="green iguana"
                 height="140"
-                image={`https://api.regis.id.vn${product.images[0]}`}
+                image={`http://localhost:8080${product.images[0]}`}
               />
             </Link>
             <CardContent>

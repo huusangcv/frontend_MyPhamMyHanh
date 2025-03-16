@@ -211,6 +211,21 @@ body {
   -ms-content-zooming: none;
 }
 
+.MuiFormControl-root {
+  input {
+    height: auto !important;
+    font-size: 1.3rem !important;
+  }
+
+  input::placeholder {
+    font-size: 1.3rem !important;
+  }
+
+  label {
+    font-size: 1.3rem !important;
+  }
+}
+
 [data-tippy-root] {
   max-width: calc(100vw - 10px);
 }

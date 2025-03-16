@@ -325,7 +325,7 @@ const NewsDetail = () => {
                             )}
                           >
                             <Avatar
-                              src={`https://api.regis.id.vn${user.image}`}
+                              src={`http://localhost:8080${user.image}`}
                               alt={user.username}
                             />
                             {user.roles === "admin" && (
