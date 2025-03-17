@@ -11,8 +11,9 @@ import {
   increaseItemToCart,
   selectCart,
 } from "../../redux/features/cart/cartSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
+import { addAllItemsToPayment } from "../../redux/features/payment/paymentSlice";
 const cx = classNames.bind(styles);
 const CartBadge = styled(Badge)`
   & .${badgeClasses.badge} {
@@ -31,7 +32,6 @@ const Cart = () => {
   const [showCart, setShowCart] = useState(false);
   const carts = useAppSelector(selectCart); // Assuming 'items' is the array in the cart state
   const profile = useAppSelector((state) => state.profile);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handleShowCart = () => {
@@ -57,15 +57,18 @@ const Cart = () => {
                 <div className={cx("cart__header")}>
                   <div className={cx("heading")}>Giỏ hàng của tôi</div>
 
-                  <div
-                    onClick={() =>
-                      profile._id === "" &&
-                      dispatch(setShowAccountModal(true) || navigate("/cart"))
-                    }
-                    className={cx("view-all-orders-btn")}
-                  >
-                    Xem tất cả
-                  </div>
+                  {(profile._id === "" && (
+                    <div
+                      onClick={() => dispatch(setShowAccountModal(true))}
+                      className={cx("view-all-orders-btn")}
+                    >
+                      Xem tất cả
+                    </div>
+                  )) || (
+                    <Link to={"/cart"} className={cx("view-all-orders-btn")}>
+                      Xem tất cả
+                    </Link>
+                  )}
                 </div>
                 <div className={cx("cart__content")}>
                   {carts.items.map((cart) => (
@@ -131,12 +134,24 @@ const Cart = () => {
                   <div className={cx("view-all-orders-btn")}>
                     Tổng tiền: {formatter.format(carts.totalPrice)}đ
                   </div>
-                  <div
-                    className={cx("payload__all-btn")}
-                    onClick={() => dispatch(setShowAccountModal(true))}
-                  >
-                    Thanh toán tất cả
-                  </div>
+                  {(profile._id === "" && (
+                    <div
+                      className={cx("payload__all-btn")}
+                      onClick={() => dispatch(setShowAccountModal(true))}
+                    >
+                      Thanh toán tất cả
+                    </div>
+                  )) || (
+                    <Link
+                      to={"/cart"}
+                      className={cx("payload__all-btn")}
+                      onClick={() =>
+                        dispatch(addAllItemsToPayment(carts.items))
+                      }
+                    >
+                      Thanh toán tất cả
+                    </Link>
+                  )}
                 </div>
               </ul>
             </div>

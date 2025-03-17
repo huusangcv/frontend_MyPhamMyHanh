@@ -7,11 +7,14 @@ import categoryReducer from "./features/category/categorySlice";
 import modalAccountReducer from "./features/isShowAccountModal/isShowAccountModalSlice";
 import profileReducer from "./features/profile/profileSlice";
 import paymentReducer from "./features/payment/paymentSlice";
+import infoShippingReducer from "./features/infoShipping/InfoShipping";
 interface CartItem {
   id: string;
   name: string;
   image: string;
+  slug: string;
   price: number;
+  priceThrought: number;
   quantity: number;
 }
 
@@ -19,7 +22,7 @@ interface CartItem {
 const persistConfig = {
   key: "auth",
   storage,
-  whitelist: ["cart", "payment", "profile"], // Chỉ lưu profile
+  whitelist: ["cart", "payment", "profile", "infoShipping"], // Chỉ lưu profile
 };
 
 // Kết hợp tất cả các reducer
@@ -29,6 +32,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   modalAccount: modalAccountReducer,
   profile: profileReducer,
+  infoShipping: infoShippingReducer,
 });
 
 // Kết hợp persist với rootReducer

@@ -6,6 +6,8 @@ import { SetStateAction, useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks";
 import addressMethods from "../../services/address";
 import Select, { SingleValue } from "react-select";
+import { useDispatch } from "react-redux";
+import { setInfoShipping } from "../../redux/features/infoShipping/InfoShipping";
 interface City {
   code: number;
   name: string;
@@ -25,6 +27,8 @@ const formatter = new Intl.NumberFormat("vi-VN", {
 
 const cx = classNames.bind(styles);
 const PaymentInfo = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -318,13 +322,11 @@ const PaymentInfo = () => {
                   <div className={cx("customer-receiver")}>
                     <TextField
                       id="standard-basic"
-                      label="CỬA HÀNG"
+                      label="CỬA HÀNG (*Mặc đinh)"
                       placeholder="Địa chỉ cửa hàng"
                       variant="standard"
-                      value={address}
-                      onChange={(e: {
-                        target: { value: SetStateAction<string> };
-                      }) => setAddress(e.target.value)}
+                      value="Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam"
+                      disabled
                       sx={{ width: "100%", height: "100%" }}
                     />
                   </div>
@@ -454,7 +456,27 @@ const PaymentInfo = () => {
               </span>
             </div>
           </div>
-          <Link to="/" className={cx("go-back")}>
+
+          <Link
+            to="/cart/payment"
+            className={cx("go-back")}
+            onClick={() =>
+              dispatch(
+                setInfoShipping({
+                  name: profile.username,
+                  phone,
+                  email,
+                  address:
+                    (currentAddress === "pickup" &&
+                      "Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam") ||
+                    `${address}, ${ward}, ${district}, ${city}`,
+                  shipping: (currentAddress !== "pickup" && 30000) || 0,
+                  personGet: `${name} - ${phone}`,
+                  note,
+                })
+              )
+            }
+          >
             Tiếp tục
           </Link>
         </div>

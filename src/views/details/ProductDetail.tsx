@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import productMethods from "../../services/products";
 import classNames from "classnames/bind";
 import styles from "./ProductDetail.module.scss";
@@ -16,6 +16,7 @@ import segmentMethods from "../../services/segments";
 import SameProducts from "../../components/sameProducts/SameProducts";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import Loading from "../../components/isLoading/IsLoading";
+import { addItemToPayment } from "../../redux/features/payment/paymentSlice";
 const cx = classNames.bind(styles);
 const ProductDetail = () => {
   interface Product {
@@ -89,6 +90,7 @@ const ProductDetail = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -349,7 +351,38 @@ const ProductDetail = () => {
                   </div>
 
                   <div className="is-flex" style={{ gap: 10 }}>
-                    <button className={cx("order-button")}>
+                    <button
+                      className={cx("order-button")}
+                      onClick={() => {
+                        {
+                          dispatch(
+                            addItemToPayment({
+                              id: product._id,
+                              name: product.name,
+                              image: product.images[0],
+                              priceThrought: product.price,
+                              slug: product.slug,
+                              price:
+                                product.price * (1 - product.discount / 100),
+                              quantity: 1,
+                            })
+                          );
+                          dispatch(
+                            addItemToCart({
+                              id: product._id,
+                              name: product.name,
+                              image: product.images[0],
+                              priceThrought: product.price,
+                              slug: product.slug,
+                              price:
+                                product.price * (1 - product.discount / 100),
+                              quantity: 1,
+                            })
+                          );
+                        }
+                        navigate("/cart");
+                      }}
+                    >
                       <strong>MUA NGAY</strong>
                     </button>
                     <button

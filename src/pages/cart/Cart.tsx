@@ -100,7 +100,6 @@ const Cart = () => {
     }
   };
 
-  console.log("check payment", payment);
   return (
     <div className={cx("supper-cart-container")}>
       <div className={cx("cart-header")} data-v-5273d083="">
@@ -375,7 +374,7 @@ const Cart = () => {
                 onClick={() => navigate("/cart/payment-info")}
               >
                 Mua ngay
-                {payment.items.length > 0 && `(${payment.totalQuantity})`}
+                {payment.items.length > 0 && ` (${payment.totalQuantity})`}
               </button>
             </>
           )) || (

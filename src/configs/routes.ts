@@ -3,6 +3,7 @@ const routes = {
   productDetail: "product/:slug",
   products: "/products/:slug",
   cart: "/cart",
+  payment: "/cart/payment",
   paymentInfo: "/cart/payment-info",
   about: "/gioi-thieu",
   contact: "/lien-he",

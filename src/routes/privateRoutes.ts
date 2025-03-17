@@ -2,6 +2,7 @@ import configs from "../configs";
 import CartLayout from "../layout/CartLayout";
 import NotFound from "../pages/404/404";
 import Cart from "../pages/cart/Cart";
+import Payment from "../pages/payment/Payment";
 import PaymentInfo from "../pages/paymentInfo/PaymentInfo";
 import About from "../views/about/About";
 import ProductDetail from "../views/details/ProductDetail";
@@ -13,6 +14,11 @@ const privateRoutes = [
   {
     path: configs.routes.cart,
     component: Cart,
+    layout: CartLayout,
+  },
+  {
+    path: configs.routes.payment,
+    component: Payment,
     layout: CartLayout,
   },
   {
