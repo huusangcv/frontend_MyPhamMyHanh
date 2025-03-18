@@ -358,31 +358,17 @@
     -moz-user-select: none;
     user-select: none;
 
+    &.active {
+      border: 1px solid var(--primary-color);
+    }
+
     &:hover {
-      background-color: #ffdada;
+      background-color: rgb(218, 255, 222);
     }
   }
 
-  .list-payment__item--active[data-v-93881a34] {
-    border: 1px solid #ff2840;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    gap: 15px;
-    padding: 10px 15px;
-    position: relative;
-    transition: 0.1s ease;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    // .payment-item__tick[data-v-93881a34] {
-    //   display: block;
-    // }
-  }
-
   .payment-item__img[data-v-93881a34] {
+    color: var(--primary-color);
     align-items: center;
     display: flex;
     height: 50px;
@@ -394,6 +380,10 @@
       -o-object-fit: contain;
       object-fit: contain;
       width: 100%;
+    }
+
+    svg {
+      width: 45px;
     }
   }
 
@@ -410,12 +400,16 @@
   }
 
   .payment-item__tick[data-v-93881a34] {
-    display: block;
+    display: none;
     height: 10px;
     position: absolute;
     right: 10px;
     top: 5px;
     width: 10px;
+
+    &.active {
+      display: block;
+    }
   }
 
   .payment-modal__bottom[data-v-93881a34] {
@@ -424,7 +418,7 @@
     padding: 20px;
 
     button[data-v-93881a34] {
-      background-color: #d70018;
+      background-color: var(--primary-color);
       font-size: 16px;
       height: 100%;
       width: 100%;
@@ -661,7 +655,7 @@
       margin-top: 0;
     }
     .product__price--show {
-      color: #d70018;
+      color: var(--primary-color);
       display: inline-block;
       font-size: 17px;
       font-weight: 500;
@@ -680,7 +674,7 @@
     }
 
     .text-danger {
-      color: #dc3545 !important;
+      color: var(--primary-color) !important;
     }
   }
 }

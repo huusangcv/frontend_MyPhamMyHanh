@@ -61,5 +61,10 @@ export type RootState = ReturnType<typeof store.getState> & {
     totalPrice: number;
     totalQuantity: number;
   };
+  paymetn: {
+    items: CartItem[];
+    totalPrice: number;
+    totalQuantity: number;
+  };
 };
 export type AppDispatch = typeof store.dispatch;

@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { removeItemsToPayment } from "../../redux/features/payment/paymentSlice";
 import { removeItemsToCart } from "../../redux/features/cart/cartSlice";
-
+import PaymentMethod from "../../components/isShowMethodsPayment/IsShowMethodsPayment";
+import delivery from "../../assets/delivery.jfif";
+import paymentMethods from "../../services/payments";
 const formatter = new Intl.NumberFormat("vi-VN", {
   style: "decimal",
   minimumFractionDigits: 0,
@@ -25,6 +27,7 @@ interface PropsOrder {
   receiver: string;
   total: number;
   products: string[];
+  paymentMethod: string;
   status: string;
 }
 const cx = classNames.bind(styles);
@@ -32,6 +35,7 @@ const Payment = () => {
   const [showModalListItem, setShowModalListItem] = useState<boolean>(false);
   const [showModalPaymentMethods, setShowModalPaymentMethods] =
     useState<boolean>(false);
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
 
   const paymentInfo = useAppSelector((state) => state.payment);
   const profile = useAppSelector((state) => state.profile);
@@ -39,41 +43,71 @@ const Payment = () => {
 
   const dispatch = useDispatch();
 
+  //handlePayment with onClick event
   const handlePayment = async () => {
-    const productsId = paymentInfo.items.map((item) => item.id);
+    if (paymentMethod !== "") {
+      if (paymentMethod === "vnpay") {
+        try {
+          const res = await paymentMethods.createPaymentVNPAY({
+            amount: paymentInfo.totalPrice + infoShipping.shipping,
+          });
 
-    const data: PropsOrder = {
-      user_id: profile._id,
-      name: infoShipping.name,
-      phone: infoShipping.phone,
-      address: infoShipping.address,
-      email: infoShipping.email,
-      receiver: infoShipping.personGet,
-      total: paymentInfo.totalPrice + infoShipping.shipping,
-      products: productsId,
-      status: "ordered",
-    };
-    try {
-      const res = await orderMethods.createOrder(data);
+          if (res.status) {
+            window.location.href = res.data;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        const productsId = paymentInfo.items.map((item) => item.id);
 
-      if (res.status) {
-        toast("Đặt hàng thành công", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        dispatch(removeItemsToPayment(paymentInfo.items));
-        dispatch(removeItemsToCart(paymentInfo.items));
+        const data: PropsOrder = {
+          user_id: profile._id,
+          name: infoShipping.name,
+          phone: infoShipping.phone,
+          address: infoShipping.address,
+          email: infoShipping.email,
+          receiver: infoShipping.personGet,
+          total: paymentInfo.totalPrice + infoShipping.shipping,
+          products: productsId,
+          paymentMethod,
+          status: "ordered",
+        };
+        try {
+          const res = await orderMethods.createOrder(data);
+
+          if (res.status) {
+            toast("Đặt hàng thành công", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            dispatch(removeItemsToPayment(paymentInfo.items));
+            dispatch(removeItemsToCart(paymentInfo.items));
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      toast.error("Quý khách vui lòng chọn phương thức thanh toán", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
+
   return (
     <div className={cx("supper-cart-container")}>
       <div className={cx("cart-header")} data-v-5273d083="">
@@ -196,27 +230,7 @@ const Payment = () => {
               className={cx("payment-quote__main")}
               onClick={() => setShowModalPaymentMethods(true)}
             >
-              <div data-v-93881a34="" className={cx("payment-main__img")}></div>
-              <div data-v-93881a34="" className={cx("payment-main__title")}>
-                <p data-v-93881a34="">Chọn phương thức thanh toán</p>
-                <span data-v-93881a34="">Giảm thêm tới 200.000đ</span>
-              </div>
-              <div data-v-93881a34="" className={cx("payment-main__arrow")}>
-                <svg
-                  data-v-93881a34=""
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    data-v-93881a34=""
-                    d="M12.4994 10.0186C12.4998 10.2133 12.432 10.402 12.3078 10.5519L8.1411 15.5519C7.84655 15.9063 7.32048 15.9548 6.9661 15.6602C6.61172 15.3657 6.56322 14.8396 6.85777 14.4852L10.5911 10.0186L6.9911 5.5519C6.85129 5.37974 6.78588 5.15895 6.80934 4.93842C6.8328 4.71788 6.9432 4.5158 7.1161 4.3769C7.28932 4.22263 7.519 4.14752 7.7499 4.16967C7.9808 4.19181 8.19203 4.30919 8.33277 4.49357L12.3578 9.49357C12.4624 9.64781 12.5122 9.83265 12.4994 10.0186Z"
-                    fill="black"
-                  ></path>
-                </svg>
-              </div>
+              <PaymentMethod method={paymentMethod as string} />
             </div>
 
             <div
@@ -272,58 +286,128 @@ const Payment = () => {
                   >
                     <div data-v-93881a34="" className={cx("list-payment")}>
                       <p data-v-93881a34="">Khả dụng</p>
-                      <div
-                        data-v-93881a34=""
-                        className={cx("list-payment__item--active")}
-                      >
+                      {(infoShipping.currentAddress === "pickup" && (
                         <div
                           data-v-93881a34=""
-                          className={cx("payment-item__img")}
+                          className={cx("list-payment__item", {
+                            active: paymentMethod === "pickup",
+                          })}
+                          onClick={() => setPaymentMethod("pickup")}
                         >
-                          <img
+                          <div
                             data-v-93881a34=""
-                            src="https://cdn2.cellphones.com.vn/x400,webp,q100/media/payment-logo/COD.png"
-                            alt="payment method"
-                          />
-                        </div>
-                        <div
-                          data-v-93881a34=""
-                          className={cx("payment-item__title")}
-                        >
-                          <p data-v-93881a34="">Thanh toán khi nhận hàng</p>
-                        </div>
-                        <div
-                          data-v-93881a34=""
-                          className={cx("payment-item__tick")}
-                        >
-                          <svg
-                            data-v-93881a34=""
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                            className={cx("payment-item__img")}
                           >
-                            <path
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 576 512"
+                            >
+                              <path
+                                fill="#6bc67c"
+                                stroke="#6bc67c"
+                                d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            data-v-93881a34=""
+                            className={cx("payment-item__title")}
+                          >
+                            <p data-v-93881a34="">Thanh toán tại cửa hàng</p>
+                          </div>
+                          <div
+                            data-v-93881a34=""
+                            className={cx("payment-item__tick", {
+                              active: paymentMethod === "cash_on_delivery",
+                            })}
+                          >
+                            <svg
                               data-v-93881a34=""
-                              d="M11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z"
-                              fill="#D70018"
-                              stroke="#D70018"
-                              strokeWidth="1.5"
-                            ></path>
-                            <path
-                              data-v-93881a34=""
-                              d="M3.75 5.75L4.70603 6.8426C5.11852 7.31402 5.85792 7.29447 6.24492 6.80192L8.25 4.25"
-                              stroke="white"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                data-v-93881a34=""
+                                d="M11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z"
+                                fill="#6bc67c"
+                                stroke="#6bc67c"
+                                strokeWidth="1.5"
+                              ></path>
+                              <path
+                                data-v-93881a34=""
+                                d="M3.75 5.75L4.70603 6.8426C5.11852 7.31402 5.85792 7.29447 6.24492 6.80192L8.25 4.25"
+                                stroke="white"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </div>
                         </div>
-                      </div>
+                      )) || (
+                        <div
+                          data-v-93881a34=""
+                          className={cx("list-payment__item", {
+                            active: paymentMethod === "cash_on_delivery",
+                          })}
+                          onClick={() => setPaymentMethod("cash_on_delivery")}
+                        >
+                          <div
+                            data-v-93881a34=""
+                            className={cx("payment-item__img")}
+                          >
+                            <img
+                              data-v-93881a34=""
+                              src={delivery}
+                              alt="payment method"
+                            />
+                          </div>
+                          <div
+                            data-v-93881a34=""
+                            className={cx("payment-item__title")}
+                          >
+                            <p data-v-93881a34="">Thanh toán khi nhận hàng</p>
+                          </div>
+                          <div
+                            data-v-93881a34=""
+                            className={cx("payment-item__tick", {
+                              active: paymentMethod === "cash_on_delivery",
+                            })}
+                          >
+                            <svg
+                              data-v-93881a34=""
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                data-v-93881a34=""
+                                d="M11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z"
+                                fill="#6bc67c"
+                                stroke="#6bc67c"
+                                strokeWidth="1.5"
+                              ></path>
+                              <path
+                                data-v-93881a34=""
+                                d="M3.75 5.75L4.70603 6.8426C5.11852 7.31402 5.85792 7.29447 6.24492 6.80192L8.25 4.25"
+                                stroke="white"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              ></path>
+                            </svg>
+                          </div>
+                        </div>
+                      )}
                       <div
                         data-v-93881a34=""
-                        className={cx("list-payment__item")}
+                        className={cx("list-payment__item", {
+                          active: paymentMethod === "vnpay",
+                        })}
+                        onClick={() => setPaymentMethod("vnpay")}
                       >
                         <div
                           data-v-93881a34=""
@@ -343,7 +427,9 @@ const Payment = () => {
                         </div>
                         <div
                           data-v-93881a34=""
-                          className={cx("payment-item__tick")}
+                          className={cx("payment-item__tick", {
+                            active: paymentMethod === "vnpay",
+                          })}
                         >
                           <svg
                             data-v-93881a34=""
@@ -356,8 +442,8 @@ const Payment = () => {
                             <path
                               data-v-93881a34=""
                               d="M11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11C8.76142 11 11 8.76142 11 6Z"
-                              fill="#D70018"
-                              stroke="#D70018"
+                              fill="#6bc67c"
+                              stroke="#6bc67c"
                               strokeWidth="1.5"
                             ></path>
                             <path
@@ -374,7 +460,29 @@ const Payment = () => {
                   </div>
                 </div>
                 <div data-v-93881a34="" className={cx("payment-modal__bottom")}>
-                  <button data-v-93881a34="" className={cx("btn-danger")}>
+                  <button
+                    data-v-93881a34=""
+                    className={cx("btn-danger")}
+                    onClick={() => {
+                      if (paymentMethod === "") {
+                        toast.error(
+                          "Quý khách vui lòng chọn phương thức thanh toán",
+                          {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                          }
+                        );
+                      } else {
+                        setShowModalPaymentMethods(false);
+                      }
+                    }}
+                  >
                     Xác nhận
                   </button>
                 </div>
@@ -400,7 +508,7 @@ const Payment = () => {
                       data-v-6f30f3d2=""
                       className={cx("level")}
                     >
-                      KHÁCH HÀNG MỚI
+                      {profile.segment_ids.length > 0 || "KHÁCH HÀNG MỚI"}
                     </span>
                     {infoShipping.name}
                   </p>
@@ -470,13 +578,16 @@ const Payment = () => {
               className="price d-flex flex-column align-items-end"
             >
               <span data-v-46ce1f8b="" className={cx("total")}>
-                {formatter.format(paymentInfo.totalPrice)}đ
+                {formatter.format(
+                  paymentInfo.totalPrice + infoShipping.shipping
+                )}
+                đ
               </span>
             </div>
           </div>
-          <Link to="/cart" className={cx("go-back")} onClick={handlePayment}>
+          <div className={cx("go-back")} onClick={handlePayment}>
             THANH TOÁN
-          </Link>
+          </div>
           <div
             data-v-46ce1f8b=""
             id="viewListItemInQuote"

@@ -37,6 +37,7 @@ const Cart = () => {
   const handleShowCart = () => {
     setShowCart(!showCart);
   };
+
   return (
     <div className={cx("cart")}>
       <div className={cx("cart__cta")} onClick={handleShowCart}>

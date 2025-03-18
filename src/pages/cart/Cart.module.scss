@@ -86,7 +86,8 @@
   transform: translateX(-50%);
   width: 100%;
   z-index: 11;
-  a.go-back {
+  .go-back {
+    cursor: pointer;
     background: var(--primary-color);
     border-radius: 5px;
     color: #fff;

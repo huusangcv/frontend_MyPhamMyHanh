@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./PaymentInfo.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks";
@@ -8,6 +8,7 @@ import addressMethods from "../../services/address";
 import Select, { SingleValue } from "react-select";
 import { useDispatch } from "react-redux";
 import { setInfoShipping } from "../../redux/features/infoShipping/InfoShipping";
+import { toast } from "react-toastify";
 interface City {
   code: number;
   name: string;
@@ -28,6 +29,7 @@ const formatter = new Intl.NumberFormat("vi-VN", {
 const cx = classNames.bind(styles);
 const PaymentInfo = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>("");
   const [address, setAddress] = useState<string>("");
@@ -72,6 +74,7 @@ const PaymentInfo = () => {
     }
   }, [profile]);
 
+  //hanlde setCity address
   const handleChangeCity = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setCity(newValue.label);
@@ -90,6 +93,8 @@ const PaymentInfo = () => {
       }
     }
   };
+
+  //hanlde District address
   const handleChangeDistrict = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setDistrict(newValue.label);
@@ -109,11 +114,87 @@ const PaymentInfo = () => {
     }
   };
 
-  console.log("check data", city, district, ward);
-
+  //hanlde Ward address
   const handleChangeWard = (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setWard(newValue.label);
+    }
+  };
+
+  //handleValidation
+  const handleValidation = () => {
+    if (currentAddress !== "pickup") {
+      if (name === "" || phone === "") {
+        toast.error(
+          "Quý khách vui lòng nhập tên và số điện thoại để tiếp tục mua hàng.",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+      }
+
+      if (name !== "" && phone !== "" && district === "") {
+        toast.error("Quý khách vui lòng không bỏ trống Quận / huyện", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      if (name !== "" && phone !== "" && district !== "" && ward === "") {
+        toast.error("Quý khách vui lòng không bỏ trống Phường / Xã", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      if (
+        name !== "" &&
+        phone !== "" &&
+        district !== "" &&
+        ward !== "" &&
+        address === ""
+      ) {
+        toast.error("Quý khách vui lòng không bỏ trống Số nhà, tên đường", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+      if (
+        name !== "" &&
+        phone !== "" &&
+        district !== "" &&
+        ward !== "" &&
+        address !== ""
+      ) {
+        navigate("/cart/payment");
+      }
+    } else {
+      navigate("/cart/payment");
     }
   };
 
@@ -457,15 +538,15 @@ const PaymentInfo = () => {
             </div>
           </div>
 
-          <Link
-            to="/cart/payment"
+          <div
             className={cx("go-back")}
-            onClick={() =>
+            onClick={() => {
               dispatch(
                 setInfoShipping({
                   name: profile.username,
                   phone,
                   email,
+                  currentAddress,
                   address:
                     (currentAddress === "pickup" &&
                       "Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam") ||
@@ -474,11 +555,12 @@ const PaymentInfo = () => {
                   personGet: `${name} - ${phone}`,
                   note,
                 })
-              )
-            }
+              );
+              handleValidation();
+            }}
           >
             Tiếp tục
-          </Link>
+          </div>
         </div>
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div>

@@ -4,6 +4,7 @@ const initialState = {
   name: "",
   phone: "",
   email: "",
+  currentAddress: "",
   address: "",
   shipping: 0,
   personGet: "",

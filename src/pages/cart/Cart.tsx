@@ -166,8 +166,8 @@ const Cart = () => {
               {cart &&
                 cart.items.length > 0 &&
                 cart.items.map((item: CartItem) => (
-                  <>
-                    <div className={cx("block__product-item")} key={item.id}>
+                  <div key={item.id}>
+                    <div className={cx("block__product-item")}>
                       <div className={cx("checkbox-product")}>
                         <RoundedCheckbox
                           checked={
@@ -333,7 +333,7 @@ const Cart = () => {
                     {cart && cart.items.length > 1 && (
                       <div className={cx("horizontal")}></div>
                     )}
-                  </>
+                  </div>
                 ))}
             </div>
           </div>

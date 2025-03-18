@@ -44,11 +44,11 @@ export const PaymentSlice = createSlice({
     },
     addAllItemsToPayment(state, action: PayloadAction<PaymentItem[]>) {
       state.items = action.payload;
-      state.totalPrice += action.payload.reduce(
+      state.totalPrice = action.payload.reduce(
         (total, current) => total + current.price * current.quantity,
         0
       );
-      state.totalQuantity += action.payload.reduce(
+      state.totalQuantity = action.payload.reduce(
         (total, current) => total + current.quantity,
         0
       );
