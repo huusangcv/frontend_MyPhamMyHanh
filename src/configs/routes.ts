@@ -5,6 +5,7 @@ const routes = {
   cart: "/cart",
   payment: "/cart/payment",
   paymentInfo: "/cart/payment-info",
+  paymentResult: "/cart/payment-result",
   about: "/gioi-thieu",
   contact: "/lien-he",
   certificate: "/bang-khen",

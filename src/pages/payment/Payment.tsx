@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Payment.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { useAppSelector } from "../../../hooks";
 import { useState } from "react";
@@ -12,11 +12,16 @@ import { removeItemsToCart } from "../../redux/features/cart/cartSlice";
 import PaymentMethod from "../../components/isShowMethodsPayment/IsShowMethodsPayment";
 import delivery from "../../assets/delivery.jfif";
 import paymentMethods from "../../services/payments";
+import { v4 as uuidv4 } from "uuid";
 const formatter = new Intl.NumberFormat("vi-VN", {
   style: "decimal",
   minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 });
+
+const generateShortId = () => {
+  return "MDH" + uuidv4().replace(/-/g, "").slice(0, 6);
+};
 
 interface PropsOrder {
   user_id: string;
@@ -27,8 +32,8 @@ interface PropsOrder {
   receiver: string;
   total: number;
   products: string[];
+  reference: string;
   paymentMethod: string;
-  status: string;
 }
 const cx = classNames.bind(styles);
 const Payment = () => {
@@ -36,59 +41,72 @@ const Payment = () => {
   const [showModalPaymentMethods, setShowModalPaymentMethods] =
     useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>("");
-
   const paymentInfo = useAppSelector((state) => state.payment);
   const profile = useAppSelector((state) => state.profile);
   const infoShipping = useAppSelector((state) => state.infoShipping);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (paymentInfo && paymentInfo.items.length <= 0) {
+  //     navigate("/cart");
+  //   }
+  // }, [paymentInfo, navigate]);
 
   //handlePayment with onClick event
   const handlePayment = async () => {
+    const productsId = paymentInfo.items.map((item) => item.id);
+    const orderId = generateShortId();
+    const data: PropsOrder = {
+      user_id: profile._id,
+      name: infoShipping.name,
+      phone: infoShipping.phone,
+      address: infoShipping.address,
+      email: infoShipping.email,
+      receiver: infoShipping.personGet,
+      total: paymentInfo.totalPrice + infoShipping.shipping,
+      products: productsId,
+      reference: orderId,
+      paymentMethod,
+    };
     if (paymentMethod !== "") {
+      const id = toast.loading("Loading...");
       if (paymentMethod === "vnpay") {
         try {
           const res = await paymentMethods.createPaymentVNPAY({
             amount: paymentInfo.totalPrice + infoShipping.shipping,
+            orderId: orderId,
           });
 
           if (res.status) {
-            window.location.href = res.data;
+            toast.update(id, {
+              render: "Đang chuyển hướng, vui lòng đợi một chút",
+              type: "success",
+              isLoading: false,
+            });
+            await orderMethods.createOrder(data);
+            window.location.href = res.data.paymentUrl;
+            dispatch(removeItemsToPayment(paymentInfo.items));
+            dispatch(removeItemsToCart(paymentInfo.items));
           }
+          console.log(res.data.message);
         } catch (error) {
           console.log(error);
         }
       } else {
-        const productsId = paymentInfo.items.map((item) => item.id);
-
-        const data: PropsOrder = {
-          user_id: profile._id,
-          name: infoShipping.name,
-          phone: infoShipping.phone,
-          address: infoShipping.address,
-          email: infoShipping.email,
-          receiver: infoShipping.personGet,
-          total: paymentInfo.totalPrice + infoShipping.shipping,
-          products: productsId,
-          paymentMethod,
-          status: "ordered",
-        };
         try {
           const res = await orderMethods.createOrder(data);
 
           if (res.status) {
-            toast("Đặt hàng thành công", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
+            toast.update(id, {
+              render: "Đặt hàng thành công",
+              type: "success",
+              isLoading: false,
             });
             dispatch(removeItemsToPayment(paymentInfo.items));
             dispatch(removeItemsToCart(paymentInfo.items));
+            navigate("/cart/payment-result");
           }
         } catch (error) {
           console.log(error);

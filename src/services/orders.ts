@@ -8,7 +8,8 @@ interface PropsOrder {
   receiver: string;
   total: number;
   products: string[];
-  status: string;
+  reference: string;
+  paymentMethod: string;
 }
 const orderMethods = {
   createOrder: async (data: PropsOrder) => {

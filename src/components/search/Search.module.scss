@@ -24,9 +24,9 @@
   &__inner {
     z-index: 9999;
     position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset: 0 auto auto 0;
+    top: 0;
+    left: 82px;
     margin: 0px;
     transform: translate3d(433.333px, 62.6667px, 0px);
   }
