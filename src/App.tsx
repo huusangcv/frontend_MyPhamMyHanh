@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { privateRoutes, publicRoutes } from "./routes";
-import DefaultLayout from "./layout/DefaultLayout";
+import DefaultLayout from "./layouts/DefaultLayout";
 import { Fragment } from "react/jsx-runtime";
 import { useEffect } from "react";
 import Cookies from "js-cookie";

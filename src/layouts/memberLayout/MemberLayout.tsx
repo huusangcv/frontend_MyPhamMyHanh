@@ -1,24 +1,19 @@
 import { ReactNode } from "react";
-import Header from "../components/header/Header";
+import Header from "../../components/header/Header";
 import { Box } from "@mui/material";
-import Sidebar from "../components/sidebar/Sidebar";
-import styles from "./DefaultLayout.module.scss";
+import styles from "./MemberLayout.module.scss";
 import classNames from "classnames/bind";
 import { ToastContainer } from "react-toastify";
-import Footer from "../components/footer/Footer";
-import BottomNav from "../components/bottomNavigation/BottomNavigation";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { setShowAccountModal } from "../redux/features/isShowAccountModal/isShowAccountModalSlice";
-
+import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
 const cx = classNames.bind(styles);
 
-interface DefaultLayoutProps {
+interface MemberLayoutProps {
   children: ReactNode;
 }
-
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
+const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
   const isShowModalAccount = useSelector(
     (state: RootState) => state.modalAccount
   );
@@ -28,13 +23,10 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <>
       <Header></Header>
       <div className={cx("sidebar-container")}>
-        <Sidebar />
         <div className={cx("sidebar-content")}>
           <Box sx={{ bgcolor: "#fff" }}>{children}</Box>
         </div>
       </div>
-      <BottomNav />
-      <Footer />
       <ToastContainer />
       {isShowModalAccount && (
         <div className={cx("wapper")}>
@@ -51,7 +43,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             </button>
 
             <iframe
-              src="http://localhost:5173/login"
+              src="http://localhost:5174/login"
               frameBorder="0"
               className={cx("content__inner")}
             ></iframe>
@@ -62,4 +54,4 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   );
 };
 
-export default DefaultLayout;
+export default MemberLayout;

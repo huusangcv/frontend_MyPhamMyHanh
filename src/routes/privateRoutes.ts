@@ -1,5 +1,7 @@
+import SidebarMember from "../components/sidebarMember/SidebarMember";
 import configs from "../configs";
-import CartLayout from "../layout/CartLayout";
+import CartLayout from "../layouts/CartLayout";
+import MemberLayout from "../layouts/memberLayout/MemberLayout";
 import NotFound from "../pages/404/404";
 import Cart from "../pages/cart/Cart";
 import Payment from "../pages/payment/Payment";
@@ -31,6 +33,11 @@ const privateRoutes = [
     path: configs.routes.paymentResult,
     component: PaymentResult,
     layout: CartLayout,
+  },
+  {
+    path: configs.routes.member,
+    component: SidebarMember,
+    layout: MemberLayout,
   },
   {
     path: configs.routes.home,

@@ -1,4 +1,13 @@
 import axios from "../utils/customizeAxios";
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  product_id: string;
+  quantity: number;
+  price: number;
+}
+
 interface PropsOrder {
   user_id: string;
   name: string;
@@ -7,7 +16,7 @@ interface PropsOrder {
   email: string;
   receiver: string;
   total: number;
-  products: string[];
+  products: Product[];
   reference: string;
   paymentMethod: string;
 }

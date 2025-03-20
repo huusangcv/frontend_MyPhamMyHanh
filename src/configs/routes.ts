@@ -14,6 +14,9 @@ const routes = {
   login: "/login",
   register: "/register",
   profile: "/profile",
+  member: "/member",
+  memberOrder: "/member/order",
+  memberAccount: "/member/account/user-info",
   notFound: "*",
 };
 

@@ -1,0 +1,44 @@
+.wapper {
+  background-color: #f6fbfc;
+  border-radius: 5px;
+  width: 253px;
+
+  .block-menu {
+    background-color: #f6fbfc;
+    border-radius: 15px;
+    padding: 10px;
+    position: sticky;
+    top: 74px;
+  }
+
+  .block-menu__item-menu {
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 0.5px 10px;
+    position: relative;
+  }
+
+  .item-menu {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 0;
+
+    p {
+      color: #686868;
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0 0 0 10px;
+    }
+  }
+
+  .box-icon svg {
+    display: flex;
+    height: 24px;
+    width: 24px;
+
+    path {
+      stroke: #292d32;
+    }
+  }
+}

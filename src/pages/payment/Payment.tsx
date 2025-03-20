@@ -23,6 +23,15 @@ const generateShortId = () => {
   return "MDH" + uuidv4().replace(/-/g, "").slice(0, 6);
 };
 
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  product_id: string;
+  quantity: number;
+  price: number;
+}
+
 interface PropsOrder {
   user_id: string;
   name: string;
@@ -31,7 +40,7 @@ interface PropsOrder {
   email: string;
   receiver: string;
   total: number;
-  products: string[];
+  products: Product[];
   reference: string;
   paymentMethod: string;
 }
@@ -56,7 +65,16 @@ const Payment = () => {
 
   //handlePayment with onClick event
   const handlePayment = async () => {
-    const productsId = paymentInfo.items.map((item) => item.id);
+    const productsId = paymentInfo.items.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      };
+    });
     const orderId = generateShortId();
     const data: PropsOrder = {
       user_id: profile._id,
