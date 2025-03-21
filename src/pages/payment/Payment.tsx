@@ -237,7 +237,7 @@ const Payment = () => {
                   </p>
                   <p data-v-497ee55d="" className={cx("quote-block__value")}>
                     {(infoShipping.shipping > 0 && (
-                      <>{formatter.format(30000)}đ</>
+                      <>{formatter.format(infoShipping.shipping)}đ</>
                     )) ||
                       "Miễn phí"}
                   </p>

@@ -1,0 +1,72 @@
+.wapper {
+  .block-info {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .block-welcome {
+    position: relative;
+  }
+
+  .block-welcome__box-content {
+    padding: 10px 0;
+    display: flex;
+    align-items: stretch;
+  }
+  .welcome-avatar {
+    background-color: #fff;
+    border: 1px solid #a83288;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    border-radius: 50%;
+    padding: 15px;
+  }
+
+  .welcome-member {
+    color: var(--colorSmember);
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    justify-content: space-between;
+    line-height: 18px;
+    padding: 3px 10px;
+    gap: 5px;
+  }
+
+  .welcome-member__name {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+
+  .welcome-member__phone {
+    color: #637381;
+    display: flex;
+    font-size: 14px;
+  }
+
+  .member-icon {
+    fill: #637381;
+    height: 15px;
+  }
+
+  .label-rank {
+    gap: 10px;
+  }
+
+  .welcome-member__level {
+    align-items: center;
+    border-radius: 3px;
+    box-shadow: 0 0 0 0.5px #a83288;
+    color: #a83288;
+    display: flex;
+    font-size: 14px;
+    line-height: 15px;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+}

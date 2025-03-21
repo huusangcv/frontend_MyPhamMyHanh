@@ -4,16 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { SetStateAction, useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks";
-import addressMethods from "../../services/address";
 import Select, { SingleValue } from "react-select";
 import { useDispatch } from "react-redux";
 import { setInfoShipping } from "../../redux/features/infoShipping/InfoShipping";
 import { toast } from "react-toastify";
+import addressMethods from "../../services/fastDelivery";
+import fastDeliveryMethods from "../../services/fastDelivery";
 interface City {
-  code: number;
-  name: string;
-  province_code: number;
+  ProvinceID: number;
+  ProvinceName: string;
+  DistrictName: string;
+  WardName: string;
+  DistrictID: number;
   district_code: number;
+  WardCode: number;
 }
 interface Option {
   value: number;
@@ -41,10 +45,12 @@ const PaymentInfo = () => {
   const [city, setCity] = useState<string>("");
   const [districts, setDistricts] = useState<Option[]>([]);
   const [district, setDistrict] = useState("");
+  const [districtCode, setDistrictCode] = useState<number>(0);
   const [wards, setWards] = useState<Option[]>([]);
   const [ward, setWard] = useState("");
 
   const [currentAddress, setCurrentAddress] = useState<string>("pickup");
+  const [fee, setFee] = useState<number>(0);
   const profile = useAppSelector((state) => state.profile);
   const paymentInfo = useAppSelector((state) => state.payment);
 
@@ -54,8 +60,8 @@ const PaymentInfo = () => {
         const response = await addressMethods.getAddress();
         const newCities = response.data.map((city: City) => {
           return {
-            value: city.code,
-            label: city.name,
+            value: city.ProvinceID,
+            label: city.ProvinceName,
           };
         });
         setCities(newCities);
@@ -80,11 +86,10 @@ const PaymentInfo = () => {
       setCity(newValue.label);
       try {
         const res = await addressMethods.getDistricts(newValue.value);
-
-        const newDistricts = res.data.districts.map((district: City) => {
+        const newDistricts = res.data.map((district: City) => {
           return {
-            value: district.code,
-            label: district.name,
+            value: district.DistrictID,
+            label: district.DistrictName,
           };
         });
         setDistricts(newDistricts);
@@ -98,12 +103,13 @@ const PaymentInfo = () => {
   const handleChangeDistrict = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setDistrict(newValue.label);
+      setDistrictCode(newValue.value);
       try {
         const res = await addressMethods.getWards(newValue.value);
-        const newWards = res.data.wards.map((ward: City) => {
+        const newWards = res.data.map((ward: City) => {
           return {
-            value: ward.district_code,
-            label: ward.name,
+            value: ward.WardCode,
+            label: ward.WardName,
           };
         });
 
@@ -118,6 +124,21 @@ const PaymentInfo = () => {
   const handleChangeWard = (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setWard(newValue.label);
+      const fectFee = async () => {
+        try {
+          const res = await fastDeliveryMethods.getFee({
+            insurance_value: paymentInfo.totalPrice,
+            to_district_id: districtCode,
+            to_ward_code: newValue.value.toString(),
+          });
+          setFee(res.data.total);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      if (currentAddress !== "pickup") {
+        fectFee();
+      }
     }
   };
 
@@ -197,6 +218,8 @@ const PaymentInfo = () => {
       navigate("/cart/payment");
     }
   };
+
+  console.log("check fee", fee);
 
   return (
     <div className={cx("supper-cart-container")}>
@@ -551,7 +574,8 @@ const PaymentInfo = () => {
                     (currentAddress === "pickup" &&
                       "Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam") ||
                     `${address}, ${ward}, ${district}, ${city}`,
-                  shipping: (currentAddress !== "pickup" && 30000) || 0,
+                  shipping:
+                    (currentAddress !== "pickup" && fee > 0 && fee) || 0,
                   personGet: `${name} - ${phone}`,
                   note,
                 })

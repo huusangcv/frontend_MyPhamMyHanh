@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import Header from "../../components/header/Header";
-import { Box } from "@mui/material";
 import styles from "./MemberLayout.module.scss";
 import classNames from "classnames/bind";
 import { ToastContainer } from "react-toastify";
@@ -8,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
+import SidebarMember from "../../components/sidebarMember/SidebarMember";
 const cx = classNames.bind(styles);
 
 interface MemberLayoutProps {
@@ -22,10 +22,10 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
   return (
     <>
       <Header></Header>
-      <div className={cx("sidebar-container")}>
-        <div className={cx("sidebar-content")}>
-          <Box sx={{ bgcolor: "#fff" }}>{children}</Box>
-        </div>
+      <div className={cx("member-container")}>
+        <div className={cx("member-background")}></div>
+        <SidebarMember></SidebarMember>
+        <div className={cx("main-content")}>{children}</div>
       </div>
       <ToastContainer />
       {isShowModalAccount && (

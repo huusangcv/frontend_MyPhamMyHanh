@@ -1,1 +1,29 @@
 @import url("../DefaultLayout.module.scss");
+.member-container {
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 1200px;
+  position: relative;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 86px;
+  flex: 1 1;
+  min-height: 1000px;
+}
+
+.main-content {
+  width: 927px;
+}
+
+.member-background {
+  background: #f4f6f8;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: -5;
+}

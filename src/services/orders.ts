@@ -25,6 +25,10 @@ const orderMethods = {
     const result = await axios.post("orders", data);
     return result;
   },
+  getOrdersByUserIid: async (user_id: string) => {
+    const result = await axios.get(`orders/userId/${user_id}`);
+    return result;
+  },
 };
 
 export default orderMethods;

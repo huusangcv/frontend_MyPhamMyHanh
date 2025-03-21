@@ -6,7 +6,7 @@ const menuItems: {
   icon: JSX.Element;
 }[] = [
   {
-    href: "/",
+    href: "/member",
     label: "Trang chủ",
     icon: (
       <svg
@@ -31,7 +31,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/order",
+    href: "/member/order",
     label: "Lịch sử mua hàng",
     icon: (
       <svg
@@ -80,7 +80,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/promotion",
+    href: "/member/promotion",
     label: "Ưu đãi của bạn",
     icon: (
       <svg
@@ -134,7 +134,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/account/user-info",
+    href: "/member/account/user-info",
     label: "Tài khoản của bạn",
     icon: (
       <svg
@@ -162,7 +162,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/social-account",
+    href: "/member/social-account",
     label: "Liên kết tài khoản",
     icon: (
       <svg
@@ -218,7 +218,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/account/support",
+    href: "/member/account/support",
     label: "Hỗ trợ",
     icon: (
       <svg
@@ -246,7 +246,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/account/feedback",
+    href: "/member/account/feedback",
     label: "Góp ý phản hồi",
     icon: (
       <svg
@@ -275,7 +275,7 @@ const menuItems: {
     ),
   },
   {
-    href: "/account/logout",
+    href: "/member/account/logout",
     label: "Thoát tài khoản",
     icon: (
       <svg

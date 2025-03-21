@@ -16,6 +16,21 @@
     margin-bottom: 15px;
     padding: 0.5px 10px;
     position: relative;
+
+    &.active {
+      background-color: #fee;
+      border: 0.5px solid #e11b1e;
+      border-radius: 10px;
+
+      .box-icon {
+        filter: invert(15%) sepia(76%) saturate(5668%) hue-rotate(347deg)
+          brightness(80%) contrast(113%);
+      }
+
+      p {
+        color: #fd2424;
+      }
+    }
   }
 
   .item-menu {
