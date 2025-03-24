@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import orderMethods from "../../../services/orders";
 import { useAppSelector } from "../../../../hooks";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -11,6 +12,14 @@ const formatter = new Intl.NumberFormat("vi-VN", {
   style: "decimal",
   minimumFractionDigits: 0,
   maximumFractionDigits: 2,
+});
+
+const formatterDate = new Intl.DateTimeFormat("vi-VN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
 });
 
 interface OrderProps {
@@ -21,12 +30,16 @@ interface OrderProps {
     price: number;
   }[];
   total: number;
+  status: string;
+  createdAt: string;
 }
 
 const Order = () => {
   const [orders, setOrders] = useState<OrderProps[]>([]);
+  const [swiperSelected, setSwiperSelected] = useState<string>("all");
 
   const profile = useAppSelector((state) => state.profile);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -48,6 +61,11 @@ const Order = () => {
   const totalMoney = orders.reduce((acc, order) => {
     return acc + order.total;
   }, 0);
+
+  const ordersList = orders.filter(
+    (order) =>
+      (swiperSelected === "all" && order) || order.status === swiperSelected
+  );
 
   return (
     <div className={cx("wapper")}>
@@ -121,12 +139,54 @@ const Order = () => {
         <div className={cx("block-sliding-order")}>
           <div className={cx("order-container")}>
             <div className={cx("thumbs-wrapper")}>
-              <div className={cx("thumb-item", "active")}>Tất cả</div>
-              <div className={cx("thumb-item")}>Chờ xác nhận</div>
-              <div className={cx("thumb-item")}>Đã xác nhận</div>
-              <div className={cx("thumb-item")}>Đang vẫn chuyển</div>
-              <div className={cx("thumb-item")}>Đã giao hàng</div>
-              <div className={cx("thumb-item")}>Đã huỷ</div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "all",
+                })}
+                onClick={() => setSwiperSelected("all")}
+              >
+                Tất cả
+              </div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "pending",
+                })}
+                onClick={() => setSwiperSelected("pending")}
+              >
+                Chờ xác nhận
+              </div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "ordered",
+                })}
+                onClick={() => setSwiperSelected("ordered")}
+              >
+                Đã xác nhận
+              </div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "delivering",
+                })}
+                onClick={() => setSwiperSelected("delivering")}
+              >
+                Đang vẫn chuyển
+              </div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "delivered",
+                })}
+                onClick={() => setSwiperSelected("delivered")}
+              >
+                Đã giao hàng
+              </div>
+              <div
+                className={cx("thumb-item", {
+                  active: swiperSelected === "cancelled",
+                })}
+                onClick={() => setSwiperSelected("canceled")}
+              >
+                Đã huỷ
+              </div>
             </div>
           </div>
         </div>
@@ -135,8 +195,8 @@ const Order = () => {
       <div className={cx("list-order-wrapper")}>
         <div className={cx("block-order-list")}>
           {orders &&
-            orders.length > 0 &&
-            orders.map((order) => (
+            ordersList.length > 0 &&
+            ordersList.map((order) => (
               <div className={cx("block-order-item")} key={order._id}>
                 <div className={cx("order-item")}>
                   <div className={cx("order-item__img")}>
@@ -149,18 +209,29 @@ const Order = () => {
                   <div className={cx("order-item__info")}>
                     <div className={cx("info__title")}>
                       <span>{order.products[0].name}</span>
-                      <p>16/03/2025 13:01</p>
+                      <p>{formatterDate.format(new Date(order.createdAt))}</p>
                     </div>
                     <div className="is-flex is-align-items-center"> </div>
-                    <div className={cx("order-status", "cancelled")}>
-                      Đã hủy
+                    <div className={cx("order-status", order.status)}>
+                      {order.status === "pending" && "Chờ xác nhận"}
+                      {order.status === "ordered" && "Đã xác nhận"}
+                      {order.status === "delivering" && "Đang vận chuyển"}
+                      {order.status === "delivered" && "Đã giao hàng"}
+                      {order.status === "cancelled" && "Đã huỷ"}
                     </div>
                     <div className={cx("info__group")}>
                       <div className={cx("price")}>
                         {formatter.format(order.products[0].price)}đ
                       </div>
                       <div className={cx("group-btn-info")}>
-                        <div className={cx("btn-info")}>Xem chi tiết</div>
+                        <div
+                          className={cx("btn-info")}
+                          onClick={() =>
+                            navigate(`/member/order/detail/${order._id}`)
+                          }
+                        >
+                          Xem chi tiết
+                        </div>
                       </div>
                     </div>
                   </div>

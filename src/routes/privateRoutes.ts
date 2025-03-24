@@ -11,6 +11,7 @@ import ProductDetail from "../views/details/ProductDetail";
 import Home from "../views/home/Home";
 import Member from "../views/memberGroups/member/Member";
 import Order from "../views/memberGroups/order/Order";
+import OrderDetail from "../views/memberGroups/orderDetail/OrderDetail";
 import NewsDetail from "../views/news/NewsDetail";
 import NewsList from "../views/news/NewsList";
 import Products from "../views/product/Products";
@@ -43,6 +44,11 @@ const privateRoutes = [
   {
     path: configs.routes.memberOrder,
     component: Order,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberOrderDetail,
+    component: OrderDetail,
     layout: MemberLayout,
   },
   {

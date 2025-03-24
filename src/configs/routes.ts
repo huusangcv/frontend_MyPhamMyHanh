@@ -16,6 +16,7 @@ const routes = {
   profile: "/profile",
   member: "/member",
   memberOrder: "/member/order",
+  memberOrderDetail: "/member/order/detail/:id",
   memberAccount: "/member/account/user-info",
   notFound: "*",
 };
