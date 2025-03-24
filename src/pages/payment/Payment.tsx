@@ -43,6 +43,9 @@ interface PropsOrder {
   products: Product[];
   reference: string;
   paymentMethod: string;
+  shipping: number;
+  mustPay: number;
+  stillHaveToPay: number;
 }
 const cx = classNames.bind(styles);
 const Payment = () => {
@@ -83,7 +86,10 @@ const Payment = () => {
       address: infoShipping.address,
       email: infoShipping.email,
       receiver: infoShipping.personGet,
-      total: paymentInfo.totalPrice + infoShipping.shipping,
+      total: paymentInfo.totalPrice,
+      shipping: infoShipping.shipping,
+      mustPay: paymentInfo.totalPrice + infoShipping.shipping,
+      stillHaveToPay: paymentInfo.totalPrice + infoShipping.shipping,
       products: productsId,
       reference: orderId,
       paymentMethod,

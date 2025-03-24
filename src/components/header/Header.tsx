@@ -39,7 +39,11 @@ const Header = () => {
         </div>
       </div>
       <div className="d-lg-none">
-        <button className="_myLearn_vdbp4_31" aria-expanded="false">
+        <button
+          className={cx("btn-member")}
+          aria-expanded="false"
+          onClick={() => navigate("/member/order")}
+        >
           Đơn hàng của tôi
         </button>
       </div>

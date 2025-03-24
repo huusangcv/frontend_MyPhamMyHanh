@@ -61,11 +61,31 @@
       white-space: nowrap;
       width: -moz-fit-content;
       width: fit-content;
-    }
 
-    .order-status.cancelled {
-      background-color: #dfe3e8;
-      color: #717171;
+      &.pending {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      &.ordered {
+        background-color: #e7f4fe;
+        color: #0c5460;
+      }
+
+      &.delivering {
+        background-color: #d1e7dd;
+        color: #155724;
+      }
+
+      &.delivered {
+        background-color: #d1e7dd;
+        color: #155724;
+      }
+
+      &.cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
     }
   }
 
@@ -179,34 +199,98 @@
   }
 }
 
-
-//.order-detail__payment-info 
+//.order-detail__payment-info
 .order-detail__payment-info {
   margin-bottom: 30px;
 
-
-.payment-info {
+  .payment-info {
     background-color: #fff;
     border-radius: 8px;
-    margin-top: 20px;   
-     padding: 20px;
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  .payment-info__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .title__icon {
+    display: flex;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .title__text {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 5px;
+  }
 }
 
-.payment-info__title {
+//info__content
+.payment-info__content {
+  .content__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    margin-top: 10px;
+
+    &.borderTop {
+      box-shadow: 0 -0.5px 0 #e8e8e8;
+      padding-top: 10px;
+    }
+
+    &.last-item-money p {
+      color: #d70018;
+    }
+
+    .item-title {
+      color: #717171;
+    }
+  }
+
+  .has-text-weight-bold {
+    font-weight: 700;
+  }
+}
+
+.payment-info.info-customer {
+  .content__item {
+    justify-content: start;
+    gap: 10px;
+  }
+}
+
+.title__img {
   display: flex;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.showmore {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 12px;
 }
 
-.title-icon{
-  display: flex;
-      height: 30px;
-      margin-right: 10px;
+.btn-show-all {
+  color: #747474;
+  cursor: pointer;
+  text-align: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
-.title__text {
-  font-size: 18px;
-  font-weight: 700;
-  margin-top: 5px;
-}
+.show-all-icon {
+  margin-left: 10px;
+
+  svg {
+    fill: #747474;
+    display: flex;
+    height: 10px;
+  }
 }

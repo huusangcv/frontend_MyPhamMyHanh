@@ -29,6 +29,10 @@ const orderMethods = {
     const result = await axios.get(`orders/userId/${user_id}`);
     return result;
   },
+  getDetailOrder: async (id: string) => {
+    const result = await axios.get(`orders/${id}`);
+    return result;
+  },
 };
 
 export default orderMethods;

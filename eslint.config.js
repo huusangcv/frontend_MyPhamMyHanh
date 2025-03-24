@@ -13,14 +13,16 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-    failOnError: false,
-    emitWarning: true,
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
     },
     rules: {
-      "no-unused-vars": "off",
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
     },
   }
 );
