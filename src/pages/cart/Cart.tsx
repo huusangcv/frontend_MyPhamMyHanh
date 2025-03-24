@@ -1,19 +1,19 @@
-import classNames from "classnames/bind";
-import styles from "./Cart.module.scss";
-import { styled } from "@mui/material/styles";
-import cartEmpty from "../../assets/cart_empty.png";
-import { Link, useNavigate } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
-import { Checkbox } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import classNames from 'classnames/bind';
+import styles from './Cart.module.scss';
+import { styled } from '@mui/material/styles';
+import cartEmpty from '../../assets/cart_empty.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Checkbox } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import {
   decreaseItemToCart,
   increaseItemToCart,
   removeItemsToCart,
   removeItemToCart,
-} from "../../redux/features/cart/cartSlice";
-import { useDispatch } from "react-redux";
+} from '../../redux/features/cart/cartSlice';
+import { useDispatch } from 'react-redux';
 import {
   addAllItemsToPayment,
   addItemToPayment,
@@ -21,23 +21,23 @@ import {
   increaseItemToPayment,
   removeItemsToPayment,
   removeItemToPayment,
-} from "../../redux/features/payment/paymentSlice";
+} from '../../redux/features/payment/paymentSlice';
 const cx = classNames.bind(styles);
-const formatter = new Intl.NumberFormat("vi-VN", {
-  style: "decimal",
+const formatter = new Intl.NumberFormat('vi-VN', {
+  style: 'decimal',
   minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 });
 
 const RoundedCheckbox = styled(Checkbox)(() => ({
-  "&.Mui-checked": {
-    color: "var(--primary-color)",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.08)", // Màu nền khi hover
+  '&.Mui-checked': {
+    color: 'var(--primary-color)',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)', // Màu nền khi hover
     },
   },
-  "&.MuiCheckbox-root": {
-    borderRadius: "50%", // Hình tròn
+  '&.MuiCheckbox-root': {
+    borderRadius: '50%', // Hình tròn
   },
 }));
 
@@ -62,13 +62,13 @@ const Cart = () => {
 
   useEffect(() => {
     if (cart.items.length > 0) {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove('no-scroll');
     } else {
-      document.body.classList.add("no-scroll");
+      document.body.classList.add('no-scroll');
     }
 
     return () => {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove('no-scroll');
     };
   }, [cart]);
 
@@ -79,6 +79,10 @@ const Cart = () => {
       setCheckedAll(false);
     }
   }, [cart, payment]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleChangeAllChecked = (event: ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
@@ -101,10 +105,10 @@ const Cart = () => {
   };
 
   return (
-    <div className={cx("supper-cart-container")}>
-      <div className={cx("cart-header")} data-v-5273d083="">
-        <div className={cx("go-back")} data-v-5273d083="">
-          <Link to="/" className={cx("button__back")} data-v-5273d083="">
+    <div className={cx('supper-cart-container')}>
+      <div className={cx('cart-header')} data-v-5273d083="">
+        <div className={cx('go-back')} data-v-5273d083="">
+          <Link to="/" className={cx('button__back')} data-v-5273d083="">
             <svg
               width="20"
               height="17"
@@ -124,34 +128,31 @@ const Cart = () => {
             </svg>
             <p data-v-5273d083=""></p>
           </Link>
-          <p className={cx("title")} data-v-5273d083="">
+          <p className={cx('title')} data-v-5273d083="">
             Giỏ hàng của bạn
           </p>
           <div data-v-5273d083=""></div>
         </div>
       </div>
-      <div className={cx("tabs-cart-type")}>
+      <div className={cx('tabs-cart-type')}>
         {/* <button data-type="1" className="tab-item active">
           Giỏ hàng
         </button> */}
       </div>
-      <div className={cx("block-info")}>
+      <div className={cx('block-info')}>
         {(cart && cart.items.length > 0 && (
-          <div className={cx("listItemSuperCart")}>
-            <div className={cx("header-action")}>
+          <div className={cx('listItemSuperCart')}>
+            <div className={cx('header-action')}>
               <div className="d-flex align-items-center justify-content-center">
-                <div className={cx("select-product-action")}>
-                  <RoundedCheckbox
-                    checked={checkedAll}
-                    onChange={handleChangeAllChecked}
-                  />
+                <div className={cx('select-product-action')}>
+                  <RoundedCheckbox checked={checkedAll} onChange={handleChangeAllChecked} />
                 </div>
                 <p>Chọn tất cả</p>
               </div>
               <div>
                 {payment && payment.items.length > 0 && (
                   <button
-                    className={cx("btn-remove-checked")}
+                    className={cx('btn-remove-checked')}
                     onClick={() => {
                       dispatch(removeItemsToCart(payment.items));
                       dispatch(removeItemsToPayment(payment.items));
@@ -162,21 +163,15 @@ const Cart = () => {
                 )}
               </div>
             </div>
-            <div className={cx("block__product-item__outer")}>
+            <div className={cx('block__product-item__outer')}>
               {cart &&
                 cart.items.length > 0 &&
                 cart.items.map((item: CartItem) => (
                   <div key={item.id}>
-                    <div className={cx("block__product-item")}>
-                      <div className={cx("checkbox-product")}>
+                    <div className={cx('block__product-item')}>
+                      <div className={cx('checkbox-product')}>
                         <RoundedCheckbox
-                          checked={
-                            (payment.items.find(
-                              (itemPayment) => itemPayment.id === item.id
-                            ) &&
-                              true) ||
-                            false
-                          }
+                          checked={(payment.items.find((itemPayment) => itemPayment.id === item.id) && true) || false}
                           onChange={() => handleSelectItems(item)}
                         />
                         <img
@@ -184,34 +179,30 @@ const Cart = () => {
                           width="350"
                           alt="iPhone 13-Đen"
                           loading="lazy"
-                          className={cx("product-img")}
+                          className={cx('product-img')}
                         />
                       </div>
-                      <div className={cx("product-info")}>
+                      <div className={cx('product-info')}>
                         <div className="d-flex align-items-center justify-content-space-between">
-                          <div className={cx("product-name")}>
-                            <Link to={`/product/${item.slug}`}>
-                              {item.name}
-                            </Link>
+                          <div className={cx('product-name')}>
+                            <Link to={`/product/${item.slug}`}>{item.name}</Link>
                           </div>
                           <button
-                            className={cx("remove-item")}
+                            className={cx('remove-item')}
                             onClick={() => {
                               dispatch(
                                 removeItemToCart({
                                   ...item,
                                   id: item.id,
-                                })
+                                }),
                               );
-                              const existingItem = payment.items.find(
-                                (itemPayment) => itemPayment.id === item.id
-                              );
+                              const existingItem = payment.items.find((itemPayment) => itemPayment.id === item.id);
                               if (existingItem) {
                                 dispatch(
                                   removeItemToPayment({
                                     ...item,
                                     id: item.id,
-                                  })
+                                  }),
                                 );
                               }
                             }}
@@ -240,50 +231,41 @@ const Cart = () => {
                         </div>
                         <div className="d-flex justify-content-space-between align-items-end">
                           <div>
-                            <div className={cx("block-box-price")}>
-                              <div className={cx("box-info__box-price")}>
-                                <p className={cx("product__price--show")}>
-                                  {formatter.format(item.price)}đ
-                                </p>
+                            <div className={cx('block-box-price')}>
+                              <div className={cx('box-info__box-price')}>
+                                <p className={cx('product__price--show')}>{formatter.format(item.price)}đ</p>
                                 {item.price - item.priceThrought < 0 && (
-                                  <p className={cx("product__price--through")}>
+                                  <p className={cx('product__price--through')}>
                                     {formatter.format(item.priceThrought)}đ
                                   </p>
                                 )}
                               </div>
                             </div>
                           </div>
-                          <div className={cx("d-flex", "action")}>
-                            <div className={cx("quantity")}>
+                          <div className={cx('d-flex', 'action')}>
+                            <div className={cx('quantity')}>
                               <div
-                                className={cx("minus")}
+                                className={cx('minus')}
                                 onClick={() => {
-                                  const existingItem = payment.items.find(
-                                    (itemPayment) => itemPayment.id === item.id
-                                  );
+                                  const existingItem = payment.items.find((itemPayment) => itemPayment.id === item.id);
 
                                   if (item.quantity > 1) {
                                     dispatch(
                                       decreaseItemToCart({
                                         ...item,
                                         id: item.id,
-                                      })
+                                      }),
                                     );
-                                    if (
-                                      existingItem &&
-                                      existingItem.quantity > 1
-                                    ) {
+                                    if (existingItem && existingItem.quantity > 1) {
                                       dispatch(
                                         decreaseItemToPayment({
                                           ...item,
                                           id: item.id,
-                                        })
+                                        }),
                                       );
                                     }
                                   } else {
-                                    alert(
-                                      "Số lượng sản phẩm đã giảm đến mức tối thiểu"
-                                    );
+                                    alert('Số lượng sản phẩm đã giảm đến mức tối thiểu');
                                   }
                                 }}
                               >
@@ -291,23 +273,21 @@ const Cart = () => {
                               </div>
                               <div>{item.quantity}</div>
                               <div
-                                className={cx("plus")}
+                                className={cx('plus')}
                                 onClick={() => {
                                   dispatch(
                                     increaseItemToCart({
                                       ...item,
                                       id: item.id,
-                                    })
+                                    }),
                                   );
-                                  const existingItem = payment.items.find(
-                                    (itemPayment) => itemPayment.id === item.id
-                                  );
+                                  const existingItem = payment.items.find((itemPayment) => itemPayment.id === item.id);
                                   if (existingItem) {
                                     dispatch(
                                       increaseItemToPayment({
                                         ...item,
                                         id: item.id,
-                                      })
+                                      }),
                                     );
                                   }
                                 }}
@@ -318,32 +298,22 @@ const Cart = () => {
                           </div>
                         </div>
                         {item.price - item.priceThrought < 0 && (
-                          <div className={cx("bmsm-info")}>
-                            <div className={cx("bmsm-info__text")}>
-                              Đã giảm{" "}
-                              {formatter.format(
-                                item.priceThrought - item.price
-                              )}
-                              đ
+                          <div className={cx('bmsm-info')}>
+                            <div className={cx('bmsm-info__text')}>
+                              Đã giảm {formatter.format(item.priceThrought - item.price)}đ
                             </div>
                           </div>
                         )}
                       </div>
                     </div>
-                    {cart && cart.items.length > 1 && (
-                      <div className={cx("horizontal")}></div>
-                    )}
+                    {cart && cart.items.length > 1 && <div className={cx('horizontal')}></div>}
                   </div>
                 ))}
             </div>
           </div>
         )) || (
-          <div className={cx("nothing-in-cart")}>
-            <img
-              src={cartEmpty}
-              alt="Giỏ hàng rỗng"
-              className={cx("image-cart-empty")}
-            />
+          <div className={cx('nothing-in-cart')}>
+            <img src={cartEmpty} alt="Giỏ hàng rỗng" className={cx('image-cart-empty')} />
             <span className="my-3">
               Giỏ hàng của bạn đang trống. <br />
               Hãy chọn thêm sản phẩm để mua sắm nhé
@@ -352,40 +322,35 @@ const Cart = () => {
         )}
       </div>
       <div>
-        <div className={cx("stickyBottomBar")}>
+        <div className={cx('stickyBottomBar')}>
           {(cart && cart.items.length > 0 && (
             <>
-              <div className={cx("temp-info")}>
-                <div className={cx("price-temp")}>
+              <div className={cx('temp-info')}>
+                <div className={cx('price-temp')}>
                   <p>
-                    Tạm tính:{" "}
-                    <span>{formatter.format(payment.totalPrice)}đ</span>
+                    Tạm tính: <span>{formatter.format(payment.totalPrice)}đ</span>
                   </p>
-                </div>{" "}
+                </div>{' '}
                 <div className={cx('"bmsm-info"')}>
-                  <div className={cx("bmsm-info__text")}>Chưa gồm phí ship</div>
+                  <div className={cx('bmsm-info__text')}>Chưa gồm phí ship</div>
                 </div>
               </div>
               <button
-                className={cx(
-                  "btn-action",
-                  payment.items.length > 0 || "disabled"
-                )}
-                onClick={() => navigate("/cart/payment-info")}
+                className={cx('btn-action', payment.items.length > 0 || 'disabled')}
+                onClick={() => navigate('/cart/payment-info')}
               >
                 Mua ngay
                 {payment.items.length > 0 && ` (${payment.totalQuantity})`}
               </button>
             </>
           )) || (
-            <Link to="/" className={cx("go-back")}>
+            <Link to="/" className={cx('go-back')}>
               Quay lại trang chủ
             </Link>
           )}
         </div>
         <div id="viewProductStudent"></div>
-        <div id="listConfirmedBMSMModal"></div>{" "}
-        <div className={cx("clear")}></div>
+        <div id="listConfirmedBMSMModal"></div> <div className={cx('clear')}></div>
       </div>
     </div>
   );

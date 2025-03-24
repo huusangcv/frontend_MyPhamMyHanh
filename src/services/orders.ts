@@ -1,4 +1,4 @@
-import axios from "../utils/customizeAxios";
+import axios from '../utils/customizeAxios';
 interface Product {
   id: string;
   name: string;
@@ -22,7 +22,7 @@ interface PropsOrder {
 }
 const orderMethods = {
   createOrder: async (data: PropsOrder) => {
-    const result = await axios.post("orders", data);
+    const result = await axios.post('orders', data);
     return result;
   },
   getOrdersByUserIid: async (user_id: string) => {

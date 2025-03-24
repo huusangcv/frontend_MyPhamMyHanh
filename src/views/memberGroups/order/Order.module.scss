@@ -1,4 +1,4 @@
-@import url("../member/Member.module.scss");
+@import url('../member/Member.module.scss');
 .block-homepage-menu {
   background-color: #fff;
   border: 1px solid #eaedef;
@@ -203,4 +203,11 @@
       }
     }
   }
+}
+
+.welcome-member__phone {
+  color: #637381;
+  display: flex;
+  font-size: 14px;
+  margin-right: 8px;
 }

@@ -1,26 +1,26 @@
-import classNames from "classnames/bind";
-import styles from "./Payment.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
-import { useAppSelector } from "../../../hooks";
-import { useState } from "react";
-import orderMethods from "../../services/orders";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { removeItemsToPayment } from "../../redux/features/payment/paymentSlice";
-import { removeItemsToCart } from "../../redux/features/cart/cartSlice";
-import PaymentMethod from "../../components/isShowMethodsPayment/IsShowMethodsPayment";
-import delivery from "../../assets/delivery.jfif";
-import paymentMethods from "../../services/payments";
-import { v4 as uuidv4 } from "uuid";
-const formatter = new Intl.NumberFormat("vi-VN", {
-  style: "decimal",
+import classNames from 'classnames/bind';
+import styles from './Payment.module.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import { TextField } from '@mui/material';
+import { useAppSelector } from '../../../hooks';
+import { useEffect, useState } from 'react';
+import orderMethods from '../../services/orders';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { removeItemsToPayment } from '../../redux/features/payment/paymentSlice';
+import { removeItemsToCart } from '../../redux/features/cart/cartSlice';
+import PaymentMethod from '../../components/isShowMethodsPayment/IsShowMethodsPayment';
+import delivery from '../../assets/delivery.jfif';
+import paymentMethods from '../../services/payments';
+import { v4 as uuidv4 } from 'uuid';
+const formatter = new Intl.NumberFormat('vi-VN', {
+  style: 'decimal',
   minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 });
 
 const generateShortId = () => {
-  return "MDH" + uuidv4().replace(/-/g, "").slice(0, 6);
+  return 'MDH' + uuidv4().replace(/-/g, '').slice(0, 6);
 };
 
 interface Product {
@@ -50,9 +50,8 @@ interface PropsOrder {
 const cx = classNames.bind(styles);
 const Payment = () => {
   const [showModalListItem, setShowModalListItem] = useState<boolean>(false);
-  const [showModalPaymentMethods, setShowModalPaymentMethods] =
-    useState<boolean>(false);
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [showModalPaymentMethods, setShowModalPaymentMethods] = useState<boolean>(false);
+  const [paymentMethod, setPaymentMethod] = useState<string>('');
   const paymentInfo = useAppSelector((state) => state.payment);
   const profile = useAppSelector((state) => state.profile);
   const infoShipping = useAppSelector((state) => state.infoShipping);
@@ -60,11 +59,9 @@ const Payment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (paymentInfo && paymentInfo.items.length <= 0) {
-  //     navigate("/cart");
-  //   }
-  // }, [paymentInfo, navigate]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   //handlePayment with onClick event
   const handlePayment = async () => {
@@ -94,9 +91,9 @@ const Payment = () => {
       reference: orderId,
       paymentMethod,
     };
-    if (paymentMethod !== "") {
-      const id = toast.loading("Loading...");
-      if (paymentMethod === "vnpay") {
+    if (paymentMethod !== '') {
+      const id = toast.loading('Loading...');
+      if (paymentMethod === 'vnpay') {
         try {
           const res = await paymentMethods.createPaymentVNPAY({
             amount: paymentInfo.totalPrice + infoShipping.shipping,
@@ -105,8 +102,8 @@ const Payment = () => {
 
           if (res.status) {
             toast.update(id, {
-              render: "Đang chuyển hướng, vui lòng đợi một chút",
-              type: "success",
+              render: 'Đang chuyển hướng, vui lòng đợi một chút',
+              type: 'success',
               isLoading: false,
             });
             await orderMethods.createOrder(data);
@@ -124,41 +121,37 @@ const Payment = () => {
 
           if (res.status) {
             toast.update(id, {
-              render: "Đặt hàng thành công",
-              type: "success",
+              render: 'Đặt hàng thành công',
+              type: 'success',
               isLoading: false,
             });
             dispatch(removeItemsToPayment(paymentInfo.items));
             dispatch(removeItemsToCart(paymentInfo.items));
-            navigate("/cart/payment-result");
+            navigate('/cart/payment-result');
           }
         } catch (error) {
           console.log(error);
         }
       }
     } else {
-      toast.error("Quý khách vui lòng chọn phương thức thanh toán", {
-        position: "top-right",
+      toast.error('Quý khách vui lòng chọn phương thức thanh toán', {
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: 'light',
       });
     }
   };
 
   return (
-    <div className={cx("supper-cart-container")}>
-      <div className={cx("cart-header")} data-v-5273d083="">
-        <div className={cx("go-back")} data-v-5273d083="">
-          <Link
-            to="/cart/payment-info"
-            className={cx("button__back")}
-            data-v-5273d083=""
-          >
+    <div className={cx('supper-cart-container')}>
+      <div className={cx('cart-header')} data-v-5273d083="">
+        <div className={cx('go-back')} data-v-5273d083="">
+          <Link to="/cart/payment-info" className={cx('button__back')} data-v-5273d083="">
             <svg
               width="20"
               height="17"
@@ -178,98 +171,84 @@ const Payment = () => {
             </svg>
             <p data-v-5273d083=""></p>
           </Link>
-          <p className={cx("title")} data-v-5273d083="">
+          <p className={cx('title')} data-v-5273d083="">
             Thông tin
           </p>
           <div data-v-5273d083=""></div>
         </div>
       </div>
 
-      <div className={cx("block-info")}>
-        <div className={cx("container", "block-box")}>
-          <div className={cx("nav")} data-v-6c7c95d0="" data-v-76dd8f4d="">
-            <div className={cx("nav__item")} data-v-6c7c95d0="">
+      <div className={cx('block-info')}>
+        <div className={cx('container', 'block-box')}>
+          <div className={cx('nav')} data-v-6c7c95d0="" data-v-76dd8f4d="">
+            <div className={cx('nav__item')} data-v-6c7c95d0="">
               <span data-v-6c7c95d0="">1. Thông tin</span>
             </div>
-            <div className={cx("nav__item", "active")} data-v-6c7c95d0="">
+            <div className={cx('nav__item', 'active')} data-v-6c7c95d0="">
               <span data-v-6c7c95d0="">2. Thanh toán</span>
             </div>
           </div>
 
-          <div className={cx("info-payment")}>
-            <div className={cx("block-promotion")}>
-              <div className={cx("block-promotion-input")}>
+          <div className={cx('info-payment')}>
+            <div className={cx('block-promotion')}>
+              <div className={cx('block-promotion-input')}>
                 <TextField
                   id="standard-basic"
                   label="MÃ GIẢM GIÁ"
                   placeholder="Nhập mã giảm giá (chỉ áp dụng 1 lần)"
                   variant="standard"
-                  sx={{ width: "100%", height: "100%" }}
+                  sx={{ width: '100%', height: '100%' }}
                 />
-                <button
-                  data-v-403c5d58=""
-                  disabled
-                  className={cx("button__voucher")}
-                >
+                <button data-v-403c5d58="" disabled className={cx('button__voucher')}>
                   Áp dụng
                 </button>
               </div>
             </div>
-            <div
-              data-v-497ee55d=""
-              data-v-6c94dbbc=""
-              className={cx("info-quote")}
-            >
-              <div data-v-497ee55d="" className={cx("info-quote__block")}>
-                <div data-v-497ee55d="" className={cx("quote-block__item")}>
-                  <p data-v-497ee55d="" className={cx("quote-block__title")}>
+            <div data-v-497ee55d="" data-v-6c94dbbc="" className={cx('info-quote')}>
+              <div data-v-497ee55d="" className={cx('info-quote__block')}>
+                <div data-v-497ee55d="" className={cx('quote-block__item')}>
+                  <p data-v-497ee55d="" className={cx('quote-block__title')}>
                     Số lượng sản phẩm
                   </p>
-                  <p data-v-497ee55d="" className={cx("quote-block__value")}>
+                  <p data-v-497ee55d="" className={cx('quote-block__value')}>
                     {paymentInfo.totalQuantity}
                   </p>
                 </div>
-                <div data-v-497ee55d="" className={cx("quote-block__item")}>
-                  <p data-v-497ee55d="" className={cx("quote-block__title")}>
+                <div data-v-497ee55d="" className={cx('quote-block__item')}>
+                  <p data-v-497ee55d="" className={cx('quote-block__title')}>
                     Tiền hàng (tạm tính)
                   </p>
-                  <p data-v-497ee55d="" className={cx("quote-block__value")}>
+                  <p data-v-497ee55d="" className={cx('quote-block__value')}>
                     {formatter.format(paymentInfo.totalPrice)}đ
                   </p>
                 </div>
-                <div data-v-497ee55d="" className={cx("quote-block__item")}>
-                  <p data-v-497ee55d="" className={cx("quote-block__title")}>
+                <div data-v-497ee55d="" className={cx('quote-block__item')}>
+                  <p data-v-497ee55d="" className={cx('quote-block__title')}>
                     Phí vận chuyển
                   </p>
-                  <p data-v-497ee55d="" className={cx("quote-block__value")}>
-                    {(infoShipping.shipping > 0 && (
-                      <>{formatter.format(infoShipping.shipping)}đ</>
-                    )) ||
-                      "Miễn phí"}
+                  <p data-v-497ee55d="" className={cx('quote-block__value')}>
+                    {(infoShipping.shipping > 0 && <>{formatter.format(infoShipping.shipping)}đ</>) || 'Miễn phí'}
                   </p>
                 </div>
               </div>
-              <div data-v-497ee55d="" className={cx("info-quote__bottom")}>
-                <div data-v-497ee55d="" className={cx("quote-bottom__title")}>
+              <div data-v-497ee55d="" className={cx('info-quote__bottom')}>
+                <div data-v-497ee55d="" className={cx('quote-bottom__title')}>
                   <p data-v-497ee55d="">Tổng tiền</p>
                   <span data-v-497ee55d="">(đã gồm VAT)</span>
                 </div>
-                <p data-v-497ee55d="" className={cx("quote-bottom__value")}>
-                  {formatter.format(
-                    paymentInfo.totalPrice + infoShipping.shipping
-                  )}
-                  đ
+                <p data-v-497ee55d="" className={cx('quote-bottom__value')}>
+                  {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
                 </p>
               </div>
             </div>
           </div>
 
-          <div data-v-93881a34 className={cx("payment-quote")}>
+          <div data-v-93881a34 className={cx('payment-quote')}>
             <p data-v-93881a34="">Thông tin thanh toán</p>
 
             <div
               data-v-93881a34=""
-              className={cx("payment-quote__main")}
+              className={cx('payment-quote__main')}
               onClick={() => setShowModalPaymentMethods(true)}
             >
               <PaymentMethod method={paymentMethod as string} />
@@ -277,23 +256,20 @@ const Payment = () => {
 
             <div
               data-v-93881a34
-              className={cx("payment-quote__modal", {
+              className={cx('payment-quote__modal', {
                 show: showModalPaymentMethods,
               })}
             >
-              <div data-v-93881a34="" className={cx("payment-overlay")}></div>
+              <div data-v-93881a34="" className={cx('payment-overlay')}></div>
               <div
                 data-v-93881a34=""
-                className={cx("payment-modal", {
+                className={cx('payment-modal', {
                   show: showModalPaymentMethods,
                 })}
               >
-                <div data-v-93881a34="" className={cx("payment-modal__head")}>
+                <div data-v-93881a34="" className={cx('payment-modal__head')}>
                   <p data-v-93881a34="">Chọn phương thức thanh toán</p>
-                  <em
-                    data-v-93881a34=""
-                    onClick={() => setShowModalPaymentMethods(false)}
-                  >
+                  <em data-v-93881a34="" onClick={() => setShowModalPaymentMethods(false)}>
                     <svg
                       data-v-93881a34=""
                       width="20"
@@ -321,29 +297,20 @@ const Payment = () => {
                     </svg>
                   </em>
                 </div>
-                <div data-v-93881a34="" className={cx("payment-modal__body")}>
-                  <div
-                    data-v-93881a34
-                    className={cx("payment-modal__body-main")}
-                  >
-                    <div data-v-93881a34="" className={cx("list-payment")}>
+                <div data-v-93881a34="" className={cx('payment-modal__body')}>
+                  <div data-v-93881a34 className={cx('payment-modal__body-main')}>
+                    <div data-v-93881a34="" className={cx('list-payment')}>
                       <p data-v-93881a34="">Khả dụng</p>
-                      {(infoShipping.currentAddress === "pickup" && (
+                      {(infoShipping.currentAddress === 'pickup' && (
                         <div
                           data-v-93881a34=""
-                          className={cx("list-payment__item", {
-                            active: paymentMethod === "pickup",
+                          className={cx('list-payment__item', {
+                            active: paymentMethod === 'pickup',
                           })}
-                          onClick={() => setPaymentMethod("pickup")}
+                          onClick={() => setPaymentMethod('pickup')}
                         >
-                          <div
-                            data-v-93881a34=""
-                            className={cx("payment-item__img")}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 576 512"
-                            >
+                          <div data-v-93881a34="" className={cx('payment-item__img')}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                               <path
                                 fill="#6bc67c"
                                 stroke="#6bc67c"
@@ -351,16 +318,13 @@ const Payment = () => {
                               />
                             </svg>
                           </div>
-                          <div
-                            data-v-93881a34=""
-                            className={cx("payment-item__title")}
-                          >
+                          <div data-v-93881a34="" className={cx('payment-item__title')}>
                             <p data-v-93881a34="">Thanh toán tại cửa hàng</p>
                           </div>
                           <div
                             data-v-93881a34=""
-                            className={cx("payment-item__tick", {
-                              active: paymentMethod === "cash_on_delivery",
+                            className={cx('payment-item__tick', {
+                              active: paymentMethod === 'cash_on_delivery',
                             })}
                           >
                             <svg
@@ -391,31 +355,21 @@ const Payment = () => {
                       )) || (
                         <div
                           data-v-93881a34=""
-                          className={cx("list-payment__item", {
-                            active: paymentMethod === "cash_on_delivery",
+                          className={cx('list-payment__item', {
+                            active: paymentMethod === 'cash_on_delivery',
                           })}
-                          onClick={() => setPaymentMethod("cash_on_delivery")}
+                          onClick={() => setPaymentMethod('cash_on_delivery')}
                         >
-                          <div
-                            data-v-93881a34=""
-                            className={cx("payment-item__img")}
-                          >
-                            <img
-                              data-v-93881a34=""
-                              src={delivery}
-                              alt="payment method"
-                            />
+                          <div data-v-93881a34="" className={cx('payment-item__img')}>
+                            <img data-v-93881a34="" src={delivery} alt="payment method" />
                           </div>
-                          <div
-                            data-v-93881a34=""
-                            className={cx("payment-item__title")}
-                          >
+                          <div data-v-93881a34="" className={cx('payment-item__title')}>
                             <p data-v-93881a34="">Thanh toán khi nhận hàng</p>
                           </div>
                           <div
                             data-v-93881a34=""
-                            className={cx("payment-item__tick", {
-                              active: paymentMethod === "cash_on_delivery",
+                            className={cx('payment-item__tick', {
+                              active: paymentMethod === 'cash_on_delivery',
                             })}
                           >
                             <svg
@@ -446,31 +400,25 @@ const Payment = () => {
                       )}
                       <div
                         data-v-93881a34=""
-                        className={cx("list-payment__item", {
-                          active: paymentMethod === "vnpay",
+                        className={cx('list-payment__item', {
+                          active: paymentMethod === 'vnpay',
                         })}
-                        onClick={() => setPaymentMethod("vnpay")}
+                        onClick={() => setPaymentMethod('vnpay')}
                       >
-                        <div
-                          data-v-93881a34=""
-                          className={cx("payment-item__img")}
-                        >
+                        <div data-v-93881a34="" className={cx('payment-item__img')}>
                           <img
                             data-v-93881a34=""
                             src="https://cdn2.cellphones.com.vn/x/media/logo/gw2/vnpay.png"
                             alt="payment method"
                           />
                         </div>
-                        <div
-                          data-v-93881a34=""
-                          className={cx("payment-item__title")}
-                        >
+                        <div data-v-93881a34="" className={cx('payment-item__title')}>
                           <p data-v-93881a34="">VNPAY</p>
                         </div>
                         <div
                           data-v-93881a34=""
-                          className={cx("payment-item__tick", {
-                            active: paymentMethod === "vnpay",
+                          className={cx('payment-item__tick', {
+                            active: paymentMethod === 'vnpay',
                           })}
                         >
                           <svg
@@ -501,25 +449,22 @@ const Payment = () => {
                     </div>
                   </div>
                 </div>
-                <div data-v-93881a34="" className={cx("payment-modal__bottom")}>
+                <div data-v-93881a34="" className={cx('payment-modal__bottom')}>
                   <button
                     data-v-93881a34=""
-                    className={cx("btn-danger")}
+                    className={cx('btn-danger')}
                     onClick={() => {
-                      if (paymentMethod === "") {
-                        toast.error(
-                          "Quý khách vui lòng chọn phương thức thanh toán",
-                          {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: false,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                          }
-                        );
+                      if (paymentMethod === '') {
+                        toast.error('Quý khách vui lòng chọn phương thức thanh toán', {
+                          position: 'top-right',
+                          autoClose: 5000,
+                          hideProgressBar: false,
+                          closeOnClick: false,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: 'light',
+                        });
                       } else {
                         setShowModalPaymentMethods(false);
                       }
@@ -532,73 +477,59 @@ const Payment = () => {
             </div>
           </div>
 
-          <div
-            data-v-6f30f3d2=""
-            data-v-6c94dbbc=""
-            className={cx("address-quote")}
-          >
+          <div data-v-6f30f3d2="" data-v-6c94dbbc="" className={cx('address-quote')}>
             <p data-v-6f30f3d2="">Thông tin nhận hàng</p>
-            <div data-v-6f30f3d2="" className={cx("address-quote__main")}>
-              <div data-v-6f30f3d2="" className={cx("address-quote__block")}>
-                <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__title")}>
+            <div data-v-6f30f3d2="" className={cx('address-quote__main')}>
+              <div data-v-6f30f3d2="" className={cx('address-quote__block')}>
+                <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                     Khách hàng
                   </p>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__value")}>
-                    <span
-                      data-v-6ee77bf0=""
-                      data-v-6f30f3d2=""
-                      className={cx("level")}
-                    >
-                      {profile.segment_ids.length > 0 || "KHÁCH HÀNG MỚI"}
+                  <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
+                    <span data-v-6ee77bf0="" data-v-6f30f3d2="" className={cx('level')}>
+                      {profile.segment_ids.length > 0 || 'KHÁCH HÀNG MỚI'}
                     </span>
                     {infoShipping.name}
                   </p>
                 </div>
-                <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__title")}>
+                <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                     Số điện thoại
                   </p>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__value")}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
                     {infoShipping.phone}
                   </p>
                 </div>
-                <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__title")}>
+                <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                     Email
                   </p>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__value")}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
                     {infoShipping.email}
                   </p>
                 </div>
-                <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__title")}>
+                <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                     Nhận hàng tại
                   </p>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__value")}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
                     {infoShipping.address}
                   </p>
                 </div>
-                <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__title")}>
+                <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                     Người nhận
                   </p>
-                  <p data-v-6f30f3d2="" className={cx("address-quote__value")}>
+                  <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
                     {infoShipping.personGet}
                   </p>
                 </div>
-                {infoShipping.note !== "" && (
-                  <div data-v-6f30f3d2="" className={cx("address-quote__item")}>
-                    <p
-                      data-v-6f30f3d2=""
-                      className={cx("address-quote__title")}
-                    >
+                {infoShipping.note !== '' && (
+                  <div data-v-6f30f3d2="" className={cx('address-quote__item')}>
+                    <p data-v-6f30f3d2="" className={cx('address-quote__title')}>
                       Ghi chú
                     </p>
-                    <p
-                      data-v-6f30f3d2=""
-                      className={cx("address-quote__value")}
-                    >
+                    <p data-v-6f30f3d2="" className={cx('address-quote__value')}>
                       {infoShipping.note}
                     </p>
                   </div>
@@ -610,79 +541,61 @@ const Payment = () => {
       </div>
 
       <div>
-        <div className={cx("stickyBottomBar")}>
-          <div data-v-46ce1f8b="" className={cx("total-box")}>
-            <p data-v-46ce1f8b="" className={cx("title-temp")}>
+        <div className={cx('stickyBottomBar')}>
+          <div data-v-46ce1f8b="" className={cx('total-box')}>
+            <p data-v-46ce1f8b="" className={cx('title-temp')}>
               Tổng tiền tạm tính:
             </p>
-            <div
-              data-v-46ce1f8b=""
-              className="price d-flex flex-column align-items-end"
-            >
-              <span data-v-46ce1f8b="" className={cx("total")}>
-                {formatter.format(
-                  paymentInfo.totalPrice + infoShipping.shipping
-                )}
-                đ
+            <div data-v-46ce1f8b="" className="price d-flex flex-column align-items-end">
+              <span data-v-46ce1f8b="" className={cx('total')}>
+                {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
               </span>
             </div>
           </div>
-          <div className={cx("go-back")} onClick={handlePayment}>
+          <div className={cx('go-back')} onClick={handlePayment}>
             THANH TOÁN
           </div>
-          <div
-            data-v-46ce1f8b=""
-            id="viewListItemInQuote"
-            className={cx("viewListItemInQuote")}
-          >
-            <button
-              id="viewListItemInQuote-btn"
-              type="button"
-              onClick={() => setShowModalListItem(true)}
-            >
+          <div data-v-46ce1f8b="" id="viewListItemInQuote" className={cx('viewListItemInQuote')}>
+            <button id="viewListItemInQuote-btn" type="button" onClick={() => setShowModalListItem(true)}>
               Kiểm tra danh sách sản phẩm ({paymentInfo.totalQuantity})
             </button>
           </div>
         </div>
-        <div className={cx("modal__list-item", { show: showModalListItem })}>
-          <div className={cx("list-item__overplay")}></div>
-          <div className={cx("modal__main")}>
-            <div className={cx("modal__content")}>
-              <header className={cx("modal-header")}>
-                <h5 className={cx("modal-title")}>
-                  Danh sách sản phẩm đang thanh toán
-                </h5>
+        <div className={cx('modal__list-item', { show: showModalListItem })}>
+          <div className={cx('list-item__overplay')}></div>
+          <div className={cx('modal__main')}>
+            <div className={cx('modal__content')}>
+              <header className={cx('modal-header')}>
+                <h5 className={cx('modal-title')}>Danh sách sản phẩm đang thanh toán</h5>
                 <button
                   type="button"
                   aria-label="Close"
-                  className={cx("close")}
+                  className={cx('close')}
                   onClick={() => setShowModalListItem(false)}
                 >
                   ×
                 </button>
               </header>
-              <div className={cx("modal-body")}>
+              <div className={cx('modal-body')}>
                 {paymentInfo &&
                   paymentInfo.items.length > 0 &&
                   paymentInfo.items.map((item, index) => (
-                    <div className={cx("product-item")} key={index}>
+                    <div className={cx('product-item')} key={index}>
                       <img
                         src={`http://localhost:8080${item.image}`}
                         alt="Laptop Gaming Acer Nitro V ANV15-51-58AN-Đen"
                         loading="lazy"
-                        className={cx("product-img")}
+                        className={cx('product-img')}
                       />
-                      <div className={cx("product-info")}>
+                      <div className={cx('product-info')}>
                         <p>{item.name}</p>
-                        <div className={cx("item__price")}>
+                        <div className={cx('item__price')}>
                           <div>
-                            <div className={cx("block-box-price")}>
-                              <div className={cx("box-info__box-price")}>
-                                <p className={cx("product__price--show")}>
-                                  {formatter.format(item.price)}đ
-                                </p>
+                            <div className={cx('block-box-price')}>
+                              <div className={cx('box-info__box-price')}>
+                                <p className={cx('product__price--show')}>{formatter.format(item.price)}đ</p>
                                 {item.price - item.priceThrought < 0 && (
-                                  <p className={cx("product__price--through")}>
+                                  <p className={cx('product__price--through')}>
                                     {formatter.format(item.priceThrought)}đ
                                   </p>
                                 )}
@@ -690,10 +603,8 @@ const Payment = () => {
                             </div>
                           </div>
                           <p>
-                            Số lượng: {""}
-                            <span className={cx("text-danger")}>
-                              {item.quantity}
-                            </span>
+                            Số lượng: {''}
+                            <span className={cx('text-danger')}>{item.quantity}</span>
                           </p>
                         </div>
                       </div>
@@ -705,7 +616,7 @@ const Payment = () => {
         </div>
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div>
-        <div className={cx("clear")}></div>
+        <div className={cx('clear')}></div>
       </div>
     </div>
   );
