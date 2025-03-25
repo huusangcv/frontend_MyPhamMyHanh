@@ -185,7 +185,7 @@ const Order = () => {
                 className={cx('thumb-item', {
                   active: swiperSelected === 'cancelled',
                 })}
-                onClick={() => setSwiperSelected('canceled')}
+                onClick={() => setSwiperSelected('cancelled')}
               >
                 Đã huỷ
               </div>

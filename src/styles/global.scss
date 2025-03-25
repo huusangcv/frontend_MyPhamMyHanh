@@ -42,6 +42,10 @@
   text-align: center !important;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .ctaBtn {
   margin-top: 12px;
   text-align: center;
@@ -104,14 +108,16 @@
         color: #000;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        content: "";
+        content: '';
         width: 32px;
         height: 8px;
         opacity: 1;
         border-radius: 4px;
         margin-right: 10px;
         background-color: #dce0e3;
-        transition: width 0.3slinear, background-color 0.3slinear;
+        transition:
+          width 0.3slinear,
+          background-color 0.3slinear;
       }
     }
   }
@@ -343,7 +349,8 @@ svg:not(:host).svg-inline--fa {
     padding-left: 115px;
     align-items: center;
     background: #fff;
-    box-shadow: 0 2px 6px 0 rgba(60, 64, 67, 0.1),
+    box-shadow:
+      0 2px 6px 0 rgba(60, 64, 67, 0.1),
       0 4px 8px 0 rgba(60, 64, 67, 0.15);
     display: flex;
     height: 30px;
