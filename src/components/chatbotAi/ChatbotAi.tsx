@@ -43,6 +43,8 @@ const ChatbotAi = () => {
     }
   };
 
+  console.log('showAsk, isLoading', isLoading, showAsk);
+
   return (
     <div className={cx('wapper', { active: showChatbot })}>
       {(showChatbot && (
