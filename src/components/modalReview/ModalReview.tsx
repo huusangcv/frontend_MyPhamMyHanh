@@ -28,6 +28,7 @@ interface Review {
   content: string;
   media: string[];
   createdAt: string;
+  likes: string[];
 }
 
 const ModalReview = ({

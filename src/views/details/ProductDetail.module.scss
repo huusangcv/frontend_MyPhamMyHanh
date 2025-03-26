@@ -448,6 +448,8 @@
 
         &-title {
           display: flex;
+          align-items: center;
+          justify-content: space-between;
         }
 
         &-review {
@@ -543,6 +545,26 @@
     .same-product-title[data-v-b42e641e] {
       font-size: 18px;
       font-weight: 700;
+    }
+  }
+}
+
+.react-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  cursor: pointer;
+  svg {
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+
+  &.active {
+    color: var(--primary-color);
+
+    svg {
+      fill: var(--primary-color);
     }
   }
 }

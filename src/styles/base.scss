@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 html,
 body,
 div,
@@ -116,7 +116,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -197,7 +197,7 @@ html {
 }
 
 body {
-  font-family: "Open Sans", serif;
+  font-family: 'Open Sans', serif;
   font-size: 1.6rem;
   line-height: 1.4;
   color: var(--theme-text-color-2);
@@ -321,4 +321,10 @@ body.no-scroll {
 
 .css-1nmdiq5-menu {
   z-index: 9999999;
+}
+
+.wmde-markdown ul,
+.wmde-markdown ol {
+  padding-left: 0.8rem;
+  list-style: decimal;
 }

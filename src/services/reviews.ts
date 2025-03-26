@@ -31,6 +31,18 @@ const reviewMethods = {
     const result = await axios.post('reviews/uploads/photos', formData);
     return result;
   },
+  likeReview: async (id: string, userId: string) => {
+    const result = await axios.patch(`reviews/like/${id}`, {
+      userId,
+    });
+    return result;
+  },
+  unlikeReview: async (id: string, userId: string) => {
+    const result = await axios.patch(`reviews/unlike/${id}`, {
+      userId,
+    });
+    return result;
+  },
 };
 
 export default reviewMethods;
