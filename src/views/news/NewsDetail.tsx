@@ -1,18 +1,18 @@
-import { Avatar, Grid } from "@mui/material";
-import classNames from "classnames/bind";
-import styles from "./News.module.scss";
-import { useEffect, useState } from "react";
-import newsMethods from "../../services/news";
-import { useParams } from "react-router-dom";
-import MDEditor from "@uiw/react-md-editor";
-import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
-import tagMethods from "../../services/tags";
-import Loading from "../../components/isLoading/IsLoading";
-import ModelComment from "../../components/modelComment/ModelComment";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { useDispatch } from "react-redux";
-import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
+import { Avatar, Grid } from '@mui/material';
+import classNames from 'classnames/bind';
+import styles from './News.module.scss';
+import { useEffect, useState } from 'react';
+import newsMethods from '../../services/news';
+import { useParams } from 'react-router-dom';
+import MDEditor from '@uiw/react-md-editor';
+import Breadcrumb from '../../components/breadcrumb/Breadcrumb';
+import tagMethods from '../../services/tags';
+import Loading from '../../components/isLoading/IsLoading';
+import ModelComment from '../../components/modelComment/ModelComment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
 
 const cx = classNames.bind(styles);
 const NewsDetail = () => {
@@ -58,21 +58,21 @@ const NewsDetail = () => {
   const dispatch = useDispatch();
 
   const [news, setNews] = useState<News>({
-    _id: "",
-    title: "",
-    content: "",
-    image: "",
+    _id: '',
+    title: '',
+    content: '',
+    image: '',
     likes: [],
-    author: "",
-    tag_id: "",
-    createdAt: "",
+    author: '',
+    tag_id: '',
+    createdAt: '',
   });
   const [user, setUser] = useState<User>({
-    _id: "",
-    name: "",
-    image: "",
-    username: "",
-    roles: "",
+    _id: '',
+    name: '',
+    image: '',
+    username: '',
+    roles: '',
     segment_ids: [],
   });
   const { slug } = useParams();
@@ -80,9 +80,7 @@ const NewsDetail = () => {
   useEffect(() => {
     const fetchNewsDetail = async () => {
       try {
-        const { data, status } = await newsMethods.getDetailNews(
-          slug as string
-        );
+        const { data, status } = await newsMethods.getDetailNews(slug as string);
 
         if (status) {
           if (data.comments) {
@@ -129,10 +127,10 @@ const NewsDetail = () => {
   const countWords = (markdownContent: string) => {
     // Xóa các thẻ Markdown và đếm số từ
     const text = markdownContent
-      .replace(/[#*`_>[\]()]/g, " ")
-      .replace(/\s+/g, " ")
+      .replace(/[#*`_>[\]()]/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim();
-    return text.length > 0 ? text.split(" ").length : 0;
+    return text.length > 0 ? text.split(' ').length : 0;
   };
 
   const calculateReadingTime = (markdownContent: string) => {
@@ -205,24 +203,18 @@ const NewsDetail = () => {
   return (
     <>
       {(isLoading && <Loading />) || (
-        <div className={cx("wapper-detail")}>
+        <div className={cx('wapper-detail')}>
           <Grid container spacing={2}>
             <Grid item md={2}>
-              <div className={cx("aside")}>
+              <div className={cx('aside')}>
                 <div>
-                  <h4 className={cx("userName")}>
-                    {news && user && user._id === news.author && user.username}
-                  </h4>
+                  <h4 className={cx('userName')}>{news && user && user._id === news.author && user.username}</h4>
                 </div>
-                <p className={cx("userTitle")}>123</p>
+                <p className={cx('userTitle')}>Quản trị viên</p>
                 <hr />
-                <div className={cx("wapper")}>
+                <div className={cx('wapper')}>
                   {(news.likes.includes(profile._id) && (
-                    <div
-                      className={cx("btnReact", "active")}
-                      title="Bạn đã thích bài này"
-                      onClick={handleUnLikeNew}
-                    >
+                    <div className={cx('btnReact', 'active')} title="Bạn đã thích bài này" onClick={handleUnLikeNew}>
                       <svg
                         aria-hidden="true"
                         focusable="false"
@@ -242,12 +234,9 @@ const NewsDetail = () => {
                     </div>
                   )) || (
                     <div
-                      className={cx("btnReact")}
+                      className={cx('btnReact')}
                       title="Nhấn để thích bài này"
-                      onClick={() =>
-                        (profile._id !== "" && handleLikeNew()) ||
-                        dispatch(setShowAccountModal(true))
-                      }
+                      onClick={() => (profile._id !== '' && handleLikeNew()) || dispatch(setShowAccountModal(true))}
                     >
                       <svg
                         aria-hidden="true"
@@ -267,7 +256,7 @@ const NewsDetail = () => {
                       <span> {news.likes.length}</span>
                     </div>
                   )}
-                  <div className={cx("btnReact")} onClick={handleClosing}>
+                  <div className={cx('btnReact')} onClick={handleClosing}>
                     <svg
                       aria-hidden="true"
                       focusable="false"
@@ -289,57 +278,49 @@ const NewsDetail = () => {
               </div>
             </Grid>
             <Grid item md={8}>
-              <div className={"bannerTopHead topBarHeader"}>
-                <div className={"block-breadcrumbs affix"}>
+              <div className={'bannerTopHead topBarHeader'}>
+                <div className={'block-breadcrumbs affix'}>
                   <div className="container">
                     <Breadcrumb
                       breadcrums={[
                         {
-                          name: "Tin tức",
-                          to: "/news/all",
+                          name: 'Tin tức',
+                          to: '/news/all',
                         },
                         {
-                          name: (tag && tag.name) || "...",
-                          to: (tag && `/news/${tag.slug}`) || "...",
+                          name: (tag && tag.name) || '...',
+                          to: (tag && `/news/${tag.slug}`) || '...',
                         },
                         {
-                          name: (tag && news?.title) || "...",
-                          to: "...",
+                          name: (tag && news?.title) || '...',
+                          to: '...',
                         },
                       ]}
                     />
                   </div>
                 </div>
               </div>
-              <div className={cx("wapper")}>
+              <div className={cx('wapper')}>
                 <article>
-                  <div className={cx("heading")}>{news && news.title}</div>
-                  <div className={cx("header")}>
+                  <div className={cx('heading')}>{news && news.title}</div>
+                  <div className={cx('header')}>
                     {news && user && (
-                      <div className={cx("author")}>
+                      <div className={cx('author')}>
                         <div>
-                          <div
-                            className={cx(
-                              "avatar",
-                              user.roles === "admin" && "is-admin"
-                            )}
-                          >
-                            <Avatar
-                              src={`http://localhost:8080${user.image}`}
-                              alt={user.username}
-                            />
-                            {user.roles === "admin" && (
+                          <div className={cx('avatar', user.roles === 'admin' && 'is-admin')}>
+                            <Avatar src={`http://localhost:8080${user.image}`} alt={user.username} />
+                            {user.roles === 'admin' && (
                               <img
-                                className={cx("crown")}
+                                className={cx('crown')}
                                 src="data:image/svg+xml,%3csvg%20width='10'%20height='11'%20viewBox='0%200%2010%2011'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M9.39379%209.23321C9.0651%209.45156%208.65127%209.35571%208.44241%209.04131C8.43292%209.02701%208.43292%209.02701%208.43292%209.02701L3.97587%2010.9373C3.74252%2011.0512%203.45241%2010.9555%203.31001%2010.7412L0.16768%206.01085C0.0252788%205.79648%200.0495717%205.49198%200.244949%205.321L3.73367%201.95298C3.73367%201.95298%203.73367%201.95298%203.72418%201.93869C3.51533%201.62429%203.58739%201.20567%203.91608%200.987317C4.23048%200.778461%204.6586%200.864817%204.86746%201.17922C5.06682%201.47933%204.98996%201.92174%204.67556%202.13059C4.54694%202.21604%204.39464%202.23482%204.24713%202.22982L4.07259%204.19953C4.05299%204.54211%204.3428%204.82333%204.68548%204.78107L6.87956%204.5182C6.87517%204.29455%206.97071%204.0663%207.18508%203.9239C7.49948%203.71504%207.9276%203.8014%208.14594%204.13009C8.3548%204.44449%208.25895%204.85832%207.94455%205.06718C7.73019%205.20958%207.48275%205.20917%207.26879%205.10413L6.17594%207.02475C6.00415%207.32425%206.16054%207.7147%206.48392%207.82944L8.35779%208.41781C8.41985%208.29419%208.5057%208.17537%208.63432%208.08993C8.94872%207.88107%209.36734%207.95314%209.58569%208.28183C9.79455%208.59623%209.70819%209.02435%209.39379%209.23321Z'%20fill='%23F5C70E'/%3e%3c/svg%3e"
                                 alt="crown"
                               />
                             )}
                           </div>
                         </div>
-                        <div className={cx("info")}>
+                        <div className={cx('info')}>
                           <div>
-                            <span className={cx("name")}>{user.username}</span>
+                            <span className={cx('name')}>{user.username}</span>
                             <svg
                               aria-hidden="true"
                               focusable="false"
@@ -356,20 +337,17 @@ const NewsDetail = () => {
                               ></path>
                             </svg>
                           </div>
-                          <p className={cx("time")}>
+                          <p className={cx('time')}>
                             {caclTimePost(news.createdAt)}
-                            <span className={cx("dot")}>·</span>
+                            <span className={cx('dot')}>·</span>
                             {calculateReadingTime(news.content)} phút đọc
                           </p>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className={cx("content")}>
-                    <MDEditor.Markdown
-                      source={news?.content}
-                      className={cx("markdown-content")}
-                    />
+                  <div className={cx('content')}>
+                    <MDEditor.Markdown source={news?.content} className={cx('markdown-content')} />
                   </div>
                 </article>
               </div>

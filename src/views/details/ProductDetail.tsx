@@ -747,18 +747,14 @@ const ProductDetail = () => {
                         ))}
 
                       <div className={cx('block-sforum_btn-showmore')}>
-                        <a
-                          target="_blank"
-                          href="https://cellphones.com.vn/sforum/tag/samsung-galaxy-s25-ultra"
-                          className={cx('btn-show-more')}
-                        >
+                        <Link target="_blank" to={`/${product.slug}/review`} className={cx('btn-show-more')}>
                           Xem thêm
                           <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="10" height="10">
                               <path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path>
                             </svg>
                           </div>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </>

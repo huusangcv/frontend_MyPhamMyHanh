@@ -1,20 +1,25 @@
-import configs from "../configs";
-import CartLayout from "../layouts/CartLayout";
-import MemberLayout from "../layouts/memberLayout/MemberLayout";
-import NotFound from "../pages/404/404";
-import Cart from "../pages/cart/Cart";
-import Payment from "../pages/payment/Payment";
-import PaymentInfo from "../pages/paymentInfo/PaymentInfo";
-import PaymentResult from "../pages/paymentResult/PaymentResult";
-import About from "../views/about/About";
-import ProductDetail from "../views/details/ProductDetail";
-import Home from "../views/home/Home";
-import Member from "../views/memberGroups/member/Member";
-import Order from "../views/memberGroups/order/Order";
-import OrderDetail from "../views/memberGroups/orderDetail/OrderDetail";
-import NewsDetail from "../views/news/NewsDetail";
-import NewsList from "../views/news/NewsList";
-import Products from "../views/product/Products";
+import configs from '../configs';
+import CartLayout from '../layouts/CartLayout';
+import MemberLayout from '../layouts/memberLayout/MemberLayout';
+import NotFound from '../pages/404/404';
+import Cart from '../pages/cart/Cart';
+import Payment from '../pages/payment/Payment';
+import PaymentInfo from '../pages/paymentInfo/PaymentInfo';
+import PaymentResult from '../pages/paymentResult/PaymentResult';
+import Review from '../pages/review/Review';
+import About from '../views/about/About';
+import ProductDetail from '../views/details/ProductDetail';
+import Home from '../views/home/Home';
+import AccountInfo from '../views/memberGroups/accoutInfo/AccountInfo';
+import AddressInfo from '../views/memberGroups/addressInfo/AddressInfo';
+import ChangePassword from '../views/memberGroups/changePassword/ChangePassword';
+import Member from '../views/memberGroups/member/Member';
+import Order from '../views/memberGroups/order/Order';
+import OrderDetail from '../views/memberGroups/orderDetail/OrderDetail';
+import UpdateAddress from '../views/memberGroups/updateAddress/UpdateAddress';
+import NewsDetail from '../views/news/NewsDetail';
+import NewsList from '../views/news/NewsList';
+import Products from '../views/product/Products';
 const privateRoutes = [
   {
     path: configs.routes.cart,
@@ -50,6 +55,31 @@ const privateRoutes = [
     path: configs.routes.memberOrderDetail,
     component: OrderDetail,
     layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberAccount,
+    component: AccountInfo,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberChangePassword,
+    component: ChangePassword,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberAddressInfo,
+    component: AddressInfo,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberUpdateAddress,
+    component: UpdateAddress,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.review,
+    component: Review,
+    layout: CartLayout,
   },
   {
     path: configs.routes.home,

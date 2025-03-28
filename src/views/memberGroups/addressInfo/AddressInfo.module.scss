@@ -1,0 +1,52 @@
+.wapper {
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 53px;
+    padding: 10px;
+
+    .icon {
+      cursor: pointer;
+      display: flex;
+
+      svg {
+        height: 30px;
+      }
+    }
+
+    .nav-bar__title {
+      color: #4a4a4a;
+      font-size: 22px;
+      font-weight: 700;
+    }
+  }
+
+  .container {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    position: relative;
+
+    // @media screen and (min-width: 768px) {
+    //   min-height: 1000px;
+    // }
+
+    .button__add-address {
+      background: #e0052b;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 20px auto 0;
+      padding: 11px 0;
+      text-align: center;
+      width: 100%;
+    }
+  }
+}
