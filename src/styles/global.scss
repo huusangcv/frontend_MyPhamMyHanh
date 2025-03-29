@@ -384,3 +384,19 @@ svg:not(:host).svg-inline--fa {
     fill: var(--primary-color) !important;
   }
 }
+
+.container {
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  width: 1200px;
+}
+
+.cps-body {
+  min-height: calc(100vh - 600px);
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 8px;
+}

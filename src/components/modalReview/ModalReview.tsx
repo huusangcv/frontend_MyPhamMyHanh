@@ -92,8 +92,8 @@ const ModalReview = ({
         //fecth new list review when create review
         const response = await reviewMethods.getReviewsByProduct(productId);
         if (response.status) {
-          setReviews(response.data);
           handleCloseModalReview(); // close modal review
+          setReviews(response.data);
         }
       }
     } catch (error) {
