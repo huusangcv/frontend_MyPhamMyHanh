@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './OrderDetail.module.scss';
 import { useEffect, useState } from 'react';
 import orderMethods from '../../../services/orders';
+import logo from '../../../assets/logo-mobile.png';
 
 const cx = classNames.bind(styles);
 
@@ -274,11 +275,7 @@ const OrderDetail = () => {
               </div>
               <div className={cx('payment-info', 'info-customer')}>
                 <div className={cx('payment-info__title')}>
-                  <img
-                    src="https://static-smember.cellphones.com.vn/smember/_nuxt/img/Shipper_CPS3.77d4065.png"
-                    alt="cps-icon"
-                    className={cx('title__img')}
-                  />
+                  <img src={logo} alt="cps-icon" className={cx('title__img')} />
                   <p className={cx('title__text')}>Thông tin khách hàng</p>
                 </div>
                 <div className={cx('payment-info__content')}>

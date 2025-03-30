@@ -20,6 +20,7 @@ import Loading from '../../components/isLoading/IsLoading';
 import { addItemToPayment } from '../../redux/features/payment/paymentSlice';
 import ModalReview from '../../components/modalReview/ModalReview';
 import reviewMethods from '../../services/reviews';
+import BlockCommentProduct from '../../components/blockCommentProduct/BlockCommentProduct';
 const cx = classNames.bind(styles);
 const ProductDetail = () => {
   interface Product {
@@ -635,14 +636,12 @@ const ProductDetail = () => {
                                     <div className="mr-2 is-flex is-align-items-center is-justify-content-center name-letter">
                                       {users.map((user) => {
                                         if (review.user_id === user._id) {
-                                          return user.image !== '' ? (
+                                          return (
                                             <Avatar
                                               key={user._id}
                                               alt={user.username}
                                               src={`http://localhost:8080${user.image}`}
                                             />
-                                          ) : (
-                                            'S'
                                           );
                                         }
                                       })}
@@ -749,7 +748,10 @@ const ProductDetail = () => {
                             ),
                         )}
 
-                      <div className={cx('block-sforum_btn-showmore')}>
+                      <div
+                        className={cx('block-sforum_btn-showmore')}
+                        style={{ display: (reviews.length <= 3 && 'none') || 'block' }}
+                      >
                         <Link target="_blank" to={`/${product.slug}/review`} className={cx('btn-show-more')}>
                           Xem thêm
                           <div>
@@ -776,6 +778,11 @@ const ProductDetail = () => {
                     </div>
                   </div>
                 )}
+              </div>
+            </Grid>
+            <Grid item md={8} xs={12}>
+              <div className="block-comment">
+                <BlockCommentProduct id={product._id} />
               </div>
             </Grid>
           </Grid>

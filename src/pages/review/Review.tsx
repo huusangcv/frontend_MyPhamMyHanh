@@ -84,7 +84,6 @@ const Review = () => {
     name: '',
     slug: '',
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showModalReview, setShowModalReview] = useState<boolean>(false);
   const [users, setUsers] = useState<User[]>([]);
   const [segments, setSegments] = useState<Segment[]>([]);
@@ -105,7 +104,6 @@ const Review = () => {
             setReviews([]);
             setProduct(data);
           }
-          setIsLoading(false);
         }
       } catch (error) {
         console.log(error);
