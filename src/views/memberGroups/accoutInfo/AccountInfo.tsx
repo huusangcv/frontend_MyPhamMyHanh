@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './AccountInfo.module.scss';
 import { Avatar } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingIcons from 'react-loading-icons';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import usersMethods from '../../../services/users';
@@ -18,6 +18,12 @@ const AccountInfo = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
 
   const handleUpdateProfile = async () => {
     if (name !== profile.username) {

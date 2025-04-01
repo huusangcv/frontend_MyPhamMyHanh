@@ -1,10 +1,16 @@
 import classNames from 'classnames/bind';
 import styles from './AddressInfo.module.scss';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 const AddressInfo = () => {
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
   return (
     <div className={cx('wapper')}>
       <div className={cx('top-nav-bar')}>

@@ -16,6 +16,7 @@ import ChangePassword from '../views/memberGroups/changePassword/ChangePassword'
 import Member from '../views/memberGroups/member/Member';
 import Order from '../views/memberGroups/order/Order';
 import OrderDetail from '../views/memberGroups/orderDetail/OrderDetail';
+import SocialAccount from '../views/memberGroups/socialAccount/SocialAccount';
 import UpdateAddress from '../views/memberGroups/updateAddress/UpdateAddress';
 import NewsDetail from '../views/news/NewsDetail';
 import NewsList from '../views/news/NewsList';
@@ -74,6 +75,11 @@ const privateRoutes = [
   {
     path: configs.routes.memberUpdateAddress,
     component: UpdateAddress,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberSocialAccount,
+    component: SocialAccount,
     layout: MemberLayout,
   },
   {

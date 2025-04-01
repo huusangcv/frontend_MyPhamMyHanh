@@ -21,6 +21,18 @@ const usersMethods = {
     const result = await axios.get(`/auth/user/logout`);
     return result;
   },
+  changePassword: async (data: { email: string; password: string; currentPassword: string }) => {
+    const result = await axios.post(`/auth/user/changePassword`, data);
+    return result;
+  },
+  cancelGoogleAccount: async (data: { email: string }) => {
+    const result = await axios.post(`/auth/user/cancelGoogleAccount`, data);
+    return result;
+  },
+  connectGoogleAccount: async (data: { email: string }) => {
+    const result = await axios.post(`/auth/user/connectGoogleAccount`, data);
+    return result;
+  },
   uploadImage: async (id: string, data: any) => {
     // create new file with uid
     if (data) {

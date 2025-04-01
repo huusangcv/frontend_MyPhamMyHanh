@@ -60,6 +60,12 @@ const Order = () => {
     }
   }, [profile]);
 
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
+
   const totalMoney = orders.reduce((acc, order) => {
     return acc + order.total;
   }, 0);

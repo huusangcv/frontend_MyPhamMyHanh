@@ -1,0 +1,62 @@
+.wapper {
+  .container {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    position: relative;
+  }
+
+  .block-social {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .social-item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 8px;
+
+    .item__img {
+      height: 24px;
+      width: 24px;
+    }
+
+    .item__name {
+      font-size: 1.8rem;
+      color: #000;
+    }
+
+    .item__status {
+      background-color: rgba(27, 188, 0, 0.2);
+      border-radius: 3px;
+      color: #1bbc00;
+      font-size: 12px;
+      line-height: 12px;
+      padding: 4px 10px;
+    }
+
+    .item__action {
+      display: flex;
+      align-items: center;
+      color: #637381;
+      cursor: pointer;
+      gap: 10px;
+      margin-left: auto;
+
+      p {
+        line-height: 12px;
+        margin-top: 2px;
+      }
+
+      .action-icon {
+        display: flex;
+        fill: #637381;
+      }
+    }
+  }
+}

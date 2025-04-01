@@ -1,9 +1,75 @@
 import classNames from 'classnames/bind';
 import styles from './ChangePassword.module.scss';
+import { useEffect, useState } from 'react';
+import usersMethods from '../../../services/users';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { setProfile } from '../../../redux/features/profile/profileSlice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 const ChangePassword = () => {
+  const [password, setPassword] = useState<string>('');
+  const [currentPassword, setCurrentPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const profile = useAppSelector((state) => state.profile);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
+
+  const handleChangePassword = async () => {
+    if (password !== confirmPassword) {
+      toast.error('Nhập lại mật khẩu không chính xác', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    } else {
+      try {
+        const { data, status } = await usersMethods.changePassword({ email: profile.email, currentPassword, password });
+        if (status) {
+          dispatch(setProfile(data.data));
+          toast.success(data.message, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+
+          navigate('/member/account/user-info');
+        } else {
+          toast.error(data.message, {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div className={cx('wapper')}>
       <div className={cx('container')}>
@@ -21,6 +87,8 @@ const ChangePassword = () => {
                   name="password"
                   type="password"
                   placeholder="Nhập mật khẩu hiện tại của bạn"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
                   required
                   className={cx('group__item')}
                 />
@@ -35,6 +103,8 @@ const ChangePassword = () => {
                   id="newPassword"
                   name="newPassword"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Nhập mật khẩu mới của bạn"
                   className={cx('group__item')}
@@ -48,12 +118,16 @@ const ChangePassword = () => {
                   name="confirmNewPassword"
                   type="password"
                   required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Xác nhận lại mật khẩu"
                   className={cx('group__item')}
                 />
               </div>
             </div>
-            <div className={cx('btn-form__submit')}>Xác nhận</div>
+            <div className={cx('btn-form__submit')} onClick={handleChangePassword}>
+              Xác nhận
+            </div>
           </div>
         </div>
       </div>

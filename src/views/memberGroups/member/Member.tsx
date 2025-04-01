@@ -2,11 +2,17 @@ import classNames from 'classnames/bind';
 import styles from './Member.module.scss';
 import { Avatar } from '@mui/material';
 import { useAppSelector } from '../../../../hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 const Member = () => {
   const profile = useAppSelector((state) => state.profile);
+
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
 
   const [showPhone, setShowPhone] = useState<boolean>(false);
   const maskPhoneNumber = () => {

@@ -20,8 +20,9 @@ const routes = {
   memberOrderDetail: '/member/order/detail/:id',
   memberAccount: '/member/account/user-info',
   memberChangePassword: '/member/change-password',
-  memberAddressInfo: 'member/account/user-info/address-info',
-  memberUpdateAddress: 'member/account/user-info/address-info/update-address',
+  memberAddressInfo: '/member/account/user-info/address-info',
+  memberUpdateAddress: '/member/account/user-info/address-info/update-address',
+  memberSocialAccount: '/member/social-account',
   notFound: '*',
 };
 

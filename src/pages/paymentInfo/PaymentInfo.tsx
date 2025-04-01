@@ -242,7 +242,7 @@ const PaymentInfo = () => {
       </div>
 
       <div className={cx('block-info')}>
-        <div className={cx('container', 'block-box')}>
+        <div className={cx('block-box')}>
           <div className={cx('nav')} data-v-6c7c95d0="" data-v-76dd8f4d="">
             <div className={cx('nav__item', 'active')} data-v-6c7c95d0="">
               <span data-v-6c7c95d0="">1. Thông tin</span>

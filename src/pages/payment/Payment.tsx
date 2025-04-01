@@ -172,7 +172,7 @@ const Payment = () => {
             <p data-v-5273d083=""></p>
           </Link>
           <p className={cx('title')} data-v-5273d083="">
-            Thông tin
+            Thanh toán
           </p>
           <div data-v-5273d083=""></div>
         </div>
@@ -324,7 +324,7 @@ const Payment = () => {
                           <div
                             data-v-93881a34=""
                             className={cx('payment-item__tick', {
-                              active: paymentMethod === 'cash_on_delivery',
+                              active: paymentMethod === 'pickup',
                             })}
                           >
                             <svg

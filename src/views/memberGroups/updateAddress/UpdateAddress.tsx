@@ -49,6 +49,12 @@ const UpdateAddress = () => {
     fetchAddress();
   }, []);
 
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
+
   //hanlde setCity address
   const handleChangeCity = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
@@ -96,7 +102,7 @@ const UpdateAddress = () => {
     }
   };
 
-  console.log('check', cities);
+  console.log('check', cities, city, district, districtCode, ward);
 
   return (
     <div className={cx('wapper')}>

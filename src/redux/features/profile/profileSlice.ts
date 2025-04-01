@@ -1,16 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  _id: "",
-  username: "",
-  address: "",
-  phone: "",
-  image: "",
-  email: "",
+  _id: '',
+  username: '',
+  address: '',
+  phone: '',
+  image: '',
+  email: '',
+  googleEmail: '',
 };
 
 export const profileSlice = createSlice({
-  name: "profile",  
+  name: 'profile',
   initialState,
   reducers: {
     setProfile: (_state, action) => action.payload,

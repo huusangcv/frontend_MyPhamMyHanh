@@ -45,7 +45,7 @@ const ChatbotAi = () => {
     }
   };
 
-  const handleUploadImage = async (e: any) => {
+  const handleUploadImage = async () => {
     const inputElement = document.getElementById('inputImage') as HTMLInputElement | null;
     if (inputElement && inputElement.files) {
       const input = inputElement.files[0];
@@ -56,7 +56,7 @@ const ChatbotAi = () => {
     }
   };
 
-  console.log('showAsk, isLoading', isLoading, image);
+  console.log('showAsk, isLoading', isLoading, image, showAsk);
 
   return (
     <div className={cx('wapper', { active: showChatbot })}>

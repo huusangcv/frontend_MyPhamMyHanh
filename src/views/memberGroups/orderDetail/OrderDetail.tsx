@@ -79,6 +79,12 @@ const OrderDetail = () => {
       fetchOrder();
     }
   }, [id]);
+
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+  }, []);
   return (
     <div className={cx('wapper')}>
       <div className={cx('order-detail')}>
