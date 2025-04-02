@@ -177,7 +177,7 @@ const Order = () => {
                 })}
                 onClick={() => setSwiperSelected('delivering')}
               >
-                Đang vẫn chuyển
+                Đang vận chuyển
               </div>
               <div
                 className={cx('thumb-item', {

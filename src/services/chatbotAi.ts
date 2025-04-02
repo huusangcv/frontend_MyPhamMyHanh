@@ -6,10 +6,16 @@ const generateShortId = () => {
 };
 const chatbotAiMethods = {
   createContent: async (content: string, url: string) => {
-    const result = await axios.post('openaiChatbot', {
-      content,
-      url,
-    });
+    const result = await axios.post(
+      'openaiChatbot',
+      {
+        content,
+        url,
+      },
+      {
+        timeout: 30000,
+      },
+    );
     return result;
   },
   uploadImage: async (data: any) => {

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../store';
 // Định nghĩa kiểu cho sản phẩm
 interface PaymentItem {
   id: string;
@@ -26,7 +26,7 @@ const initialState: PaymentState = {
 };
 
 export const PaymentSlice = createSlice({
-  name: "Payment",
+  name: 'Payment',
   initialState,
   reducers: {
     addItemToPayment(state, action: PayloadAction<PaymentItem>) {
@@ -44,14 +44,8 @@ export const PaymentSlice = createSlice({
     },
     addAllItemsToPayment(state, action: PayloadAction<PaymentItem[]>) {
       state.items = action.payload;
-      state.totalPrice = action.payload.reduce(
-        (total, current) => total + current.price * current.quantity,
-        0
-      );
-      state.totalQuantity = action.payload.reduce(
-        (total, current) => total + current.quantity,
-        0
-      );
+      state.totalPrice = action.payload.reduce((total, current) => total + current.price * current.quantity, 0);
+      state.totalQuantity = action.payload.reduce((total, current) => total + current.quantity, 0);
     },
     removeItemToPayment(state, action: PayloadAction<PaymentItem>) {
       const newItem = action.payload;
@@ -65,18 +59,13 @@ export const PaymentSlice = createSlice({
     removeItemsToPayment(state, action: PayloadAction<PaymentItem[]>) {
       const itemsToRemove = action.payload;
 
-      state.items = state.items.filter(
-        (item) => !itemsToRemove.some((removeItem) => removeItem.id === item.id)
-      );
+      state.items = state.items.filter((item) => !itemsToRemove.some((removeItem) => removeItem.id === item.id));
 
-      state.totalQuantity -= itemsToRemove.reduce(
-        (total, currentItem) => total + currentItem.quantity,
-        0
-      );
+      state.totalQuantity -= itemsToRemove.reduce((total, currentItem) => total + currentItem.quantity, 0);
 
       state.totalPrice -= itemsToRemove.reduce(
-        (total, currentItem) => total + currentItem.price,
-        0
+        (total, currentItem) => total + currentItem.price * currentItem.quantity,
+        0,
       );
     },
     increaseItemToPayment(state, action: PayloadAction<PaymentItem>) {
@@ -97,7 +86,7 @@ export const PaymentSlice = createSlice({
       if (existingItem) {
         existingItem.quantity -= 1;
         if (existingItem.quantity <= 0) {
-          if (confirm("Bạn có muốn xoá sản phẩm này khỏi giỏ hàng không")) {
+          if (confirm('Bạn có muốn xoá sản phẩm này khỏi giỏ hàng không')) {
             state.items = state.items.filter((item) => item.id !== newItem.id);
           } else {
             existingItem.quantity += 1;

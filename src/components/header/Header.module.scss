@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: flex-end;
     flex-shrink: 0;
+    gap: 10px;
     margin-left: auto;
   }
   .logo {
@@ -44,7 +45,6 @@
 }
 
 .body {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,11 +1,11 @@
-import classNames from "classnames/bind";
-import styles from "./Search.module.scss";
-import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
-import productMethods from "../../services/products";
-import { Link } from "react-router-dom";
-import newsMethods from "../../services/news";
+import classNames from 'classnames/bind';
+import styles from './Search.module.scss';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import { useEffect, useState } from 'react';
+import productMethods from '../../services/products';
+import { Link } from 'react-router-dom';
+import newsMethods from '../../services/news';
 const cx = classNames.bind(styles);
 const Search = () => {
   interface Product {
@@ -22,7 +22,7 @@ const Search = () => {
     slug: string;
   }
 
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState('');
   const [showClearIcon, setShowClearIcon] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [news, setNews] = useState<News[]>([]);
@@ -30,8 +30,7 @@ const Search = () => {
   useEffect(() => {
     const fetchSearchProducts = async () => {
       try {
-        const { data, status } =
-          await productMethods.searchProducts(searchName);
+        const { data, status } = await productMethods.searchProducts(searchName);
 
         if (status) {
           setProducts(data);
@@ -41,7 +40,7 @@ const Search = () => {
       }
     };
 
-    if (searchName !== "") {
+    if (searchName !== '') {
       fetchSearchProducts();
     }
   }, [searchName]);
@@ -50,15 +49,14 @@ const Search = () => {
     const fetchSearchNews = async () => {
       try {
         const { data, status } = await newsMethods.searchNews(searchName);
-
         if (status) {
-          setNews(data.news);
+          setNews(data);
         }
       } catch (error) {
         console.log(error);
       }
     };
-    if (searchName !== "") {
+    if (searchName !== '') {
       fetchSearchNews();
     }
   }, [searchName]);
@@ -66,18 +64,18 @@ const Search = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSetSearchName = (e: any) => {
     const newValue = e.target.value;
-    if (newValue !== "") {
+    if (newValue !== '') {
       setSearchName(newValue);
       setShowClearIcon(true);
     } else {
-      setSearchName("");
+      setSearchName('');
       setShowClearIcon(false);
     }
   };
   return (
     <>
-      <div className={cx("search")}>
-        <div className={cx("search__icon")}>
+      <div className={cx('search')}>
+        <div className={cx('search__icon')}>
           <SearchIcon />
         </div>
         <input
@@ -87,17 +85,17 @@ const Search = () => {
             setShowResultSearch(true);
           }}
           type="text"
-          className={cx("search__input")}
+          className={cx('search__input')}
           placeholder="Tìm kiếm sản phẩm, tin tức,..."
         />
         {showClearIcon && (
           <div
-            className={cx("search__icon")}
+            className={cx('search__icon')}
             style={{
-              cursor: "pointer",
+              cursor: 'pointer',
             }}
             onClick={() => {
-              setSearchName("");
+              setSearchName('');
               setShowClearIcon(false);
             }}
           >
@@ -107,13 +105,10 @@ const Search = () => {
       </div>
 
       {showResultSearch && (
-        <div
-          className={cx("search__inner")}
-          style={{ display: (searchName === "" && "none") || "block" }}
-        >
-          <div className={cx("search__wapper")}>
-            <div className={cx("search__result")}>
-              <div className={cx("search__header")}>
+        <div className={cx('search__inner')} style={{ display: (searchName === '' && 'none') || 'block' }}>
+          <div className={cx('search__wapper')}>
+            <div className={cx('search__result')}>
+              <div className={cx('search__header')}>
                 <svg
                   aria-hidden="true"
                   focusable="false"
@@ -133,24 +128,21 @@ const Search = () => {
               </div>
               {products && products.length > 0 && (
                 <>
-                  <div className={cx("search__heading")}>
+                  <div className={cx('search__heading')}>
                     <h5>SẢN PHẨM</h5>
-                    <Link to="/products/all" className={cx("search__seemore")}>
+                    <Link to="/products/all" className={cx('search__seemore')}>
                       Xem thêm
                     </Link>
                   </div>
                   {products.map((product) => (
                     <Link
                       to={`/product/${product.slug}`}
-                      className={cx("search__item")}
+                      className={cx('search__item')}
                       key={product._id}
                       onClick={() => setShowResultSearch(false)}
                     >
-                      <div className={cx("search__avatar")}>
-                        <img
-                          src={`http://localhost:8080${product.images[0]}`}
-                          alt={product.name}
-                        />
+                      <div className={cx('search__avatar')}>
+                        <img src={`http://localhost:8080${product.images[0]}`} alt={product.name} />
                       </div>
                       <span>{product.name}</span>
                     </Link>
@@ -160,24 +152,21 @@ const Search = () => {
 
               {news && news.length > 0 && (
                 <>
-                  <div className={cx("search__heading")}>
+                  <div className={cx('search__heading')}>
                     <h5>Tin tức</h5>
-                    <Link to="/news" className={cx("search__seemore")}>
+                    <Link to="/news" className={cx('search__seemore')}>
                       Xem thêm
                     </Link>
                   </div>
                   {news.map((news) => (
                     <Link
                       to={`/news/${news.slug}`}
-                      className={cx("search__item")}
+                      className={cx('search__item')}
                       key={news._id}
                       onClick={() => setShowResultSearch(false)}
                     >
-                      <div className={cx("search__avatar")}>
-                        <img
-                          src={`http://localhost:8080${news.image}`}
-                          alt={news.title}
-                        />
+                      <div className={cx('search__avatar')}>
+                        <img src={`http://localhost:8080${news.image}`} alt={news.title} />
                       </div>
                       <span>{news.title}</span>
                     </Link>

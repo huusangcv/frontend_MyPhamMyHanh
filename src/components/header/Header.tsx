@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import Search from '../search/Search';
 import LoginBtn from '../buttons/Login';
-import RegisterBtn from '../buttons/Register';
+// import RegisterBtn from '../buttons/Register';
 import Cart from '../cart/Cart';
 import ProductMenu from '../product-menu/ProductMenu';
 import { useSelector } from 'react-redux';
@@ -28,23 +28,23 @@ const Header = () => {
           <Search />
         </div>
       </div>
-      {profile._id !== '' && (
-        <div className="d-lg-none">
-          <button className={cx('btn-member')} aria-expanded="false" onClick={() => navigate('/member/order')}>
-            Đơn hàng của tôi
-          </button>
-        </div>
-      )}
 
       {(profile._id !== '' && (
         <div className={cx('header__actions')}>
+          {profile._id !== '' && (
+            <div className="d-lg-none">
+              <button className={cx('btn-member')} aria-expanded="false" onClick={() => navigate('/member/order')}>
+                Đơn hàng của tôi
+              </button>
+            </div>
+          )}
           <Cart />
           <ModalProfile />
         </div>
       )) || (
         <div className={cx('header__actions')}>
           <Cart />
-          <RegisterBtn />
+          {/* <RegisterBtn /> */}
           <LoginBtn />
         </div>
       )}

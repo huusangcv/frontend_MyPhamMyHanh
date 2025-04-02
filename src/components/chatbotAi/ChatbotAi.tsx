@@ -5,6 +5,7 @@ import { Avatar } from '@mui/material';
 import { useAppSelector } from '../../../hooks';
 import chatbotAiMethods from '../../services/chatbotAi';
 import MDEditor from '@uiw/react-md-editor';
+import Loader from '../loader/Loader';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +20,12 @@ const ChatbotAi = () => {
   const [ask, setAsk] = useState<string>('');
   const [showAsk, setShowAsk] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [history, setHistory] = useState<History[]>([]);
+  const [history, setHistory] = useState<History[]>([
+    {
+      content: 'Xin chào, tôi có thể giúp gì cho bạn',
+      ask: '',
+    },
+  ]);
   const [showChatbot, setShowChatBot] = useState<boolean>(false);
   const [image, setImage] = useState<string>('');
 
@@ -82,13 +88,16 @@ const ChatbotAi = () => {
                         <Avatar
                           src={`data:image/jpeg;base64,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`}
                         />
-
-                        <MDEditor.Markdown source={historyItem.content} className={cx('message-content')} />
+                        {(historyItem.content === 'Thinking...' && <Loader />) || (
+                          <MDEditor.Markdown source={historyItem.content} className={cx('message-content')} />
+                        )}
                       </div>
-                      <div className={cx('message-user')}>
-                        <MDEditor.Markdown source={historyItem.ask} className={cx('message-content')} />
-                        <Avatar src={`http://localhost:8080${profile.image}`} />
-                      </div>
+                      {historyItem.ask !== '' && (
+                        <div className={cx('message-user')}>
+                          <MDEditor.Markdown source={historyItem.ask} className={cx('message-content')} />
+                          <Avatar src={`http://localhost:8080${profile.image}`} />
+                        </div>
+                      )}
                     </>
                   ))}
               </div>
@@ -102,6 +111,7 @@ const ChatbotAi = () => {
                   placeholder="Nhập nội dung…"
                   aria-label="Write a reply…"
                   id="textarea"
+                  spellCheck="false"
                   tabIndex={0}
                   maxLength={1000}
                 ></textarea>

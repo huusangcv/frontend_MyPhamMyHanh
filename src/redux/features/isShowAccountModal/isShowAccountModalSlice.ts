@@ -1,13 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = false;
 
 export const isShowAccountModalSlice = createSlice({
-  name: "modalAccount",
+  name: 'modalAccount',
   initialState,
   reducers: {
-    setShowAccountModal: (_state, action: { payload: boolean }): boolean =>
-      action.payload,
+    setShowAccountModal: (_state, action: { payload: boolean }): boolean => action.payload,
   },
 });
 
