@@ -45,7 +45,7 @@ const CartLayout: React.FC<CartLayoutProps> = ({ children }) => {
             </button>
 
             <iframe
-              src="http://localhost:5174/login"
+              src="https://accounts.regis.id.vn/login"
               frameBorder="0"
               className={cx("content__inner")}
             ></iframe>
