@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from './ChatbotAi.module.scss';
 import { useState } from 'react';
 import { Avatar } from '@mui/material';
-import { useAppSelector } from '../../../hooks';
 import chatbotAiMethods from '../../services/chatbotAi';
 import MDEditor from '@uiw/react-md-editor';
 import Loader from '../loader/Loader';
@@ -15,8 +14,6 @@ interface History {
 }
 
 const ChatbotAi = () => {
-  const profile = useAppSelector((state) => state.profile);
-
   const [ask, setAsk] = useState<string>('');
   const [showAsk, setShowAsk] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
