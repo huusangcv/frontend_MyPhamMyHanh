@@ -1,14 +1,14 @@
-import classNames from "classnames/bind";
-import styles from "./ModalComment.module.scss";
-import { Avatar, Grid } from "@mui/material";
-import CommentList from "../commentList/CommentList";
-import { useEffect, useState } from "react";
-import commentPostMethods from "../../services/commentsPost";
-import Spinner from "../Spinner/Spinner";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { useDispatch } from "react-redux";
-import { setShowAccountModal } from "../../redux/features/isShowAccountModal/isShowAccountModalSlice";
+import classNames from 'classnames/bind';
+import styles from './ModalComment.module.scss';
+import { Avatar, Grid } from '@mui/material';
+import CommentList from '../commentList/CommentList';
+import { useEffect, useState } from 'react';
+import commentPostMethods from '../../services/commentsPost';
+import Spinner from '../Spinner/Spinner';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
 
 const cx = classNames.bind(styles);
 interface Comment {
@@ -42,7 +42,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
   comments,
   user,
 }) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [showCommentBtn, setShowCommentBtn] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,13 +53,13 @@ const ModelComment: React.FC<PropsModelComment> = ({
 
   useEffect(() => {
     if (isClosing) {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove('no-scroll');
     } else {
-      document.body.classList.add("no-scroll");
+      document.body.classList.add('no-scroll');
     }
 
     return () => {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove('no-scroll');
     };
   }, [isClosing]);
 
@@ -67,22 +67,19 @@ const ModelComment: React.FC<PropsModelComment> = ({
     setIsLoading(true);
     const data = {
       user_id: profile._id,
-      news_id: "67cc82ef67a5a003aa8bbd2a",
+      news_id: '67cc82ef67a5a003aa8bbd2a',
       content: text,
     };
 
     try {
       const result = await commentPostMethods.createCommentPost(data);
       if (result.status) {
-        setText("");
+        setText('');
         setIsLoading(false);
         setShowCommentBtn(false);
 
         //Update comments
-        handleSetComments((prevComments: Comment[]) => [
-          result.data,
-          ...prevComments,
-        ]);
+        handleSetComments((prevComments: Comment[]) => [result.data, ...prevComments]);
       }
     } catch (error) {
       console.log(error);
@@ -94,9 +91,9 @@ const ModelComment: React.FC<PropsModelComment> = ({
   };
 
   return (
-    <div className={cx("wapper", { closing: isClosing })}>
-      <div className={cx("container")}>
-        <div className={cx("close-btn")} onClick={onHandleClosing}>
+    <div className={cx('wapper', { closing: isClosing })}>
+      <div className={cx('container')}>
+        <div className={cx('close-btn')} onClick={onHandleClosing}>
           <svg
             aria-hidden="true"
             focusable="false"
@@ -113,43 +110,32 @@ const ModelComment: React.FC<PropsModelComment> = ({
             ></path>
           </svg>
         </div>
-        <div className={cx("body")}>
+        <div className={cx('body')}>
           <Grid container>
-            <Grid item md={12} style={{ height: "100%" }}>
-              {(profile._id === "" && (
-                <button
-                  className={cx("button-comment")}
-                  onClick={handleButtonComment}
-                >
+            <Grid item md={12} style={{ height: '100%' }}>
+              {(profile._id === '' && (
+                <button className={cx('button-comment')} onClick={handleButtonComment}>
                   Đăng nhập để bình luận ngay
                 </button>
               )) || (
-                <div className={cx("wapper")}>
-                  <div className={cx("user")}>
-                    <div className={cx("wapper__inner")}>
-                      <div className={cx("content")}>
+                <div className={cx('wapper')}>
+                  <div className={cx('user')}>
+                    <div className={cx('wapper__inner')}>
+                      <div className={cx('content')}>
                         <Avatar
-                          src={`http://localhost:8080${profile.image}`}
+                          src={`https://api.regis.id.vn${profile.image}`}
                           alt={profile.username}
-                          className={cx("avatar")}
+                          className={cx('avatar')}
                         />
                       </div>
                     </div>
                   </div>
-                  <div className={cx("comment")}>
-                    <div
-                      className={cx(
-                        "comment__wapper",
-                        showCommentBtn && "focus"
-                      )}
-                    >
-                      <div className={cx("inner")}>
+                  <div className={cx('comment')}>
+                    <div className={cx('comment__wapper', showCommentBtn && 'focus')}>
+                      <div className={cx('inner')}>
                         <input
                           type="text"
-                          className={cx(
-                            "text-input",
-                            showCommentBtn && "focus"
-                          )}
+                          className={cx('text-input', showCommentBtn && 'focus')}
                           placeholder="Nhập bình luận mới của bạn"
                           value={text}
                           onChange={handleChange}
@@ -158,29 +144,18 @@ const ModelComment: React.FC<PropsModelComment> = ({
                       </div>
                     </div>
                     {showCommentBtn && (
-                      <div className={cx("buttonsBar")}>
-                        <p className={cx("message")}></p>
-                        <div className={cx("buttons")}>
-                          <button
-                            type="button"
-                            className={cx("button")}
-                            onClick={() => setShowCommentBtn(false)}
-                          >
-                            <div className={cx("inner")}>
-                              <span className={cx("title")}>Hủy</span>
+                      <div className={cx('buttonsBar')}>
+                        <p className={cx('message')}></p>
+                        <div className={cx('buttons')}>
+                          <button type="button" className={cx('button')} onClick={() => setShowCommentBtn(false)}>
+                            <div className={cx('inner')}>
+                              <span className={cx('title')}>Hủy</span>
                             </div>
                           </button>
-                          <button
-                            type="button"
-                            className={cx("button", "primary")}
-                            onClick={handleComment}
-                          >
-                            <div className={cx("inner")}>
-                              <span
-                                className={cx("title")}
-                                style={{ width: (isLoading && 20) || "" }}
-                              >
-                                {(isLoading && <Spinner />) || "Bình luận"}
+                          <button type="button" className={cx('button', 'primary')} onClick={handleComment}>
+                            <div className={cx('inner')}>
+                              <span className={cx('title')} style={{ width: (isLoading && 20) || '' }}>
+                                {(isLoading && <Spinner />) || 'Bình luận'}
                               </span>
                             </div>
                           </button>
@@ -191,26 +166,16 @@ const ModelComment: React.FC<PropsModelComment> = ({
                 </div>
               )}
 
-              <div className={cx("wapper__comments")}>
-                <div className={cx("header")}>
-                  <div className={cx("title")}>{comments.length} bình luận</div>
+              <div className={cx('wapper__comments')}>
+                <div className={cx('header')}>
+                  <div className={cx('title')}>{comments.length} bình luận</div>
                 </div>
                 <div>
                   {(comments && comments.length > 0 && (
-                    <CommentList
-                      user={user}
-                      comments={comments}
-                      handleSetComments={handleSetComments}
-                    />
+                    <CommentList user={user} comments={comments} handleSetComments={handleSetComments} />
                   )) || (
-                    <div className={cx("nothing-comment")}>
-                      <svg
-                        width="81"
-                        height="80"
-                        viewBox="0 0 81 80"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                    <div className={cx('nothing-comment')}>
+                      <svg width="81" height="80" viewBox="0 0 81 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M7.86014 69.5677C9.77214 71.2173 12.4201 71.7133 14.8761 71.8285C19.7801 72.0157 24.7497 70.4317 28.5865 67.3597C28.5865 70.9757 28.5823 74.5922 28.5737 78.2093C28.5737 78.7405 29.4569 78.9373 29.4585 78.3261C29.4585 74.8445 29.4623 71.3634 29.4697 67.8829C29.4697 67.3933 29.4697 66.9053 29.4697 66.4157C29.4697 66.0653 29.0009 65.7389 28.7065 66.0013C23.9849 70.1709 17.0217 72.0685 10.9001 70.2845C9.66174 69.8781 8.36414 69.2365 7.68574 68.0781C6.98334 67.0013 6.79934 65.4893 7.72734 64.4813C8.89534 63.2109 10.8121 63.3853 12.3673 63.7101C13.1993 63.8541 13.9673 64.2189 14.8121 64.2941C18.9721 64.8189 23.1417 63.3581 26.4921 60.9421C28.4893 59.5261 30.2659 57.8223 31.7641 55.8861C31.8041 55.8381 31.8009 55.7757 31.8297 55.7261C31.8529 55.6718 31.8559 55.6111 31.8383 55.5548C31.8207 55.4985 31.7837 55.4503 31.7337 55.4189C31.6777 55.3132 31.5831 55.2331 31.4696 55.1953C31.3561 55.1574 31.2324 55.1647 31.1241 55.2157C23.2585 53.0637 21.2505 42.6797 25.0281 36.2333C27.8873 31.6813 33.0745 28.7933 38.3753 28.2637C45.8953 27.5325 53.1561 31.7165 55.6873 38.9501C57.4681 43.9757 56.0761 49.9277 52.3929 53.7517C51.9183 54.2358 51.4004 54.6755 50.8457 55.0653C50.8118 55.0811 50.7818 55.1042 50.7578 55.1329C50.7338 55.1616 50.7164 55.1953 50.7069 55.2315C50.6975 55.2678 50.6961 55.3056 50.703 55.3424C50.7098 55.3792 50.7247 55.4141 50.7465 55.4445C51.74 56.8575 52.9526 58.1031 54.3385 59.1341C56.2001 60.5378 58.3485 61.5134 60.6305 61.991C62.9126 62.4686 65.2719 62.4366 67.5401 61.8973C68.0857 61.7501 68.6345 61.6221 69.1849 61.4973C70.1529 61.2765 71.2089 60.9373 72.1273 61.3085C72.4986 61.4656 72.8303 61.7033 73.0985 62.0044C73.3666 62.3054 73.5645 62.6623 73.6777 63.0493C74.2057 64.7229 73.3097 66.3677 72.0265 67.4077C67.3449 70.8205 60.3721 70.8893 55.5465 67.7085C55.0566 67.381 54.5874 67.0235 54.1417 66.6381C53.9561 66.4781 53.3081 66.4541 53.3097 66.8109L53.3673 78.3933C53.3673 78.8253 54.3273 78.8733 54.3273 78.4509C54.3081 74.8701 54.29 71.2893 54.2729 67.7085C59.1993 71.3357 66.2985 71.5933 71.6169 68.6205C73.0569 67.7757 74.3641 66.5709 74.7129 64.8637C75.0969 62.9821 74.0057 61.0765 72.1097 60.6141C70.9289 60.3261 69.7577 60.6861 68.6073 60.9485C68.0793 61.0717 67.5497 61.1917 67.0297 61.3405C64.1781 61.9857 61.1986 61.7631 58.4744 60.7013C55.7503 59.6395 53.4061 57.787 51.7433 55.3821C56.2569 52.0029 58.1833 46.0301 57.1257 40.5709C56.5945 38.0893 55.3529 35.7709 53.7801 33.7949C46.6649 25.1005 32.4233 25.7869 25.3961 34.2397C23.3689 36.5645 22.4201 39.6205 22.2809 42.6685C21.8361 48.2301 25.0521 54.2605 30.6601 55.7645C26.9657 60.1837 21.5401 63.8525 15.5513 63.4717C15.0809 63.4413 14.6105 63.3837 14.1465 63.3117C13.7833 63.1805 13.4121 63.0765 13.0377 62.9789C11.7929 62.6589 10.4009 62.4173 9.12414 62.6877C5.54334 63.4493 5.46014 67.3789 7.86014 69.5677V69.5677Z"
                           fill="#808B9A"
@@ -236,9 +201,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
                           fill="#808B9A"
                         ></path>
                       </svg>
-                      <p className="_message_1a5e9_16">
-                        Chưa có bình luận nào, hãy là người đầu tiên!
-                      </p>
+                      <p className="_message_1a5e9_16">Chưa có bình luận nào, hãy là người đầu tiên!</p>
                     </div>
                   )}
                 </div>
@@ -247,10 +210,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
           </Grid>
         </div>
       </div>
-      <div
-        className={cx(isClosing || "overplay")}
-        onClick={onHandleClosing}
-      ></div>
+      <div className={cx(isClosing || 'overplay')} onClick={onHandleClosing}></div>
     </div>
   );
 };

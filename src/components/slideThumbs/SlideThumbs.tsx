@@ -1,8 +1,8 @@
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import classNames from "classnames/bind";
-import styles from "./SlideThumbs.module.scss";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import classNames from 'classnames/bind';
+import styles from './SlideThumbs.module.scss';
 
 const cx = classNames.bind(styles);
 interface Image {
@@ -17,15 +17,11 @@ const SlideThumbs = ({ images }: Image) => {
     slidesToScroll: 1,
   };
   return (
-    <div className={cx("slider-container")}>
+    <div className={cx('slider-container')}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
-            <img
-              className={cx("thumb")}
-              src={`http://localhost:8080${image}`}
-              alt=""
-            />
+            <img className={cx('thumb')} src={`https://api.regis.id.vn${image}`} alt="" />
           </div>
         ))}
       </Slider>

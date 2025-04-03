@@ -260,7 +260,7 @@ const PaymentInfo = () => {
                   <div data-v-70c027c8="" className={cx('item')} key={index}>
                     <img
                       data-v-70c027c8=""
-                      src={`http://localhost:8080${item.image}`}
+                      src={`https://api.regis.id.vn${item.image}`}
                       alt="Samsung Galaxy S25 Ultra 256GB-Xanh dương"
                       loading="lazy"
                       className={cx('item__img')}

@@ -308,7 +308,7 @@ const NewsDetail = () => {
                       <div className={cx('author')}>
                         <div>
                           <div className={cx('avatar', user.roles === 'admin' && 'is-admin')}>
-                            <Avatar src={`http://localhost:8080${user.image}`} alt={user.username} />
+                            <Avatar src={`https://api.regis.id.vn${user.image}`} alt={user.username} />
                             {user.roles === 'admin' && (
                               <img
                                 className={cx('crown')}

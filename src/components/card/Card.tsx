@@ -1,19 +1,19 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import categoryMethods from "../../services/categories";
-import classNames from "classnames/bind";
-import styles from "./Card.module.scss";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { useAppDispatch } from "../../../hooks";
-import { addItemToCart } from "../../redux/features/cart/cartSlice";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
-import RatingByProduct from "../ratingByProduct/RatingByProduct";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import categoryMethods from '../../services/categories';
+import classNames from 'classnames/bind';
+import styles from './Card.module.scss';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useAppDispatch } from '../../../hooks';
+import { addItemToCart } from '../../redux/features/cart/cartSlice';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import RatingByProduct from '../ratingByProduct/RatingByProduct';
 const cx = classNames.bind(styles);
 
 interface Product {
@@ -34,10 +34,7 @@ interface PropsCardItem {
   isBestseller: boolean;
 }
 
-export default function CardItem({
-  products,
-  isBestseller = false,
-}: PropsCardItem) {
+export default function CardItem({ products, isBestseller = false }: PropsCardItem) {
   const dispatch = useAppDispatch();
 
   interface Category {
@@ -60,8 +57,8 @@ export default function CardItem({
     fetchCategories();
   }, []);
 
-  const formatter = new Intl.NumberFormat("vi-VN", {
-    style: "decimal",
+  const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'decimal',
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
@@ -71,73 +68,41 @@ export default function CardItem({
         products.map(
           (product) =>
             product.bestseller && (
-              <Card
-                sx={{ maxWidth: 345 }}
-                key={product._id}
-                className={cx("card")}
-              >
+              <Card sx={{ maxWidth: 345 }} key={product._id} className={cx('card')}>
                 <Link to={`/product/${product.slug}`}>
                   <CardMedia
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`http://localhost:8080${product.images[0]}`}
+                    image={`https://api.regis.id.vn${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>
                   <Link to={`/product/${product.slug}`}>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      className={cx("heading")}
-                    >
+                    <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
                       {product.name}
                     </Typography>
                   </Link>
                   {(product.discount > 0 && (
-                    <div className={cx("wrap-price")}>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                        className={cx("price")}
-                      >
-                        <span>
-                          {formatter.format(
-                            product.price * (1 - product.discount / 100)
-                          )}
-                          đ
-                        </span>
+                    <div className={cx('wrap-price')}>
+                      <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
+                        <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
                       </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                        className={cx("price-after-discount")}
-                      >
+                      <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
                         <span> {formatter.format(product.price)}đ</span>
                       </Typography>
                     </div>
                   )) || (
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      className={cx("price")}
-                    >
+                    <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
                       <span> {formatter.format(product.price)}đ</span>
                     </Typography>
                   )}
 
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {categories.map((category) => {
                       if (product.category_id === category._id) {
                         return (
-                          <span
-                            key={category._id}
-                            className={cx("category-name")}
-                          >
+                          <span key={category._id} className={cx('category-name')}>
                             {category.name}
                           </span>
                         );
@@ -146,10 +111,10 @@ export default function CardItem({
                   </Typography>
                 </CardContent>
 
-                <CardActions sx={{ justifyContent: "space-between" }}>
+                <CardActions sx={{ justifyContent: 'space-between' }}>
                   <RatingByProduct currentProduct={product._id} />
 
-                  <div className={cx("cta-wrap")}>
+                  <div className={cx('cta-wrap')}>
                     <Button
                       size="small"
                       onClick={() => {
@@ -162,17 +127,17 @@ export default function CardItem({
                             slug: product.slug,
                             price: product.price * (1 - product.discount / 100),
                             quantity: 1,
-                          })
+                          }),
                         );
-                        toast.success("Thêm sản phẩm vào giỏ hàng thành công", {
-                          position: "bottom-center",
+                        toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
+                          position: 'bottom-center',
                           autoClose: 5000,
                           hideProgressBar: false,
                           closeOnClick: false,
                           pauseOnHover: true,
                           draggable: true,
                           progress: undefined,
-                          theme: "light",
+                          theme: 'light',
                         });
                       }}
                     >
@@ -181,69 +146,44 @@ export default function CardItem({
                   </div>
                 </CardActions>
               </Card>
-            )
+            ),
         )) ||
         products.map((product) => (
-          <Card sx={{ maxWidth: 345 }} key={product._id} className={cx("card")}>
+          <Card sx={{ maxWidth: 345 }} key={product._id} className={cx('card')}>
             <Link to={`/product/${product.slug}`}>
               <CardMedia
                 component="img"
                 alt="green iguana"
                 height="140"
-                image={`http://localhost:8080${product.images[0]}`}
+                image={`https://api.regis.id.vn${product.images[0]}`}
               />
             </Link>
             <CardContent>
               <Link to={`/product/${product.slug}`}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  className={cx("heading")}
-                >
+                <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
                   {product.name}
                 </Typography>
               </Link>
               {(product.discount > 0 && (
-                <div className={cx("wrap-price")}>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    className={cx("price")}
-                  >
-                    <span>
-                      {formatter.format(
-                        product.price * (1 - product.discount / 100)
-                      )}
-                      đ
-                    </span>
+                <div className={cx('wrap-price')}>
+                  <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
+                    <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
                   </Typography>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    className={cx("price-after-discount")}
-                  >
+                  <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
                     <span> {formatter.format(product.price)}đ</span>
                   </Typography>
                 </div>
               )) || (
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  className={cx("price")}
-                >
+                <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
                   <span> {formatter.format(product.price)}đ</span>
                 </Typography>
               )}
 
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {categories.map((category) => {
                   if (product.category_id === category._id) {
                     return (
-                      <span key={category._id} className={cx("category-name")}>
+                      <span key={category._id} className={cx('category-name')}>
                         {category.name}
                       </span>
                     );
@@ -252,10 +192,10 @@ export default function CardItem({
               </Typography>
             </CardContent>
 
-            <CardActions sx={{ justifyContent: "space-between" }}>
+            <CardActions sx={{ justifyContent: 'space-between' }}>
               <RatingByProduct currentProduct={product._id} />
 
-              <div className={cx("cta-wrap")}>
+              <div className={cx('cta-wrap')}>
                 <Button
                   size="small"
                   onClick={() => {
@@ -268,17 +208,17 @@ export default function CardItem({
                         slug: product.slug,
                         price: product.price * (1 - product.discount / 100),
                         quantity: 1,
-                      })
+                      }),
                     );
-                    toast.success("Thêm sản phẩm vào giỏ hàng thành công", {
-                      position: "bottom-center",
+                    toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
+                      position: 'bottom-center',
                       autoClose: 5000,
                       hideProgressBar: false,
                       closeOnClick: false,
                       pauseOnHover: true,
                       draggable: true,
                       progress: undefined,
-                      theme: "light",
+                      theme: 'light',
                     });
                   }}
                 >

@@ -1,15 +1,15 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import classNames from "classnames/bind";
-import styles from "./News.module.scss";
-import newsMethods from "../../services/news";
-import usersMethods from "../../services/users";
-import { CardActions } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link } from "react-router-dom";
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import classNames from 'classnames/bind';
+import styles from './News.module.scss';
+import newsMethods from '../../services/news';
+import usersMethods from '../../services/users';
+import { CardActions } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 export default function News() {
   interface News {
@@ -59,8 +59,8 @@ export default function News() {
     fetchUsers();
   }, []);
 
-  const formatter = new Intl.NumberFormat("vi-VN", {
-    style: "decimal",
+  const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'decimal',
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
@@ -68,23 +68,13 @@ export default function News() {
   return (
     <>
       {news.map((news) => (
-        <Card sx={{ maxWidth: 345 }} key={news._id} className={cx("card")}>
+        <Card sx={{ maxWidth: 345 }} key={news._id} className={cx('card')}>
           <Link to={`/news/detail/${news.slug}`}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="140"
-              image={`http://localhost:8080${news.image}`}
-            />
+            <CardMedia component="img" alt="green iguana" height="140" image={`https://api.regis.id.vn${news.image}`} />
           </Link>
           <CardContent>
             <Link to={`/news/detail/${news.slug}`}>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className={cx("heading")}
-              >
+              <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
                 {news.title}
               </Typography>
             </Link>
@@ -93,17 +83,14 @@ export default function News() {
             {users.map((user) => {
               if (user._id === news.author) {
                 return (
-                  <div key={user._id} className={cx("more-info")}>
-                    <div className={cx("info-item")}>
-                      <div className={cx("avatar")}>
-                        <img
-                          src={`http://localhost:8080${user.image}`}
-                          alt=""
-                        />
+                  <div key={user._id} className={cx('more-info')}>
+                    <div className={cx('info-item')}>
+                      <div className={cx('avatar')}>
+                        <img src={`https://api.regis.id.vn${user.image}`} alt="" />
                       </div>
                       <span>{user.username}</span>
                     </div>
-                    <div className={cx("view")}>
+                    <div className={cx('view')}>
                       {formatter.format(news.view)}
                       <VisibilityIcon />
                     </div>
