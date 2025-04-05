@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fancyapps/ui": "^5.0.36",
     "@mui/icons-material": "^6.4.7",
     "@mui/joy": "^5.0.0-beta.51",
     "@mui/material": "^6.4.7",
@@ -26,8 +27,8 @@
     "classnames": "^2.5.1",
     "dotenv": "^16.4.7",
     "form-data": "^4.0.2",
-    "jwt-decode": "^4.0.0",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "query-string": "^9.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

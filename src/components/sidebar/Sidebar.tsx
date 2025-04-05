@@ -33,11 +33,11 @@ const Sidebar = () => {
         <li>
           <Link
             aria-current="page"
-            to="/gioi-thieu"
+            to="/introduce"
             className={cx('sidebar__item', {
-              active: active === '/gioi-thieu',
+              active: active === '/introduce',
             })}
-            onClick={() => handleClick('/gioi-thieu')}
+            onClick={() => handleClick('/introduce')}
           >
             <InfoIcon />
             <span>Giới thiệu</span>
@@ -46,9 +46,9 @@ const Sidebar = () => {
         <li>
           <Link
             aria-current="page"
-            to="/bang-khen"
-            className={cx('sidebar__item', { active: active === '/bang-khen' })}
-            onClick={() => handleClick('/bang-khen')}
+            to="/certificates"
+            className={cx('sidebar__item', { active: active === '/certificates' })}
+            onClick={() => handleClick('/certificates')}
           >
             <WorkspacePremiumIcon />
             <span>Bằng khen</span>

@@ -1,0 +1,27 @@
+.wapper {
+  .container {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .maincont-ttl {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 4rem;
+    color: #283346;
+    line-height: 1.1;
+  }
+
+  .maincont-desc {
+    margin-top: 10px;
+    font-size: 2rem;
+    color: #666;
+    text-align: justify;
+  }
+}

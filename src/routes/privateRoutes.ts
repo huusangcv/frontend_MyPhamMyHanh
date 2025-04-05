@@ -8,6 +8,7 @@ import PaymentInfo from '../pages/paymentInfo/PaymentInfo';
 import PaymentResult from '../pages/paymentResult/PaymentResult';
 import Review from '../pages/review/Review';
 import About from '../views/about/About';
+import Certificates from '../views/certificates/Certificates';
 import ProductDetail from '../views/details/ProductDetail';
 import Home from '../views/home/Home';
 import AccountInfo from '../views/memberGroups/accoutInfo/AccountInfo';
@@ -110,6 +111,10 @@ const privateRoutes = [
   {
     path: configs.routes.newsDetail,
     component: NewsDetail,
+  },
+  {
+    path: configs.routes.certificates,
+    component: Certificates,
   },
   {
     path: configs.routes.notFound,

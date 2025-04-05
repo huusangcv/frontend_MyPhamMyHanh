@@ -27,38 +27,62 @@ const Search = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [news, setNews] = useState<News[]>([]);
   const [showResultSearch, setShowResultSearch] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchSearchProducts = async () => {
+      setIsLoading(true);
+      setIsError(false);
       try {
         const { data, status } = await productMethods.searchProducts(searchName);
 
         if (status) {
           setProducts(data);
+          setIsLoading(false);
+          setIsError(false);
+        } else {
+          setIsLoading(false);
+          setIsError(true);
         }
       } catch (error) {
         console.log(error);
       }
     };
-
+    let timeOut: any;
     if (searchName !== '') {
-      fetchSearchProducts();
+      timeOut = setTimeout(() => {
+        fetchSearchProducts();
+      }, 500);
     }
+    return () => clearTimeout(timeOut);
   }, [searchName]);
 
   useEffect(() => {
     const fetchSearchNews = async () => {
+      setIsLoading(true);
+      setIsError(false);
       try {
         const { data, status } = await newsMethods.searchNews(searchName);
         if (status) {
           setNews(data);
+          setIsLoading(false);
+          setIsError(false);
+        } else {
+          setIsLoading(false);
+          setIsError(true);
         }
       } catch (error) {
         console.log(error);
       }
     };
+    let timeOut: any;
     if (searchName !== '') {
-      fetchSearchNews();
+      timeOut = setTimeout(() => {
+        fetchSearchNews();
+      }, 500);
     }
+    return () => clearTimeout(timeOut);
   }, [searchName]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -124,13 +148,23 @@ const Search = () => {
                     d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
                   ></path>
                 </svg>
-                <span>Kết quả cho '{searchName}'</span>
+                {(isLoading && <span className={cx('search__loading')}>Đang tìm kiếm...</span>) || (
+                  <>
+                    {(isError && <span className={cx('search__error')}>Không có kết quả cho '{searchName}'</span>) || (
+                      <span>Kết quả cho '{searchName}'</span>
+                    )}
+                  </>
+                )}
               </div>
               {products && products.length > 0 && (
                 <>
                   <div className={cx('search__heading')}>
                     <h5>SẢN PHẨM</h5>
-                    <Link to="/products/all" className={cx('search__seemore')}>
+                    <Link
+                      to="/products/all"
+                      className={cx('search__seemore')}
+                      onClick={() => setShowResultSearch(false)}
+                    >
                       Xem thêm
                     </Link>
                   </div>
@@ -154,7 +188,7 @@ const Search = () => {
                 <>
                   <div className={cx('search__heading')}>
                     <h5>Tin tức</h5>
-                    <Link to="/news" className={cx('search__seemore')}>
+                    <Link to="/news" className={cx('search__seemore')} onClick={() => setShowResultSearch(false)}>
                       Xem thêm
                     </Link>
                   </div>

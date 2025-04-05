@@ -1,0 +1,41 @@
+.wapper {
+  .container {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .intro-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+
+    h2 {
+      font-size: 3rem;
+    }
+
+    p {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+  }
+
+  .intro-text,
+  .intro-image {
+    flex: 1;
+    min-width: 300px;
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+  }
+}

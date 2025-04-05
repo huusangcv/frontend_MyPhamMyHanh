@@ -1,6 +1,7 @@
 import configs from '../configs';
 import NotFound from '../pages/404/404';
 import About from '../views/about/About';
+import Certificates from '../views/certificates/Certificates';
 import ProductDetail from '../views/details/ProductDetail';
 import Home from '../views/home/Home';
 import NewsDetail from '../views/news/NewsDetail';
@@ -31,6 +32,10 @@ const publicRoutes = [
   {
     path: configs.routes.newsDetail,
     component: NewsDetail,
+  },
+  {
+    path: configs.routes.certificates,
+    component: Certificates,
   },
 
   {
