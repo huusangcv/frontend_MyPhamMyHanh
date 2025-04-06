@@ -21,6 +21,7 @@ import { addItemToPayment } from '../../redux/features/payment/paymentSlice';
 import ModalReview from '../../components/modalReview/ModalReview';
 import reviewMethods from '../../services/reviews';
 import BlockCommentProduct from '../../components/blockCommentProduct/BlockCommentProduct';
+import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
 const cx = classNames.bind(styles);
 const ProductDetail = () => {
   interface Product {
@@ -311,7 +312,7 @@ const ProductDetail = () => {
                           <div className={cx('swiper-slide')}>
                             <img
                               className={cx('img')}
-                              src={`https://api.regis.id.vn${product.images[imageIndex]}`}
+                              src={`http://localhost:8080${product.images[imageIndex]}`}
                               alt=""
                             />
                           </div>
@@ -324,7 +325,7 @@ const ProductDetail = () => {
                             key={index}
                             onClick={() => setImageIndex(index)}
                           >
-                            <img className={cx('img')} src={`https://api.regis.id.vn${image}`} alt="" />
+                            <img className={cx('img')} src={`http://localhost:8080${image}`} alt="" />
                           </div>
                         ))}
                       </div>
@@ -476,7 +477,7 @@ const ProductDetail = () => {
                         <div className={cx('sforum__content')} key={news._id}>
                           <Link to={`/news/detail/${news.slug}`} className={cx('sforum__content-item')}>
                             <img
-                              src={`https://api.regis.id.vn${news.image}`}
+                              src={`http://localhost:8080${news.image}`}
                               alt={news.title}
                               loading="lazy"
                               className={cx('content-item__img')}
@@ -640,7 +641,7 @@ const ProductDetail = () => {
                                             <Avatar
                                               key={user._id}
                                               alt={user.username}
-                                              src={`https://api.regis.id.vn${user.image}`}
+                                              src={`http://localhost:8080${user.image}`}
                                             />
                                           );
                                         }
@@ -723,7 +724,16 @@ const ProductDetail = () => {
                                       <ThumbUpOffAltIcon />
                                     </div>
                                   )) || (
-                                    <div className={cx('react-btn')} onClick={() => handleLikeReview(review._id)}>
+                                    <div
+                                      className={cx('react-btn')}
+                                      onClick={() => {
+                                        if (profile._id === '') {
+                                          dispatch(setShowAccountModal(true));
+                                        } else {
+                                          handleLikeReview(review._id);
+                                        }
+                                      }}
+                                    >
                                       Hữu ích{review.likes.length > 0 && <span>({review.likes.length})</span>}
                                       <ThumbUpOffAltIcon />
                                     </div>

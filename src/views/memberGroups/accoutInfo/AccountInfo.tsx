@@ -78,7 +78,7 @@ const AccountInfo = () => {
     <div className={cx('wapper')}>
       <div className={cx('wapper__container')}>
         <label htmlFor="inputImage" className={cx('user-info-avatar')}>
-          <Avatar src={`https://api.regis.id.vn${profile.image}`} alt="avatar" sx={{ width: 60, height: 60 }} />
+          <Avatar src={`http://localhost:8080${profile.image}`} alt="avatar" sx={{ width: 60, height: 60 }} />
           <div className={cx('photo-icon')}>
             <CameraAltIcon />
           </div>

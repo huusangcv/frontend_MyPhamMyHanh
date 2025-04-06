@@ -13,6 +13,8 @@ import reviewMethods from '../../services/reviews';
 import ModalReview from '../../components/modalReview/ModalReview';
 import segmentMethods from '../../services/segments';
 import usersMethods from '../../services/users';
+import { useDispatch } from 'react-redux';
+import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
 const cx = classNames.bind(styles);
 interface Product {
   _id: string;
@@ -90,6 +92,7 @@ const Review = () => {
   const [showMore, setShowMore] = useState<number>(3);
 
   const profile = useAppSelector((state) => state.profile);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -239,7 +242,7 @@ const Review = () => {
             <div className={cx('block-product-review')}>
               <Link to={`/product/${slug}`} className={cx('boxReview-product', 'is-flex is-justify-content-center')}>
                 <img
-                  src={`https://api.regis.id.vn${product.images[0]}`}
+                  src={`http://localhost:8080${product.images[0]}`}
                   width="110"
                   height="110"
                   alt=""
@@ -396,7 +399,7 @@ const Review = () => {
                                         <Avatar
                                           key={user._id}
                                           alt={user.username}
-                                          src={`https://api.regis.id.vn${user.image}`}
+                                          src={`http://localhost:8080${user.image}`}
                                         />
                                       ) : (
                                         'S'
@@ -481,7 +484,16 @@ const Review = () => {
                                   <ThumbUpOffAltIcon />
                                 </div>
                               )) || (
-                                <div className={cx('react-btn')} onClick={() => handleLikeReview(review._id)}>
+                                <div
+                                  className={cx('react-btn')}
+                                  onClick={() => {
+                                    if (profile._id === '') {
+                                      dispatch(setShowAccountModal(true));
+                                    } else {
+                                      handleLikeReview(review._id);
+                                    }
+                                  }}
+                                >
                                   Hữu ích{review.likes.length > 0 && <span>({review.likes.length})</span>}
                                   <ThumbUpOffAltIcon />
                                 </div>

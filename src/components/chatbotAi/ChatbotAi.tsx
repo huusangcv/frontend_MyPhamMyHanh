@@ -3,10 +3,12 @@ import styles from './ChatbotAi.module.scss';
 import { useState } from 'react';
 import { Avatar } from '@mui/material';
 import chatbotAiMethods from '../../services/chatbotAi';
-import MDEditor from '@uiw/react-md-editor';
 import Loader from '../loader/Loader';
 
 const cx = classNames.bind(styles);
+const HtmlContent = ({ content }: { content: string }) => {
+  return <div dangerouslySetInnerHTML={{ __html: content }} className={cx('message-content')} />;
+};
 
 interface History {
   content: string;
@@ -16,15 +18,17 @@ interface History {
 const ChatbotAi = () => {
   const [ask, setAsk] = useState<string>('');
   const [showAsk, setShowAsk] = useState<string>('');
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isExpanded, setExpanded] = useState<boolean>(false);
   const [history, setHistory] = useState<History[]>([
     {
-      content: 'Xin chào, tôi có thể giúp gì cho bạn',
+      content: 'Xin chào, em ở đây để hỗ trợ cho mình ạ!',
       ask: '',
     },
   ]);
   const [showChatbot, setShowChatBot] = useState<boolean>(false);
   const [image, setImage] = useState<string>('');
+  const [isDarkMode, setDarkMode] = useState(false);
+  const [showUtility, setShowUtility] = useState(false);
 
   const handleAskChatbot = async () => {
     setHistory((prevData) => {
@@ -34,14 +38,20 @@ const ChatbotAi = () => {
       };
       return [newData, ...prevData];
     });
-    setLoading(true);
     setShowAsk(ask);
     setAsk('');
     try {
       const { status, data } = await chatbotAiMethods.createContent(ask as string, image as string);
       if (status) {
         setHistory((prevData) => [data, ...prevData.filter((item) => item.content !== 'Thinking...')]);
-        setLoading(false);
+      } else {
+        setHistory((prevData) => [
+          {
+            content: 'Không tìm thấy câu trả lời',
+            ask: showAsk,
+          },
+          ...prevData.filter((item) => item.content !== 'Thinking...'),
+        ]);
       }
     } catch (error) {
       console.log('Error', error);
@@ -59,24 +69,210 @@ const ChatbotAi = () => {
     }
   };
 
-  console.log('showAsk, isLoading', isLoading, image, showAsk);
+  const handleClearHistory = () => {
+    setHistory([
+      {
+        content: 'Xin chào, em ở đây để hỗ trợ cho mình ạ!',
+        ask: '',
+      },
+    ]);
+    setImage('');
+    setShowAsk('');
+  };
+
+  const handleDownloadHistory = () => {
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(history, null, 2)], {
+      type: 'application/json',
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = 'chat_history.json';
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
 
   return (
-    <div className={cx('wapper', { active: showChatbot })}>
+    <div className={cx('wapper', { active: showChatbot, dark: isDarkMode }, { expanded: isExpanded })}>
       {(showChatbot && (
         <div className={cx('wapper-chatbot')}>
           <div className={cx('chatbot-inner')}>
             <div className={cx('chatbot-header')}>
-              <div className={cx('title')}>Chat với trợ lý ảo</div>
-              <button className={cx('close-btn')} onClick={() => setShowChatBot(false)}>
-                <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon">
-                  <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                </svg>
-              </button>
+              <div className={cx('title')}>Chat với nhân viên tư vấn</div>
+              <div>
+                <div className={cx('header-utility')}>
+                  <button className={cx('utility-toggle-btn')} onClick={() => setShowUtility((prev) => !prev)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                      <path
+                        fill="#fff"
+                        d="M4.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"
+                      ></path>
+                    </svg>
+                  </button>
+                  {showUtility && (
+                    <div className={cx('utility-menu')}>
+                      <button className={cx('clear-history-btn')} onClick={handleClearHistory}>
+                        Xóa lịch sử
+                      </button>
+                      <button className={cx('download-history-btn')} onClick={handleDownloadHistory}>
+                        Tải xuống lịch sử
+                      </button>
+                      <button className={cx('toggle-dark-mode-btn')} onClick={toggleDarkMode}>
+                        {isDarkMode ? 'Chế độ sáng' : 'Chế độ tối'}
+                      </button>
+                      <button className={cx('extend')} onClick={() => setExpanded((prev) => !prev)}>
+                        {isExpanded ? 'Thu nhỏ' : 'Mở rộng'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <button
+                  className={cx('close-btn')}
+                  onClick={() => {
+                    setShowChatBot(false);
+                    setExpanded(false);
+                  }}
+                >
+                  <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseIcon">
+                    <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div className={cx('chatbot-body')}>
               <div className={cx('chatbot-content')}>
+                {history[0].ask === '' && (
+                  <div className={cx('existing-questions')}>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Sản phẩm</h4>
+                      <button onClick={() => setAsk('Bạn có thể cho tôi biết thêm về sản phẩm này không?')}>
+                        Bạn có thể cho tôi biết thêm về sản phẩm này không?
+                      </button>
+                      <button onClick={() => setAsk('Sản phẩm này có các tùy chọn màu sắc nào?')}>
+                        Sản phẩm này có các tùy chọn màu sắc nào?
+                      </button>
+                      <button
+                        onClick={() => setAsk('Tôi có thể nhận được thông tin về kích thước của sản phẩm không?')}
+                      >
+                        Tôi có thể nhận được thông tin về kích thước của sản phẩm không?
+                      </button>
+                      <button onClick={() => setAsk('Sản phẩm này có chương trình khuyến mãi không?')}>
+                        Sản phẩm này có chương trình khuyến mãi không?
+                      </button>
+                      <button onClick={() => setAsk('Có chương trình bảo hành cho sản phẩm này không?')}>
+                        Có chương trình bảo hành cho sản phẩm này không?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Đặt hàng</h4>
+                      <button onClick={() => setAsk('Tôi làm thế nào để đặt hàng?')}>
+                        Tôi làm thế nào để đặt hàng?
+                      </button>
+                      <button onClick={() => setAsk('Có cần phải tạo tài khoản để mua hàng không?')}>
+                        Có cần phải tạo tài khoản để mua hàng không?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể thay đổi hoặc hủy đơn hàng đã đặt không?')}>
+                        Tôi có thể thay đổi hoặc hủy đơn hàng đã đặt không?
+                      </button>
+                      <button onClick={() => setAsk('Thời gian giao hàng là bao lâu sau khi đặt hàng?')}>
+                        Thời gian giao hàng là bao lâu sau khi đặt hàng?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Thanh toán</h4>
+                      <button onClick={() => setAsk('Các phương thức thanh toán nào được chấp nhận?')}>
+                        Các phương thức thanh toán nào được chấp nhận?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể thanh toán khi nhận hàng không?')}>
+                        Tôi có thể thanh toán khi nhận hàng không?
+                      </button>
+                      <button onClick={() => setAsk('Có phí giao hàng không và cách tính phí như thế nào?')}>
+                        Có phí giao hàng không và cách tính phí như thế nào?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể nhận hóa đơn điện tử không?')}>
+                        Tôi có thể nhận hóa đơn điện tử không?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Giao hàng</h4>
+                      <button onClick={() => setAsk('Khoảng thời gian giao hàng dự kiến là bao lâu?')}>
+                        Khoảng thời gian giao hàng dự kiến là bao lâu?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể theo dõi đơn hàng của mình không?')}>
+                        Tôi có thể theo dõi đơn hàng của mình không?
+                      </button>
+                      <button onClick={() => setAsk('Nếu đơn hàng bị trễ thì tôi có thể làm gì?')}>
+                        Nếu đơn hàng bị trễ thì tôi có thể làm gì?
+                      </button>
+                      <button onClick={() => setAsk('Có thể giao hàng đến địa chỉ nào?')}>
+                        Có thể giao hàng đến địa chỉ nào?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Hoàn trả và Đổi hàng</h4>
+                      <button onClick={() => setAsk('Chính sách hoàn trả của bạn là gì?')}>
+                        Chính sách hoàn trả của bạn là gì?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể đổi sản phẩm trong bao lâu sau khi mua?')}>
+                        Tôi có thể đổi sản phẩm trong bao lâu sau khi mua?
+                      </button>
+                      <button onClick={() => setAsk('Làm thế nào để gửi sản phẩm trả lại?')}>
+                        Làm thế nào để gửi sản phẩm trả lại?
+                      </button>
+                      <button onClick={() => setAsk('Tiền hoàn lại sẽ được trả trong bao lâu?')}>
+                        Tiền hoàn lại sẽ được trả trong bao lâu?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Hỗ trợ Khách hàng</h4>
+                      <button onClick={() => setAsk('Làm thế nào tôi có thể liên hệ với bộ phận hỗ trợ khách hàng?')}>
+                        Làm thế nào tôi có thể liên hệ với bộ phận hỗ trợ khách hàng?
+                      </button>
+                      <button onClick={() => setAsk('Giờ làm việc của bộ phận hỗ trợ khách hàng là gì?')}>
+                        Giờ làm việc của bộ phận hỗ trợ khách hàng là gì?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể gửi phản hồi hoặc khiếu nại qua đâu?')}>
+                        Tôi có thể gửi phản hồi hoặc khiếu nại qua đâu?
+                      </button>
+                      <button onClick={() => setAsk('Bạn có cung cấp hỗ trợ sau khi mua hàng không?')}>
+                        Bạn có cung cấp hỗ trợ sau khi mua hàng không?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi về Khuyến mãi và Ưu đãi</h4>
+                      <button onClick={() => setAsk('Hiện tại có chương trình khuyến mãi nào không?')}>
+                        Hiện tại có chương trình khuyến mãi nào không?
+                      </button>
+                      <button onClick={() => setAsk('Tôi có thể nhận được mã giảm giá bằng cách nào?')}>
+                        Tôi có thể nhận được mã giảm giá bằng cách nào?
+                      </button>
+                      <button onClick={() => setAsk('Các sản phẩm nào đang trong chương trình giảm giá?')}>
+                        Các sản phẩm nào đang trong chương trình giảm giá?
+                      </button>
+                      <button onClick={() => setAsk('Làm sao để đăng ký nhận thông tin khuyến mãi qua email?')}>
+                        Làm sao để đăng ký nhận thông tin khuyến mãi qua email?
+                      </button>
+                    </div>
+                    <div className={cx('question-category')}>
+                      <h4>Câu hỏi khác</h4>
+                      <button onClick={() => setAsk('Bạn có thể giới thiệu các sản phẩm tương tự cho tôi không?')}>
+                        Bạn có thể giới thiệu các sản phẩm tương tự cho tôi không?
+                      </button>
+                      <button onClick={() => setAsk('Tại sao tôi không thể tìm thấy sản phẩm tôi đang tìm kiếm?')}>
+                        Tại sao tôi không thể tìm thấy sản phẩm tôi đang tìm kiếm?
+                      </button>
+                      <button
+                        onClick={() => setAsk('Có một số câu hỏi thường gặp (FAQ) nào mà tôi nên xem qua không?')}
+                      >
+                        Có một số câu hỏi thường gặp (FAQ) nào mà tôi nên xem qua không?
+                      </button>
+                    </div>
+                  </div>
+                )}
                 {history &&
                   history.length > 0 &&
                   history.map((historyItem, index) => (
@@ -87,12 +283,14 @@ const ChatbotAi = () => {
                           sx={{ width: 30, height: 30 }}
                         />
                         {(historyItem.content === 'Thinking...' && <Loader />) || (
-                          <MDEditor.Markdown source={historyItem.content} className={cx('message-content')} />
+                          <>
+                            <HtmlContent content={historyItem.content} />
+                          </>
                         )}
                       </div>
                       {historyItem.ask !== '' && (
                         <div className={cx('message-user')}>
-                          <MDEditor.Markdown source={historyItem.ask} className={cx('message-content')} />
+                          <HtmlContent content={historyItem.ask} />
                         </div>
                       )}
                     </>
@@ -102,9 +300,18 @@ const ChatbotAi = () => {
             <div className={cx('chatbot-footer')}>
               <div className={cx('message-input')}>
                 <pre></pre>
+                {image !== '' && (
+                  <img src={`http://localhost:8080${image}`} alt="Ảnh hỏi" className={cx('image-question')} />
+                )}
                 <textarea
                   value={ask}
                   onChange={(e: any) => setAsk(e.target.value)}
+                  onKeyDown={(e: any) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleAskChatbot();
+                    }
+                  }}
                   placeholder="Nhập nội dung…"
                   aria-label="Write a reply…"
                   id="textarea"
@@ -156,7 +363,7 @@ const ChatbotAi = () => {
                 <path d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z" />
               </svg>
             </div>
-            <div className={cx('title')}>Chat với trợ lý ảo</div>
+            <div className={cx('title')}>Chat với nhân viên tư vấn</div>
           </div>
         </div>
       )}

@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
-import "./base.scss";
-import "./global.scss";
-import "./buttonSubmit.scss";
+import { ReactNode } from 'react';
+import './base.scss';
+import './global.scss';
+import './buttonSubmit.scss';
+import './contentChatbot.scss';
 interface GlobalStylesProps {
   children: ReactNode;
 }

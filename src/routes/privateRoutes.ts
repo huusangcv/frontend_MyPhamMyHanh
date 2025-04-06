@@ -11,12 +11,14 @@ import About from '../views/about/About';
 import Certificates from '../views/certificates/Certificates';
 import ProductDetail from '../views/details/ProductDetail';
 import Home from '../views/home/Home';
+import AccountSupport from '../views/memberGroups/accountSupport/AccountSupport';
 import AccountInfo from '../views/memberGroups/accoutInfo/AccountInfo';
 import AddressInfo from '../views/memberGroups/addressInfo/AddressInfo';
 import ChangePassword from '../views/memberGroups/changePassword/ChangePassword';
 import Member from '../views/memberGroups/member/Member';
 import Order from '../views/memberGroups/order/Order';
 import OrderDetail from '../views/memberGroups/orderDetail/OrderDetail';
+import Promotion from '../views/memberGroups/promotion/Promotion';
 import SocialAccount from '../views/memberGroups/socialAccount/SocialAccount';
 import UpdateAddress from '../views/memberGroups/updateAddress/UpdateAddress';
 import NewsDetail from '../views/news/NewsDetail';
@@ -81,6 +83,16 @@ const privateRoutes = [
   {
     path: configs.routes.memberSocialAccount,
     component: SocialAccount,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberPromotion,
+    component: Promotion,
+    layout: MemberLayout,
+  },
+  {
+    path: configs.routes.memberAccountSupport,
+    component: AccountSupport,
     layout: MemberLayout,
   },
   {

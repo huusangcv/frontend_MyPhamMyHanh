@@ -23,6 +23,8 @@ const routes = {
   memberAddressInfo: '/member/account/user-info/address-info',
   memberUpdateAddress: '/member/account/user-info/address-info/update-address',
   memberSocialAccount: '/member/social-account',
+  memberPromotion: '/member/promotion',
+  memberAccountSupport: '/member/account/support',
   notFound: '*',
 };
 

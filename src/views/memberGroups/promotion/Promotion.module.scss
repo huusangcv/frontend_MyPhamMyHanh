@@ -1,0 +1,48 @@
+.wapper {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.block-info {
+  margin: 0 auto;
+  max-width: 600px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.block-welcome__box-content {
+  text-align: center;
+}
+
+.promotion-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+
+.promotion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #fefefe;
+}
+
+.copy-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.copy-button:hover {
+  background-color: #0056b3;
+}

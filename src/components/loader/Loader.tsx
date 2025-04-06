@@ -1,25 +1,6 @@
 import './Loader.scss';
 const Loader = () => {
-  return (
-    <div className="loader">
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-      <div className="circle">
-        <div className="dot"></div>
-        <div className="outline"></div>
-      </div>
-    </div>
-  );
+  return <div className="loader">Đang nhập...</div>;
 };
 
 export default Loader;

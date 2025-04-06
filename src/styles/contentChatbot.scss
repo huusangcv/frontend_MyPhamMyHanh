@@ -1,0 +1,38 @@
+//items from chatbotAi backend
+.products-container {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép sản phẩm xuống hàng nếu không đủ không gian */
+  justify-content: space-between; /* Căn giữa sản phẩm */
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 200px; /* Giới hạn chiều rộng của mỗi thẻ sản phẩm */
+  margin: 10px; /* Khoảng cách giữa các sản phẩm */
+  flex: 1 1 200px; /* Giúp sản phẩm co dãn theo lưới */
+  box-sizing: border-box; /* Đảm bảo padding không tính vào width */
+}
+
+.product-name {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 1rem;
+  color: #d9534f;
+  margin-bottom: 4px;
+}
+
+.product-image {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  margin-top: 10px; /* Khoảng cách trên để không dính vào hình ảnh */
+}
