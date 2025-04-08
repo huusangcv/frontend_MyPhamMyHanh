@@ -15,9 +15,13 @@
     width: 100%;
     min-height: 1000px;
     border-top: 1px solid #ebebeb;
+    display: flex;
+    flex-direction: row;
+
     .sidebar-category {
       border-right: 1px solid #ebebeb;
       min-height: 100vh;
+      transition: all 0.3s ease;
       .heading {
         padding-top: 20px;
         text-transform: uppercase;
@@ -28,6 +32,7 @@
     .list-products {
       min-height: 1000px;
       padding: 20px;
+      transition: all 0.3s ease;
     }
 
     .list-categories {
@@ -113,5 +118,22 @@
         }
       }
     }
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    margin-top: -16px;
+  }
+  .MuiIconButton-root {
+    color: var(--primary-color);
+  }
+
+  .MuiMenu-paper {
+    min-width: 200px;
   }
 }
