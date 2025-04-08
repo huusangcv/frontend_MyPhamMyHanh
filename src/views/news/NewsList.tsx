@@ -180,7 +180,7 @@ const NewsList = () => {
                     <div className={cx('author')}>
                       <a href="/@sondangf8">
                         <div className={cx('avatar', user.roles === 'admin' && 'is-admin')}>
-                          <Avatar src={`http://localhost:8080${user.image}`} alt={user.username} />
+                          <Avatar src={`https://api.regis.id.vn${user.image}`} alt={user.username} />
                           {user.roles === 'admin' && (
                             <img
                               className={cx('crown')}
@@ -239,7 +239,7 @@ const NewsList = () => {
               <div className={cx('thumb', 'd-lg-none')}>
                 <Link to={`/news/detail/${news.slug}`}>
                   <img
-                    src={`http://localhost:8080${news.image}`}
+                    src={`https://api.regis.id.vn${news.image}`}
                     alt='Hoàng Bảo Trung - Học viên tiêu biểu của F8 tỏa sáng với dự án "AI Powered Learning"'
                   />
                 </Link>

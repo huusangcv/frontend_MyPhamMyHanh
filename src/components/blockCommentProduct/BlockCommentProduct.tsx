@@ -217,7 +217,7 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
                               user._id === comment.user_id && (
                                 <div className={cx('box-info')} key={user._id}>
                                   <div className={cx('box-info__avatar')}>
-                                    <Avatar src={`http://localhost:8080${user.image}`} alt={user.username} />
+                                    <Avatar src={`https://api.regis.id.vn${user.image}`} alt={user.username} />
                                   </div>
                                   <p className={cx('box-info__name')}>{user.username}</p>
                                 </div>
@@ -276,7 +276,7 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
                                                   <span className={cx('icon-cps')}>
                                                     <div>
                                                       <Avatar
-                                                        src={`http://localhost:8080${user.image}`}
+                                                        src={`https://api.regis.id.vn${user.image}`}
                                                         alt={user.username}
                                                       />
                                                     </div>

@@ -156,7 +156,11 @@ const OrderDetail = () => {
                             <div className={cx('block-order-item')}>
                               <div className={cx('order-item')}>
                                 <div className={cx('order-item__img')}>
-                                  <img src={`http://localhost:8080${product.image}`} alt="cps-product" loading="lazy" />
+                                  <img
+                                    src={`https://api.regis.id.vn${product.image}`}
+                                    alt="cps-product"
+                                    loading="lazy"
+                                  />
                                 </div>
                                 <div className={cx('order-item__info')}>
                                   <a

@@ -582,7 +582,7 @@ const Payment = () => {
                   paymentInfo.items.map((item, index) => (
                     <div className={cx('product-item')} key={index}>
                       <img
-                        src={`http://localhost:8080${item.image}`}
+                        src={`https://api.regis.id.vn${item.image}`}
                         alt="Laptop Gaming Acer Nitro V ANV15-51-58AN-Đen"
                         loading="lazy"
                         className={cx('product-img')}

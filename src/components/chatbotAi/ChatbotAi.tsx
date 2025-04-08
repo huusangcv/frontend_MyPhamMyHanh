@@ -301,7 +301,7 @@ const ChatbotAi = () => {
               <div className={cx('message-input')}>
                 <pre></pre>
                 {image !== '' && (
-                  <img src={`http://localhost:8080${image}`} alt="Ảnh hỏi" className={cx('image-question')} />
+                  <img src={`https://api.regis.id.vn${image}`} alt="Ảnh hỏi" className={cx('image-question')} />
                 )}
                 <textarea
                   value={ask}

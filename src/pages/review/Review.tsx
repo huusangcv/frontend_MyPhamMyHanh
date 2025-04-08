@@ -242,7 +242,7 @@ const Review = () => {
             <div className={cx('block-product-review')}>
               <Link to={`/product/${slug}`} className={cx('boxReview-product', 'is-flex is-justify-content-center')}>
                 <img
-                  src={`http://localhost:8080${product.images[0]}`}
+                  src={`https://api.regis.id.vn${product.images[0]}`}
                   width="110"
                   height="110"
                   alt=""
@@ -399,7 +399,7 @@ const Review = () => {
                                         <Avatar
                                           key={user._id}
                                           alt={user.username}
-                                          src={`http://localhost:8080${user.image}`}
+                                          src={`https://api.regis.id.vn${user.image}`}
                                         />
                                       ) : (
                                         'S'
