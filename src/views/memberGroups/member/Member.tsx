@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import SkeletonLoading from '../../../components/skeletonLoading/SkeletonLoading';
 import CardItem from '../../../components/card/Card';
 import productMethods from '../../../services/products';
-import qrCode from '../../../assets/qrCode.png';
+import qrCode from '../../../assets/qrcode.png';
 import orderMethods from '../../../services/orders';
 import News from '../../../components/news/News';
 
