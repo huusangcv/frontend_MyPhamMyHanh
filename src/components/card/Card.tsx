@@ -68,7 +68,7 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
         products.map(
           (product) =>
             product.bestseller && (
-              <Card sx={{ maxWidth: 345 }} key={product._id} className={cx('card')}>
+              <Card key={product._id} className={cx('card')}>
                 <Link to={`/product/${product.slug}`}>
                   <CardMedia
                     component="img"

@@ -193,7 +193,9 @@ const Products = () => {
             <MenuItem onClick={() => handleSortSelect('price-desc')}>Giá giảm dần</MenuItem>
             <MenuItem onClick={() => handleSortSelect('bestseller')}>Bán chạy</MenuItem>
           </Menu>
-          <IconButton onClick={toggleExpand}>{isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}</IconButton>
+          <IconButton onClick={toggleExpand}>
+            {isExpanded ? <ExpandLessIcon title="Thu gọn" /> : <ExpandMoreIcon title="Mở rộng" />}
+          </IconButton>
         </div>
         <div className={cx('our-products')}>SẢN PHẨM CỦA CHÚNG TÔI</div>
         <div></div>

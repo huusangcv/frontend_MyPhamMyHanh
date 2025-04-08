@@ -34,7 +34,7 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
               <span>×</span>
             </button>
 
-            <iframe src="https://accounts.regis.id.vn/login" frameBorder="0" className={cx('content__inner')}></iframe>
+            <iframe src="http://localhost:5174/login" frameBorder="0" className={cx('content__inner')}></iframe>
           </div>
         </div>
       )}

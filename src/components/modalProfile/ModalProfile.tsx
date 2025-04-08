@@ -8,6 +8,7 @@ import usersMethods from '../../services/users';
 import { useDispatch } from 'react-redux';
 import { setProfile } from '../../redux/features/profile/profileSlice';
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const styleModalProfile: CSSProperties = {
   zIndex: 9999,
@@ -59,7 +60,7 @@ const ModalProfile = () => {
       {isShowModalProfile && (
         <div data-tippy-root id="tippy-4" style={isShowModalProfile && styleModalProfile}>
           <ul className={cx('wapper__profile')}>
-            <a className={cx('user')} href="/@sanghuu2">
+            <Link className={cx('user')} to="/member">
               <div className={cx('avatarWapper')}>
                 <div className="_avatar_hzxfy_1">
                   <Avatar
@@ -73,31 +74,31 @@ const ModalProfile = () => {
                 <span className={cx('name')}>{profile.username}</span>
                 <div className={cx('email')}>{profile.email}</div>
               </div>
-            </a>
+            </Link>
             <hr />
             <ul className={cx('list')}>
               <li>
-                <a className={cx('item')} href="/@sanghuu2">
+                <Link className={cx('item')} to="/member/order">
                   Đơn hàng của tôi
-                </a>
+                </Link>
               </li>
             </ul>
             <hr />
             <ul className={cx('list')}>
               <li>
-                <a className={cx('item')} href="/@sanghuu2">
+                <Link className={cx('item')} to="/member">
                   Sản phẩm đã xem
-                </a>
+                </Link>
               </li>
               <li>
-                <a className={cx('item')} href="/@sanghuu2">
+                <Link className={cx('item')} to="/member">
                   Bài viết đã xem
-                </a>
+                </Link>
               </li>
               <li>
-                <a className={cx('item')} href="/@sanghuu2">
+                <Link className={cx('item')} to="/member">
                   Yêu thích
-                </a>
+                </Link>
               </li>
             </ul>
             <hr />

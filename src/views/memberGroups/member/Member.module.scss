@@ -1,7 +1,12 @@
 .wapper {
   .block-info {
     display: flex;
+    justify-content: space-between;
     gap: 1rem;
+
+    .block-mem-info__left {
+      width: 100%;
+    }
   }
 
   .block-welcome {
@@ -76,4 +81,83 @@
   display: flex;
   font-size: 14px;
   margin-right: 8px;
+}
+
+.wishList {
+  margin-top: 20px;
+}
+
+.wishList__title {
+  color: #000;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.block-homepage-menu {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #eaedef;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  border-radius: 8px;
+  box-shadow: none;
+
+  .block-homepage-menu__content {
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .content__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+  .content__item:first-of-type {
+    border-right: 1px solid #111;
+  }
+
+  .item__content {
+    font-size: 13px;
+    padding-top: 10px;
+
+    &.title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+  }
+
+  .block-homepage-menu__title {
+    border-bottom: none;
+    color: #637381;
+    font-size: 12px;
+    padding: 0 15px 5px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .block-homepage-menu__content {
+    display: flex;
+    justify-content: space-around;
+  }
+  .is-qr-code img {
+    display: block;
+    max-height: 130px;
+  }
+
+  .bottom-timer {
+    color: #919eab;
+    font-size: 10px;
+    text-align: center;
+  }
 }
