@@ -35,7 +35,7 @@ const ModalProfile = () => {
             email: '',
           }),
         );
-        Cookies.remove('customer', { path: '/' });
+        Cookies.remove('customer', { path: '/', domain: '.regis.id.vn' });
       }
     } catch (error) {
       console.log(error);
