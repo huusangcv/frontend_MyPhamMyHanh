@@ -74,7 +74,7 @@ export default function News() {
               component="img"
               alt="green iguana"
               height="140"
-              image={`https://https://backend.regis.id.vn${news.image}`}
+              image={`https://backend.regis.id.vn${news.image}`}
             />
           </Link>
           <CardContent>
@@ -91,7 +91,7 @@ export default function News() {
                   <div key={user._id} className={cx('more-info')}>
                     <div className={cx('info-item')}>
                       <div className={cx('avatar')}>
-                        <img src={`https://https://backend.regis.id.vn${user.image}`} alt="" />
+                        <img src={`https://backend.regis.id.vn${user.image}`} alt="" />
                       </div>
                       <span>{user.username}</span>
                     </div>

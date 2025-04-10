@@ -127,7 +127,7 @@ export default function SameProducts({ categoryId, currentProduct }: PropsSamePr
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`https://https://backend.regis.id.vn${product.images[0]}`}
+                    image={`https://backend.regis.id.vn${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>

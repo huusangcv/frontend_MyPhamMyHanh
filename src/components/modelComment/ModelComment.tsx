@@ -123,7 +123,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
                     <div className={cx('wapper__inner')}>
                       <div className={cx('content')}>
                         <Avatar
-                          src={`https://https://backend.regis.id.vn${profile.image}`}
+                          src={`https://backend.regis.id.vn${profile.image}`}
                           alt={profile.username}
                           className={cx('avatar')}
                         />
