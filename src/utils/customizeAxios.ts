@@ -1,6 +1,6 @@
 import axios from 'axios';
 const instance = axios.create({
-  baseURL: 'https://https://backend.regis.id.vn/v1/',
+  baseURL: 'https://backend.regis.id.vn/v1/',
 });
 instance.defaults.timeout = 5000;
 // Add a request interceptor
