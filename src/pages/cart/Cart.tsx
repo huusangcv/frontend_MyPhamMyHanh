@@ -175,7 +175,7 @@ const Cart = () => {
                           onChange={() => handleSelectItems(item)}
                         />
                         <img
-                          src={`https://api.regis.id.vn${item.image}`}
+                          src={`https://https://backend.regis.id.vn${item.image}`}
                           width="350"
                           alt="iPhone 13-Đen"
                           loading="lazy"

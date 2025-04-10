@@ -176,7 +176,7 @@ const Search = () => {
                       onClick={() => setShowResultSearch(false)}
                     >
                       <div className={cx('search__avatar')}>
-                        <img src={`https://api.regis.id.vn${product.images[0]}`} alt={product.name} />
+                        <img src={`https://https://backend.regis.id.vn${product.images[0]}`} alt={product.name} />
                       </div>
                       <span>{product.name}</span>
                     </Link>
@@ -200,7 +200,7 @@ const Search = () => {
                       onClick={() => setShowResultSearch(false)}
                     >
                       <div className={cx('search__avatar')}>
-                        <img src={`https://api.regis.id.vn${news.image}`} alt={news.title} />
+                        <img src={`https://https://backend.regis.id.vn${news.image}`} alt={news.title} />
                       </div>
                       <span>{news.title}</span>
                     </Link>

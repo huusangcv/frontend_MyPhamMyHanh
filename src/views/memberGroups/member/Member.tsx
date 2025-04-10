@@ -99,7 +99,7 @@ const Member = () => {
           <div className={cx('block-welcome')}>
             <div className={cx('block-welcome__box-content')}>
               <Avatar
-                src={`https://api.regis.id.vn${profile.image}`}
+                src={`https://https://backend.regis.id.vn${profile.image}`}
                 alt={profile.username}
                 sx={{ width: 60, height: 60 }}
               />

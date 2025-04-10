@@ -74,7 +74,7 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
                     component="img"
                     alt="green iguana"
                     height="140"
-                    image={`https://api.regis.id.vn${product.images[0]}`}
+                    image={`https://https://backend.regis.id.vn${product.images[0]}`}
                   />
                 </Link>
                 <CardContent>
@@ -155,7 +155,7 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
                 component="img"
                 alt="green iguana"
                 height="140"
-                image={`https://api.regis.id.vn${product.images[0]}`}
+                image={`https://https://backend.regis.id.vn${product.images[0]}`}
               />
             </Link>
             <CardContent>

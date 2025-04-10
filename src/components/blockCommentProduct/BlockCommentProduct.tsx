@@ -18,7 +18,7 @@ const caclTimePost = (createdAt: string) => {
   let timeAgo;
 
   if (secondsDiff < 60) {
-    timeAgo = `${secondsDiff} giây trước`;
+    timeAgo = `vừa xong`;
   } else if (secondsDiff < 3600) {
     const minutes = Math.floor(secondsDiff / 60);
     timeAgo = `${minutes} phút trước`;
@@ -217,7 +217,10 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
                               user._id === comment.user_id && (
                                 <div className={cx('box-info')} key={user._id}>
                                   <div className={cx('box-info__avatar')}>
-                                    <Avatar src={`https://api.regis.id.vn${user.image}`} alt={user.username} />
+                                    <Avatar
+                                      src={`https://https://backend.regis.id.vn${user.image}`}
+                                      alt={user.username}
+                                    />
                                   </div>
                                   <p className={cx('box-info__name')}>{user.username}</p>
                                 </div>
@@ -276,7 +279,7 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
                                                   <span className={cx('icon-cps')}>
                                                     <div>
                                                       <Avatar
-                                                        src={`https://api.regis.id.vn${user.image}`}
+                                                        src={`https://https://backend.regis.id.vn${user.image}`}
                                                         alt={user.username}
                                                       />
                                                     </div>

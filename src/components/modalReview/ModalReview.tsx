@@ -155,7 +155,7 @@ const ModalReview = ({
                 images.map((image, index) => (
                   <div className={cx('previewImg')}>
                     <div className={cx('img-container')}>
-                      <img src={`https://api.regis.id.vn${image}`} alt="hình của khách" loading="lazy" />
+                      <img src={`https://https://backend.regis.id.vn${image}`} alt="hình của khách" loading="lazy" />
                       <div className={cx('del-img')} onClick={() => setImages(images.filter((_, i) => i !== index))}>
                         <div className="input-icon">
                           <svg
