@@ -312,7 +312,7 @@ const ProductDetail = () => {
                           <div className={cx('swiper-slide')}>
                             <img
                               className={cx('img')}
-                              src={`https://backend.regis.id.vn${product.images[imageIndex]}`}
+                              src={`http://res.cloudinary.com${product.images[imageIndex]}`}
                               alt=""
                             />
                           </div>
@@ -325,7 +325,7 @@ const ProductDetail = () => {
                             key={index}
                             onClick={() => setImageIndex(index)}
                           >
-                            <img className={cx('img')} src={`https://backend.regis.id.vn${image}`} alt="" />
+                            <img className={cx('img')} src={`http://res.cloudinary.com${image}`} alt="" />
                           </div>
                         ))}
                       </div>
@@ -477,7 +477,7 @@ const ProductDetail = () => {
                         <div className={cx('sforum__content')} key={news._id}>
                           <Link to={`/news/detail/${news.slug}`} className={cx('sforum__content-item')}>
                             <img
-                              src={`https://backend.regis.id.vn${news.image}`}
+                              src={`http://res.cloudinary.com${news.image}`}
                               alt={news.title}
                               loading="lazy"
                               className={cx('content-item__img')}
@@ -641,7 +641,7 @@ const ProductDetail = () => {
                                             <Avatar
                                               key={user._id}
                                               alt={user.username}
-                                              src={`https://backend.regis.id.vn${user.image}`}
+                                              src={`http://res.cloudinary.com${user.image}`}
                                             />
                                           );
                                         }

@@ -74,7 +74,7 @@ export default function News() {
               component="img"
               alt="green iguana"
               height="140"
-              image={`https://backend.regis.id.vn${news.image}`}
+              image={`http://res.cloudinary.com${news.image}`}
             />
           </Link>
           <CardContent>
@@ -91,7 +91,7 @@ export default function News() {
                   <div key={user._id} className={cx('more-info')}>
                     <div className={cx('info-item')}>
                       <div className={cx('avatar')}>
-                        <img src={`https://backend.regis.id.vn${user.image}`} alt="" />
+                        <img src={`http://res.cloudinary.com${user.image}`} alt="" />
                       </div>
                       <span>{user.username}</span>
                     </div>

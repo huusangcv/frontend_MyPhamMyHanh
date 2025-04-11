@@ -21,7 +21,7 @@ const SlideThumbs = ({ images }: Image) => {
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
-            <img className={cx('thumb')} src={`https://backend.regis.id.vn${image}`} alt="" />
+            <img className={cx('thumb')} src={`http://res.cloudinary.com${image}`} alt="" />
           </div>
         ))}
       </Slider>

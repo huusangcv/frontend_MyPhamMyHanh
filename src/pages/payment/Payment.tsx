@@ -179,7 +179,7 @@ const Payment = () => {
       </div>
 
       <div className={cx('block-info')}>
-        <div className={cx('container', 'block-box')}>
+        <div className={cx('block-box')}>
           <div className={cx('nav')} data-v-6c7c95d0="" data-v-76dd8f4d="">
             <div className={cx('nav__item')} data-v-6c7c95d0="">
               <span data-v-6c7c95d0="">1. Thông tin</span>
@@ -582,7 +582,7 @@ const Payment = () => {
                   paymentInfo.items.map((item, index) => (
                     <div className={cx('product-item')} key={index}>
                       <img
-                        src={`https://backend.regis.id.vn${item.image}`}
+                        src={`http://res.cloudinary.com${item.image}`}
                         alt="Laptop Gaming Acer Nitro V ANV15-51-58AN-Đen"
                         loading="lazy"
                         className={cx('product-img')}

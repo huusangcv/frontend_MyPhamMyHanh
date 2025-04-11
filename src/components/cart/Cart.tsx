@@ -64,7 +64,7 @@ const Cart = () => {
                   {carts.items.map((cart) => (
                     <div className={cx('product__item')} key={cart.id}>
                       <Link to={`/product/${cart.slug}`}>
-                        <img src={`https://backend.regis.id.vn${cart.image}`} alt="" className={cx('product__thumb')} />
+                        <img src={`http://res.cloudinary.com${cart.image}`} alt="" className={cx('product__thumb')} />
                       </Link>
                       <div className={cx('product__info')}>
                         <div className={cx('product__title')}>

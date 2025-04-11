@@ -83,7 +83,7 @@ const Order = () => {
         <div className={cx('block-welcome')}>
           <div className={cx('block-welcome__box-content')}>
             <Avatar
-              src={`https://backend.regis.id.vn${profile.image}`}
+              src={`http://res.cloudinary.com${profile.image}`}
               alt={profile.username}
               sx={{ width: 60, height: 60 }}
             />
@@ -209,7 +209,7 @@ const Order = () => {
                 <div className={cx('order-item')}>
                   <div className={cx('order-item__img')}>
                     <img
-                      src={`https://backend.regis.id.vn${order.products[0].image}`}
+                      src={`http://res.cloudinary.com${order.products[0].image}`}
                       alt={order.products[0].name}
                       loading="lazy"
                     />

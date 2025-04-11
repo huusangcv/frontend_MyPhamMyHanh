@@ -377,7 +377,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                         <div className={cx('user')}>
                           <Avatar
                             className={cx('avatar')}
-                            src={`https://backend.regis.id.vn${user.image}`}
+                            src={`http://res.cloudinary.com${user.image}`}
                             alt={user.username}
                           />
                           <div className={cx('info')}>
@@ -550,7 +550,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                   <div className={cx('wapper__inner')}>
                     <div className={cx('content')}>
                       <Avatar
-                        src={`https://backend.regis.id.vn${profile.image}`}
+                        src={`http://res.cloudinary.com${profile.image}`}
                         alt={profile.username}
                         className={cx('avatar')}
                       />
@@ -599,7 +599,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                 <div className={cx('wapper__inner')}>
                   <div className={cx('content')}>
                     <Avatar
-                      src={`https://backend.regis.id.vn${profile.image}`}
+                      src={`http://res.cloudinary.com${profile.image}`}
                       alt={profile.username}
                       className={cx('avatar')}
                     />
@@ -666,7 +666,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                                     .map((user) => (
                                       <div key={user._id} className={cx('user')}>
                                         <Avatar
-                                          src={`https://backend.regis.id.vn${reply.user_id !== profile._id ? user.image : profile.image}`}
+                                          src={`http://res.cloudinary.com${reply.user_id !== profile._id ? user.image : profile.image}`}
                                           alt={user._id !== profile._id ? user.username : profile.username}
                                           className={cx('avatar')}
                                         />
@@ -828,7 +828,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                                     <div className={cx('wapper__inner')}>
                                       <div className={cx('content')}>
                                         <Avatar
-                                          src={`https://backend.regis.id.vn${profile.image}`}
+                                          src={`http://res.cloudinary.com${profile.image}`}
                                           alt={profile.username}
                                           className={cx('avatar')}
                                         />
@@ -887,7 +887,7 @@ const CommentList = ({ comments, handleSetComments }: PropsModelComment) => {
                                     <div className={cx('wapper__inner')}>
                                       <div className={cx('content')}>
                                         <Avatar
-                                          src={`https://backend.regis.id.vn${profile.image}`}
+                                          src={`http://res.cloudinary.com${profile.image}`}
                                           alt={profile.username}
                                           className={cx('avatar')}
                                         />
