@@ -320,8 +320,6 @@ const Cart = () => {
             </span>
           </div>
         )}
-      </div>
-      <div>
         <div className={cx('stickyBottomBar')}>
           {(cart && cart.items.length > 0 && (
             <>
@@ -349,6 +347,8 @@ const Cart = () => {
             </Link>
           )}
         </div>
+      </div>
+      <div>
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div> <div className={cx('clear')}></div>
       </div>

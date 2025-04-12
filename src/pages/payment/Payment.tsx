@@ -538,82 +538,85 @@ const Payment = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <div className={cx('stickyBottomBar')}>
-          <div data-v-46ce1f8b="" className={cx('total-box')}>
-            <p data-v-46ce1f8b="" className={cx('title-temp')}>
-              Tổng tiền tạm tính:
-            </p>
-            <div data-v-46ce1f8b="" className="price d-flex flex-column align-items-end">
-              <span data-v-46ce1f8b="" className={cx('total')}>
-                {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
-              </span>
+        <div>
+          <div className={cx('stickyBottomBar')}>
+            <div data-v-46ce1f8b="" className={cx('total-box')}>
+              <p data-v-46ce1f8b="" className={cx('title-temp')}>
+                Tổng tiền tạm tính:
+              </p>
+              <div data-v-46ce1f8b="" className="price d-flex flex-column align-items-end">
+                <span data-v-46ce1f8b="" className={cx('total')}>
+                  {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
+                </span>
+              </div>
+            </div>
+            <div className={cx('go-back')} onClick={handlePayment}>
+              THANH TOÁN
+            </div>
+            <div data-v-46ce1f8b="" id="viewListItemInQuote" className={cx('viewListItemInQuote')}>
+              <button id="viewListItemInQuote-btn" type="button" onClick={() => setShowModalListItem(true)}>
+                Kiểm tra danh sách sản phẩm ({paymentInfo.totalQuantity})
+              </button>
             </div>
           </div>
-          <div className={cx('go-back')} onClick={handlePayment}>
-            THANH TOÁN
-          </div>
-          <div data-v-46ce1f8b="" id="viewListItemInQuote" className={cx('viewListItemInQuote')}>
-            <button id="viewListItemInQuote-btn" type="button" onClick={() => setShowModalListItem(true)}>
-              Kiểm tra danh sách sản phẩm ({paymentInfo.totalQuantity})
-            </button>
-          </div>
-        </div>
-        <div className={cx('modal__list-item', { show: showModalListItem })}>
-          <div className={cx('list-item__overplay')}></div>
-          <div className={cx('modal__main')}>
-            <div className={cx('modal__content')}>
-              <header className={cx('modal-header')}>
-                <h5 className={cx('modal-title')}>Danh sách sản phẩm đang thanh toán</h5>
-                <button
-                  type="button"
-                  aria-label="Close"
-                  className={cx('close')}
-                  onClick={() => setShowModalListItem(false)}
-                >
-                  ×
-                </button>
-              </header>
-              <div className={cx('modal-body')}>
-                {paymentInfo &&
-                  paymentInfo.items.length > 0 &&
-                  paymentInfo.items.map((item, index) => (
-                    <div className={cx('product-item')} key={index}>
-                      <img
-                        src={`http://res.cloudinary.com${item.image}`}
-                        alt="Laptop Gaming Acer Nitro V ANV15-51-58AN-Đen"
-                        loading="lazy"
-                        className={cx('product-img')}
-                      />
-                      <div className={cx('product-info')}>
-                        <p>{item.name}</p>
-                        <div className={cx('item__price')}>
-                          <div>
-                            <div className={cx('block-box-price')}>
-                              <div className={cx('box-info__box-price')}>
-                                <p className={cx('product__price--show')}>{formatter.format(item.price)}đ</p>
-                                {item.price - item.priceThrought < 0 && (
-                                  <p className={cx('product__price--through')}>
-                                    {formatter.format(item.priceThrought)}đ
-                                  </p>
-                                )}
+          <div className={cx('modal__list-item', { show: showModalListItem })}>
+            <div className={cx('list-item__overplay')}></div>
+            <div className={cx('modal__main')}>
+              <div className={cx('modal__content')}>
+                <header className={cx('modal-header')}>
+                  <h5 className={cx('modal-title')}>Danh sách sản phẩm đang thanh toán</h5>
+                  <button
+                    type="button"
+                    aria-label="Close"
+                    className={cx('close')}
+                    onClick={() => setShowModalListItem(false)}
+                  >
+                    ×
+                  </button>
+                </header>
+                <div className={cx('modal-body')}>
+                  {paymentInfo &&
+                    paymentInfo.items.length > 0 &&
+                    paymentInfo.items.map((item, index) => (
+                      <div className={cx('product-item')} key={index}>
+                        <img
+                          src={`http://res.cloudinary.com${item.image}`}
+                          alt="Laptop Gaming Acer Nitro V ANV15-51-58AN-Đen"
+                          loading="lazy"
+                          className={cx('product-img')}
+                        />
+                        <div className={cx('product-info')}>
+                          <p>{item.name}</p>
+                          <div className={cx('item__price')}>
+                            <div>
+                              <div className={cx('block-box-price')}>
+                                <div className={cx('box-info__box-price')}>
+                                  <p className={cx('product__price--show')}>{formatter.format(item.price)}đ</p>
+                                  {item.price - item.priceThrought < 0 && (
+                                    <p className={cx('product__price--through')}>
+                                      {formatter.format(item.priceThrought)}đ
+                                    </p>
+                                  )}
+                                </div>
                               </div>
                             </div>
+                            <p>
+                              Số lượng: {''}
+                              <span className={cx('text-danger')}>{item.quantity}</span>
+                            </p>
                           </div>
-                          <p>
-                            Số lượng: {''}
-                            <span className={cx('text-danger')}>{item.quantity}</span>
-                          </p>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div>
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div>
         <div className={cx('clear')}></div>

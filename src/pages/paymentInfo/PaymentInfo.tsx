@@ -470,9 +470,6 @@ const PaymentInfo = () => {
             </span>
           </div>
         </div>
-      </div>
-
-      <div>
         <div className={cx('stickyBottomBar')}>
           <div data-v-46ce1f8b="" className={cx('total-box')}>
             <p data-v-46ce1f8b="" className={cx('title-temp')}>
@@ -509,6 +506,9 @@ const PaymentInfo = () => {
             Tiếp tục
           </div>
         </div>
+      </div>
+
+      <div>
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div>
         <div className={cx('clear')}></div>
