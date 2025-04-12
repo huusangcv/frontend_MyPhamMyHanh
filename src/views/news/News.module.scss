@@ -15,7 +15,7 @@
     line-height: var(--line-height, 2);
     font-size: var(--font-size, 1.8rem);
   }
-  }
+}
 
 .wapper {
   margin-bottom: 30px;
@@ -206,6 +206,7 @@
 }
 
 .wapper-detail {
+  margin-top: 30px;
   margin-bottom: 40px;
 
   .heading {

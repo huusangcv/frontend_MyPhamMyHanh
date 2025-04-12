@@ -310,15 +310,15 @@ svg:not(:host).svg-inline--fa {
   }
 
   .block-breadcrumbs {
-    padding-left: 115px;
+    padding-top: 5px;
     align-items: center;
     background: #fff;
     box-shadow:
       0 2px 6px 0 rgba(60, 64, 67, 0.1),
       0 4px 8px 0 rgba(60, 64, 67, 0.15);
     display: flex;
-    height: 30px;
     overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -368,3 +368,11 @@ svg:not(:host).svg-inline--fa {
 // .MuiBox-root {
 //   width: 100% !important;
 // }
+
+ol.MuiBreadcrumbs-ol {
+  flex-wrap: nowrap;
+
+  li {
+    white-space: nowrap;
+  }
+}

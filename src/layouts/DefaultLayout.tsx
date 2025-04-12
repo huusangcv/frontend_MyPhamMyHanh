@@ -39,12 +39,12 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             <button className={cx('close')} onClick={() => dispatch(setShowAccountModal(false))}>
               <span>×</span>
             </button>
-
             <iframe src="https://accounts.regis.id.vn/login" frameBorder="0" className={cx('content__inner')}></iframe>
           </div>
         </div>
       )}
       <ChatbotAi />
+      <BottomNav />
     </>
   );
 };
