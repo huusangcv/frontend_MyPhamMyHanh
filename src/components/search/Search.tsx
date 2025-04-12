@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import productMethods from '../../services/products';
 import { Link } from 'react-router-dom';
 import newsMethods from '../../services/news';
