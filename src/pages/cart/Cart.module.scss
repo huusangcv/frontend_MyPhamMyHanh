@@ -52,6 +52,7 @@
 }
 
 .block-info {
+  width: 100%;
   border-radius: 10px;
   margin: auto auto 20px;
   max-width: 600px;
@@ -83,6 +84,12 @@
   position: fixed;
   width: 100%;
   z-index: 11;
+
+  @media (max-width: 767.98px) {
+    left: 50%;
+    translate: -50%;
+  }
+
   .go-back {
     cursor: pointer;
     background: var(--primary-color);

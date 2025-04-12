@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import Header from '../components/header/Header';
-import { Box } from '@mui/material';
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
 import { ToastContainer } from 'react-toastify';
@@ -23,9 +22,7 @@ const CartLayout: React.FC<CartLayoutProps> = ({ children }) => {
     <>
       <Header></Header>
       <div className={cx('sidebar-container')}>
-        <div className={cx('sidebar-content')}>
-          <Box sx={{ bgcolor: '#fff' }}>{children}</Box>
-        </div>
+        <div className={cx('sidebar-content')}>{children}</div>
       </div>
       <ToastContainer />
       {isShowModalAccount && (
