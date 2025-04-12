@@ -34,18 +34,6 @@
   font-family: Montserrat;
 }
 
-.is-size-7 {
-  font-size: 1rem !important;
-}
-
-.has-text-centered {
-  text-align: center !important;
-}
-
-.is-hidden {
-  display: none !important;
-}
-
 .ctaBtn {
   margin-top: 12px;
   text-align: center;
@@ -141,14 +129,6 @@
   overflow: visible;
   vertical-align: -0.125em;
   fill: currentColor;
-}
-
-.is-flex {
-  display: flex !important;
-}
-
-.is-align-items-center {
-  align-items: center !important;
 }
 
 .wmde-markdown {
@@ -295,22 +275,6 @@ svg:not(:host).svg-inline--fa {
   overflow: visible;
   vertical-align: -0.125em;
   fill: currentColor;
-}
-
-.d-none {
-  display: none;
-}
-
-@media (max-width: 1199.98px) {
-  .d-lg-none {
-    display: none !important;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .d-md-block {
-    display: block !important;
-  }
 }
 
 .pagination {

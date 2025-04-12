@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import Header from '../components/header/Header';
-import { Box } from '@mui/material';
 import Sidebar from '../components/sidebar/Sidebar';
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
@@ -28,9 +27,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <Header></Header>
       <div className={cx('sidebar-container')}>
         <Sidebar />
-        <div className={cx('sidebar-content')}>
-          <Box sx={{ bgcolor: '#fff' }}>{children}</Box>
-        </div>
+        <div className={cx('sidebar-content')}>{children}</div>
       </div>
       <BottomNav />
       <Footer />

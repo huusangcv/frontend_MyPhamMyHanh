@@ -47,6 +47,10 @@
   font-size: 1.2rem;
   cursor: pointer;
 
+  @media (max-width: 575.98px) {
+    display: none;
+  }
+
   &-next {
     right: 0;
     transform: translate(50%, -50%);

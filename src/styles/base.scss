@@ -124,18 +124,6 @@ table {
   border-spacing: 0;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover,
-a:focus,
-a:visited {
-  text-decoration: none;
-  outline: none;
-}
-
 svg:not(:root).svg-inline--fa,
 svg:not(:host).svg-inline--fa {
   overflow: visible;
@@ -179,11 +167,9 @@ p {
   margin: 0;
 }
 
-a:hover,
-a:focus,
-a:visited {
+a {
   text-decoration: none;
-  outline: none;
+  color: inherit;
 }
 
 *,

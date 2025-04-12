@@ -161,12 +161,12 @@ const NewsList = () => {
         </div>
       </Grid>
       <Grid item md={8}>
-        <div className={cx('wapper-right', 'd-none', 'd-md-block')}>
+        <div className={cx('wapper-right', 'd-lg-none', 'd-md-block')}>
           <h3>Xem các bài viết theo chủ đề</h3>
           <ul className={cx('topic')}>
             {tags.map((tag) => (
               <li key={tag._id}>
-                <Link to="">{tag.name}</Link>
+                <Link to={`/news/${tag.slug}`}>{tag.name}</Link>
               </li>
             ))}
           </ul>
@@ -266,7 +266,7 @@ const NewsList = () => {
         )}
       </Grid>
       <Grid item md={4}>
-        <div className={cx('wapper-right', 'd-lg-none')}>
+        <div className={cx('wapper-right')}>
           <h3>Xem các bài viết theo chủ đề</h3>
           <ul className={cx('topic')}>
             {tags.map(

@@ -68,84 +68,86 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
         products.map(
           (product) =>
             product.bestseller && (
-              <Card key={product._id} className={cx('card')}>
-                <Link to={`/product/${product.slug}`}>
-                  <CardMedia
-                    component="img"
-                    alt="green iguana"
-                    height="140"
-                    image={`http://res.cloudinary.com${product.images[0]}`}
-                  />
-                </Link>
-                <CardContent>
+              <div className="col">
+                <Card key={product._id} className={cx('card')}>
                   <Link to={`/product/${product.slug}`}>
-                    <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
-                      {product.name}
-                    </Typography>
+                    <CardMedia
+                      component="img"
+                      alt="green iguana"
+                      height="140"
+                      image={`http://res.cloudinary.com${product.images[0]}`}
+                    />
                   </Link>
-                  {(product.discount > 0 && (
-                    <div className={cx('wrap-price')}>
-                      <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
-                        <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
+                  <CardContent>
+                    <Link to={`/product/${product.slug}`}>
+                      <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
+                        {product.name}
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
+                    </Link>
+                    {(product.discount > 0 && (
+                      <div className={cx('wrap-price')}>
+                        <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
+                          <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
+                        </Typography>
+                        <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
+                          <span> {formatter.format(product.price)}đ</span>
+                        </Typography>
+                      </div>
+                    )) || (
+                      <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
                         <span> {formatter.format(product.price)}đ</span>
                       </Typography>
-                    </div>
-                  )) || (
-                    <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
-                      <span> {formatter.format(product.price)}đ</span>
+                    )}
+
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {categories.map((category) => {
+                        if (product.category_id === category._id) {
+                          return (
+                            <span key={category._id} className={cx('category-name')}>
+                              {category.name}
+                            </span>
+                          );
+                        }
+                      })}
                     </Typography>
-                  )}
+                  </CardContent>
 
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {categories.map((category) => {
-                      if (product.category_id === category._id) {
-                        return (
-                          <span key={category._id} className={cx('category-name')}>
-                            {category.name}
-                          </span>
-                        );
-                      }
-                    })}
-                  </Typography>
-                </CardContent>
+                  <CardActions sx={{ justifyContent: 'space-between' }}>
+                    <RatingByProduct currentProduct={product._id} />
 
-                <CardActions sx={{ justifyContent: 'space-between' }}>
-                  <RatingByProduct currentProduct={product._id} />
-
-                  <div className={cx('cta-wrap')}>
-                    <Button
-                      size="small"
-                      onClick={() => {
-                        dispatch(
-                          addItemToCart({
-                            id: product._id,
-                            name: product.name,
-                            image: product.images[0],
-                            priceThrought: product.price,
-                            slug: product.slug,
-                            price: product.price * (1 - product.discount / 100),
-                            quantity: 1,
-                          }),
-                        );
-                        toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
-                          position: 'bottom-center',
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: false,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: 'light',
-                        });
-                      }}
-                    >
-                      <AddShoppingCartIcon />
-                    </Button>
-                  </div>
-                </CardActions>
-              </Card>
+                    <div className={cx('cta-wrap')}>
+                      <Button
+                        size="small"
+                        onClick={() => {
+                          dispatch(
+                            addItemToCart({
+                              id: product._id,
+                              name: product.name,
+                              image: product.images[0],
+                              priceThrought: product.price,
+                              slug: product.slug,
+                              price: product.price * (1 - product.discount / 100),
+                              quantity: 1,
+                            }),
+                          );
+                          toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
+                            position: 'bottom-center',
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light',
+                          });
+                        }}
+                      >
+                        <AddShoppingCartIcon />
+                      </Button>
+                    </div>
+                  </CardActions>
+                </Card>
+              </div>
             ),
         )) ||
         products.map((product) => (

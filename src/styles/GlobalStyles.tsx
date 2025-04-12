@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './base.scss';
 import './global.scss';
 import './buttonSubmit.scss';

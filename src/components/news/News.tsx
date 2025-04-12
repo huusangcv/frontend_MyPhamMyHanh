@@ -68,43 +68,45 @@ export default function News() {
   return (
     <>
       {news.map((news) => (
-        <Card sx={{ maxWidth: 345 }} key={news._id} className={cx('card')}>
-          <Link to={`/news/detail/${news.slug}`}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="140"
-              image={`http://res.cloudinary.com${news.image}`}
-            />
-          </Link>
-          <CardContent>
+        <div className="col" key={news._id}>
+          <Card sx={{ maxWidth: '100%' }} key={news._id} className={cx('card')}>
             <Link to={`/news/detail/${news.slug}`}>
-              <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
-                {news.title}
-              </Typography>
+              <CardMedia
+                component="img"
+                alt="green iguana"
+                height="140"
+                image={`http://res.cloudinary.com${news.image}`}
+              />
             </Link>
-          </CardContent>
-          <CardActions>
-            {users.map((user) => {
-              if (user._id === news.author) {
-                return (
-                  <div key={user._id} className={cx('more-info')}>
-                    <div className={cx('info-item')}>
-                      <div className={cx('avatar')}>
-                        <img src={`http://res.cloudinary.com${user.image}`} alt="" />
+            <CardContent>
+              <Link to={`/news/detail/${news.slug}`}>
+                <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
+                  {news.title}
+                </Typography>
+              </Link>
+            </CardContent>
+            <CardActions>
+              {users.map((user) => {
+                if (user._id === news.author) {
+                  return (
+                    <div key={user._id} className={cx('more-info')}>
+                      <div className={cx('info-item')}>
+                        <div className={cx('avatar')}>
+                          <img src={`http://res.cloudinary.com${user.image}`} alt="" />
+                        </div>
+                        <span>{user.username}</span>
                       </div>
-                      <span>{user.username}</span>
+                      <div className={cx('view')}>
+                        {formatter.format(news.view)}
+                        <VisibilityIcon />
+                      </div>
                     </div>
-                    <div className={cx('view')}>
-                      {formatter.format(news.view)}
-                      <VisibilityIcon />
-                    </div>
-                  </div>
-                );
-              }
-            })}
-          </CardActions>
-        </Card>
+                  );
+                }
+              })}
+            </CardActions>
+          </Card>
+        </div>
       ))}
     </>
   );

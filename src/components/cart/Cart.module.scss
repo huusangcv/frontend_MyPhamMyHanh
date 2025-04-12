@@ -1,5 +1,10 @@
 .cart {
   margin-right: 10px;
+
+  @media (max-width: 575.98px) {
+    display: none;
+  }
+
   &__dropdown {
     z-index: 9999;
     position: absolute;

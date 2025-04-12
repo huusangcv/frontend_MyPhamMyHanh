@@ -13,6 +13,10 @@
   border: 2px solid rgb(232, 232, 232);
   transition: border-color 0.2sease-in-out;
 
+  @media (max-width: 767.98px) {
+    width: 100%;
+  }
+
   &__seemore {
     font-size: 1.4rem;
     color: var(--desc-color);
@@ -24,10 +28,16 @@
   &__inner {
     z-index: 9999;
     position: absolute;
-    inset: 0 auto auto 0;
-    top: 0;
-    left: -110px;
-    transform: translate3d(433.333px, 62.6667px, 0px);
+    top: 50px;
+
+    @media (max-width: 767.98px) {
+      top: 60px;
+      left: 0;
+    }
+
+    @media (max-width: 575.98px) {
+      display: none;
+    }
   }
 
   &__wapper {
@@ -53,6 +63,10 @@
     font-size: 1.4rem;
     overflow-y: auto;
     overscroll-behavior: contain;
+
+    @media (max-width: 767.98px) {
+      width: 100%;
+    }
   }
 
   &__header {

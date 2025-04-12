@@ -1,13 +1,13 @@
-import SlideSlick from "../../components/sildeslick/SlideSlick";
-import classNames from "classnames/bind";
-import styles from "./Home.module.scss";
-import { Box } from "@mui/material";
-import CardItem from "../../components/card/Card";
-import News from "../../components/news/News";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import productMethods from "../../services/products";
-import SkeletonLoading from "../../components/skeletonLoading/SkeletonLoading";
+import SlideSlick from '../../components/sildeslick/SlideSlick';
+import classNames from 'classnames/bind';
+import styles from './Home.module.scss';
+import { Box } from '@mui/material';
+import CardItem from '../../components/card/Card';
+import News from '../../components/news/News';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import productMethods from '../../services/products';
+import SkeletonLoading from '../../components/skeletonLoading/SkeletonLoading';
 interface Product {
   _id: string;
   name: string;
@@ -42,21 +42,21 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    document.title = "Trang chủ | Mỹ phẩm Mỹ Hạnh";
+    document.title = 'Trang chủ | Mỹ phẩm Mỹ Hạnh';
     scroll({
       top: 0,
     });
   }, []);
 
   return (
-    <div className={cx("home")} style={{ width: "100%" }}>
+    <div className={cx('home')} style={{ width: '100%' }}>
       <SlideSlick />
-      <div className={cx("wapper")}>
-        <div className={cx("heading-wrap")}>
-          <h2 className={cx("heading")}>
+      <div className={cx('wapper')}>
+        <div className={cx('heading-wrap')}>
+          <h2 className={cx('heading')}>
             <span>Sản phẩm nổi bật</span>
           </h2>
-          <div className={cx("view-all")}>
+          <div className={cx('view-all')}>
             <Link to="/products/all">
               Xem tất cả
               <svg
@@ -78,27 +78,17 @@ const Home = () => {
           </div>
         </div>
 
-        <Box
-          sx={{
-            width: "100%",
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
-            gap: 2,
-          }}
-        >
-          {(isLoading && <SkeletonLoading />) || (
-            <CardItem products={products} isBestseller />
-          )}
-        </Box>
+        <div className="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
+          {(isLoading && <SkeletonLoading />) || <CardItem products={products} isBestseller />}
+        </div>
       </div>
-      <div className={cx("wapper")} style={{ marginTop: 20 }}>
-        <div className={cx("heading-wrap")}>
-          <h2 className={cx("heading")}>
+      <div className={cx('wapper')} style={{ marginTop: 20 }}>
+        <div className={cx('heading-wrap')}>
+          <h2 className={cx('heading')}>
             <span>Tin tức nổi bật</span>
           </h2>
-          <div className={cx("view-all")}>
-            <Link to="/news">
+          <div className={cx('view-all')}>
+            <Link to="/news/all">
               Xem tất cả
               <svg
                 aria-hidden="true"
@@ -119,17 +109,9 @@ const Home = () => {
           </div>
         </div>
 
-        <Box
-          sx={{
-            width: "100%",
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
-            gap: 2,
-          }}
-        >
+        <div className="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
           <News />
-        </Box>
+        </div>
       </div>
     </div>
   );

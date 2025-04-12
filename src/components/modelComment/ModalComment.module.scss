@@ -10,6 +10,11 @@
   transition: ease 0.4s;
   visibility: visible;
   opacity: 1;
+
+  @media (max-width: 767.98px) {
+    padding: 10px 10px calc(20% - 10px);
+  }
+
   .overplay {
     position: absolute;
     inset: 0;
@@ -41,6 +46,12 @@
     animation: _slide-in_clz7v_1ease 0.5s;
     overflow: hidden;
 
+    @media (max-width: 991.98px) {
+      width: 100%;
+      min-width: 0;
+      border-radius: 16px;
+    }
+
     .close-btn {
       position: absolute;
       top: 0;
@@ -61,6 +72,14 @@
       overflow-y: auto;
       overflow-x: hidden;
       min-height: 100vh;
+
+      @media (max-width: 991.98px) {
+        max-height: 100%;
+      }
+
+      @media (max-width: 767.98px) {
+        padding: 16px;
+      }
 
       .wapper {
         position: relative;
@@ -243,4 +262,17 @@
   padding: 8px;
   border-radius: 8px;
   color: #fff;
+
+  @media (max-width: 767.98px) {
+    margin-top: 16px;
+  }
+}
+
+@keyframes _slide-in_clz7v_1ease {
+  0% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

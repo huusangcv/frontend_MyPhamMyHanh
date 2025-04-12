@@ -1,10 +1,9 @@
 .product-menu {
-  & {
-    @media (max-width: 767.98px) {
-      display: none;
-    }
-  }
   position: relative;
+
+  @media (max-width: 767.98px) {
+    display: none;
+  }
   .menu-heading {
     display: flex;
     align-items: center;

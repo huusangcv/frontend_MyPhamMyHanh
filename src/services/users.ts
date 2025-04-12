@@ -10,27 +10,27 @@ const usersMethods = {
     return result;
   },
   profile: async (sessionToken: string) => {
-    const result = await axios.get(`/auth/user/${sessionToken}`);
+    const result = await axios.get(`auth/user/${sessionToken}`);
     return result;
   },
   updateProfile: async (id: string, name: string) => {
-    const result = await axios.patch(`/auth/user/${id}`, { username: name });
+    const result = await axios.patch(`auth/user/${id}`, { username: name });
     return result;
   },
   logout: async () => {
-    const result = await axios.get(`/auth/user/logout`);
+    const result = await axios.get(`auth/user/logout`);
     return result;
   },
   changePassword: async (data: { email: string; password: string; currentPassword: string }) => {
-    const result = await axios.post(`/auth/user/changePassword`, data);
+    const result = await axios.post(`auth/user/changePassword`, data);
     return result;
   },
   cancelGoogleAccount: async (data: { email: string }) => {
-    const result = await axios.post(`/auth/user/cancelGoogleAccount`, data);
+    const result = await axios.post(`auth/user/cancelGoogleAccount`, data);
     return result;
   },
   connectGoogleAccount: async (data: { email: string }) => {
-    const result = await axios.post(`/auth/user/connectGoogleAccount`, data);
+    const result = await axios.post(`auth/user/connectGoogleAccount`, data);
     return result;
   },
   uploadImage: async (id: string, data: any) => {
@@ -40,7 +40,7 @@ const usersMethods = {
       const newFile = new File([data], newFileName, { type: data.type });
       const formData = new FormData();
       formData.append('file', newFile, newFile.name);
-      const result = await axios.patch(`/auth/uploadAvatar/${id}`, formData);
+      const result = await axios.patch(`auth/uploadAvatar/${id}`, formData);
       return result;
     }
   },

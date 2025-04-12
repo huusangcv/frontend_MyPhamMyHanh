@@ -18,11 +18,13 @@ const Header = () => {
 
   return (
     <header className={cx('header')}>
-      <a onClick={() => navigate('/')}>
-        <img src={logoDesktop} alt="Logo" width={150} className={cx('logo-desktop', 'logo')} />
-        <img src={logoMoblie} alt="Logo" width={38} className={cx('logo-mobile', 'logo')} />
-      </a>
-      <ProductMenu />
+      <div className="d-flex justify-content-between align-items-center gap-3">
+        <a onClick={() => navigate('/')}>
+          <img src={logoDesktop} alt="Logo" width={150} className={cx('logo-desktop', 'logo')} />
+          <img src={logoMoblie} alt="Logo" width={38} className={cx('logo-mobile', 'logo')} />
+        </a>
+        <ProductMenu />
+      </div>
       <div className={cx('body')}>
         <div>
           <Search />
@@ -32,7 +34,7 @@ const Header = () => {
       {(profile._id !== '' && (
         <div className={cx('header__actions')}>
           {profile._id !== '' && (
-            <div className="d-lg-none">
+            <div>
               <button className={cx('btn-member')} aria-expanded="false" onClick={() => navigate('/member/order')}>
                 Đơn hàng của tôi
               </button>

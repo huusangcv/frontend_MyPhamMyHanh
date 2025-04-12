@@ -45,9 +45,22 @@
 }
 
 .body {
+  position: relative;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 767.98px) {
+    position: initial;
+    flex: 2;
+  }
+
+  @media (max-width: 767.98px) {
+    & > * {
+      width: 100%;
+    }
+  }
 }
 
 .btn-member {
