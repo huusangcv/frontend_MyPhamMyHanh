@@ -40,7 +40,7 @@ const usersMethods = {
       const newFile = new File([data], newFileName, { type: data.type });
       const formData = new FormData();
       formData.append('file', newFile, newFile.name);
-      const result = await axios.patch(`auth/uploadAvatar/${id}`, formData);
+      const result = await axios.patch(`http://localhost:8080/v1/auth/uploadAvatar/${id}`, formData);
       return result;
     }
   },
