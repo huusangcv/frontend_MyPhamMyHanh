@@ -1,7 +1,6 @@
 import SlideSlick from '../../components/sildeslick/SlideSlick';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import { Box } from '@mui/material';
 import CardItem from '../../components/card/Card';
 import News from '../../components/news/News';
 import { useEffect, useState } from 'react';
