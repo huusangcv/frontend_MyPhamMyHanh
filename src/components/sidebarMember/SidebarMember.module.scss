@@ -3,6 +3,10 @@
   border-radius: 5px;
   width: 253px;
 
+  @media (max-width: 767.98px) {
+    display: none;
+  }
+
   .block-menu {
     background-color: #f6fbfc;
     border-radius: 15px;
@@ -23,8 +27,7 @@
       border-radius: 10px;
 
       .box-icon {
-        filter: invert(15%) sepia(76%) saturate(5668%) hue-rotate(347deg)
-          brightness(80%) contrast(113%);
+        filter: invert(15%) sepia(76%) saturate(5668%) hue-rotate(347deg) brightness(80%) contrast(113%);
       }
 
       p {

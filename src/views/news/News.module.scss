@@ -136,6 +136,10 @@
       margin: 12px 0 8px;
     }
 
+    @media (max-width: 767.98px) {
+      display: none;
+    }
+
     img {
       width: 200px;
       max-height: 120px;
@@ -153,6 +157,12 @@
 }
 
 .wapper-right {
+  @media (max-width: 767.98px) {
+    &.above {
+      display: none;
+    }
+  }
+
   h3 {
     color: #757575;
     font-size: 1.4rem;

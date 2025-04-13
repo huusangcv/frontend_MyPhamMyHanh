@@ -112,7 +112,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
         </div>
         <div className={cx('body')}>
           <Grid container>
-            <Grid item md={12} style={{ height: '100%' }}>
+            <Grid item md={12} style={{ width: '100%', height: '100%' }}>
               {(profile._id === '' && (
                 <button className={cx('button-comment')} onClick={handleButtonComment}>
                   Đăng nhập để bình luận ngay

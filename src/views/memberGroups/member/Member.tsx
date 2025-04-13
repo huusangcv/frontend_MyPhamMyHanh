@@ -105,7 +105,7 @@ const Member = () => {
               />
               <div className={cx('welcome-member')}>
                 <p className={cx('welcome-member__name')}>{profile.username}</p>
-                <div className="is-flex is-align-items-center">
+                <div className="d-flex align-items-center">
                   <p className={cx('welcome-member__phone')}>{(showPhone && profile.phone) || maskPhoneNumber()}</p>
                   {(showPhone && (
                     <svg

@@ -89,7 +89,7 @@ const Order = () => {
             />
             <div className={cx('welcome-member')}>
               <p className={cx('welcome-member__name')}>{profile.username}</p>
-              <div className="is-flex is-align-items-center">
+              <div className="d-flex align-items-center">
                 <p className={cx('welcome-member__phone')}>{(showPhone && profile.phone) || maskPhoneNumber()}</p>
                 {(showPhone && (
                   <svg
@@ -219,7 +219,7 @@ const Order = () => {
                       <span>{order.products[0].name}</span>
                       <p>{formatterDate.format(new Date(order.createdAt))}</p>
                     </div>
-                    <div className="is-flex is-align-items-center"> </div>
+                    <div className="d-flex align-items-center"> </div>
                     <div className={cx('order-status', order.status)}>
                       {order.status === 'pending' && 'Chờ xác nhận'}
                       {order.status === 'ordered' && 'Đã xác nhận'}

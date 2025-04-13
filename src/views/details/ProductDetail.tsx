@@ -353,7 +353,7 @@ const ProductDetail = () => {
                     <p className={cx('prod-excerpt')}>{product.note}</p>
                   </div>
 
-                  <div className="is-flex" style={{ gap: 10 }}>
+                  <div className="d-flex" style={{ gap: 10 }}>
                     <button
                       className={cx('order-button')}
                       onClick={() => {
@@ -633,8 +633,8 @@ const ProductDetail = () => {
                             index <= 2 && (
                               <div className={cx('boxReview-comment-item')} key={review._id}>
                                 <div className={cx('boxReview-comment-item-title')}>
-                                  <div className="is-flex is-align-items-center" style={{ gap: 10 }}>
-                                    <div className="mr-2 is-flex is-align-items-center is-justify-content-center name-letter">
+                                  <div className="d-flex align-items-center" style={{ gap: 10 }}>
+                                    <div className="mr-2 d-flex align-items-center justify-content-center name-letter">
                                       {users.map((user) => {
                                         if (review.user_id === user._id) {
                                           return (
@@ -681,7 +681,7 @@ const ProductDetail = () => {
                                                 <span
                                                   style={{ marginTop: 6 }}
                                                   key={user._id}
-                                                  className="bought-cps is-flex is-align-items-center"
+                                                  className="bought-cps d-flex align-items-center"
                                                 >
                                                   <div className="tick-icon">
                                                     <svg

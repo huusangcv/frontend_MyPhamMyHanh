@@ -119,7 +119,7 @@ const NewsList = () => {
     let timeAgo;
 
     if (secondsDiff < 60) {
-      timeAgo = `${secondsDiff} giây trước`;
+      timeAgo = `${secondsDiff} vừa xong`;
     } else if (secondsDiff < 3600) {
       const minutes = Math.floor(secondsDiff / 60);
       timeAgo = `${minutes} phút trước`;
@@ -161,7 +161,7 @@ const NewsList = () => {
         </div>
       </Grid>
       <Grid item md={8}>
-        <div className={cx('wapper-right', 'd-lg-none', 'd-md-block')}>
+        <div className={cx('wapper-right', 'above')}>
           <h3>Xem các bài viết theo chủ đề</h3>
           <ul className={cx('topic')}>
             {tags.map((tag) => (
@@ -236,7 +236,7 @@ const NewsList = () => {
                   {calculateReadingTime(news.content)} phút đọc
                 </div>
               </div>
-              <div className={cx('thumb', 'd-lg-none')}>
+              <div className={cx('thumb')}>
                 <Link to={`/news/detail/${news.slug}`}>
                   <img
                     src={`http://res.cloudinary.com${news.image}`}

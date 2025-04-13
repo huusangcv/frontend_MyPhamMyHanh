@@ -240,7 +240,7 @@ const Review = () => {
             <h2 className="title is-6">Đánh giá {product.name}</h2>
 
             <div className={cx('block-product-review')}>
-              <Link to={`/product/${slug}`} className={cx('boxReview-product', 'is-flex is-justify-content-center')}>
+              <Link to={`/product/${slug}`} className={cx('boxReview-product', 'd-flex justify-content-center')}>
                 <img
                   src={`http://res.cloudinary.com${product.images[0]}`}
                   width="110"
@@ -248,7 +248,7 @@ const Review = () => {
                   alt=""
                   className={cx('image-review')}
                 />
-                <div className={cx('boxReview-product__info', 'is-flex is-flex-direction-column')}>
+                <div className={cx('boxReview-product__info', 'd-flex d-flex-direction-column')}>
                   <p className={cx('info__name')}>{product.name}</p>
                   <div className={cx('block-box-price')}>
                     <div className={cx('box-info__box-price')}>
@@ -391,8 +391,8 @@ const Review = () => {
                         index <= showMore && (
                           <div className={cx('boxReview-comment-item')} key={review._id}>
                             <div className={cx('boxReview-comment-item-title')}>
-                              <div className="is-flex is-align-items-center" style={{ gap: 10 }}>
-                                <div className="mr-2 is-flex is-align-items-center is-justify-content-center name-letter">
+                              <div className="d-flex align-items-center" style={{ gap: 10 }}>
+                                <div className="mr-2 d-flex align-items-center justify-content-center name-letter">
                                   {users.map((user) => {
                                     if (review.user_id === user._id) {
                                       return user.image !== '' ? (
@@ -441,7 +441,7 @@ const Review = () => {
                                             <span
                                               style={{ marginTop: 6 }}
                                               key={user._id}
-                                              className="bought-cps is-flex is-align-items-center"
+                                              className="bought-cps d-flex align-items-center"
                                             >
                                               <div className="tick-icon">
                                                 <svg

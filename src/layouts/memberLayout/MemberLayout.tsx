@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
 import SidebarMember from '../../components/sidebarMember/SidebarMember';
+import BottomNavMember from '../../components/bottomNavigationMember/BottomNavigation';
 const cx = classNames.bind(styles);
 
 interface MemberLayoutProps {
@@ -38,6 +39,7 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
           </div>
         </div>
       )}
+      <BottomNavMember />
     </>
   );
 };

@@ -173,7 +173,7 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
         <p id="total_comment" className={cx('comment-form-title')}>
           Hỏi và đáp
         </p>
-        <div className={cx('comment-form-content', 'is-flex is-justify-content-space-between')}>
+        <div className={cx('comment-form-content', 'd-flex is-justify-content-space-between')}>
           <div className={cx('textarea-comment')}>
             <img src={imgQuestAnwser} width="100" alt="cps ant icon" className={cx('cps-ant-cmt')} />
             <textarea

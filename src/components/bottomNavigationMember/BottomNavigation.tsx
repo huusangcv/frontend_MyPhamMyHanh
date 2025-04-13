@@ -9,10 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-import ListIcon from '@mui/icons-material/List';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
-import InfoIcon from '@mui/icons-material/Info';
-import StarIcon from '@mui/icons-material/Star';
+import HistoryIcon from '@mui/icons-material/History'; // Icon cho "Lịch sử"
+import LocalOfferIcon from '@mui/icons-material/LocalOffer'; // Icon cho "Ưu đãi"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // Icon cho "Tài khoản"
 import classNames from 'classnames/bind';
 import styles from './BottomNavigation.module.scss';
 import { Link } from 'react-router-dom';
@@ -28,7 +27,7 @@ interface Category {
   slug: string;
 }
 
-const BottomNav = () => {
+const BottomNavMember = () => {
   const [value, setValue] = React.useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
@@ -68,12 +67,12 @@ const BottomNav = () => {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction component={Link} to="/" label="Trang chủ" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Danh mục" icon={<ListIcon />} onClick={toggleDrawer(true)} />
-          <BottomNavigationAction component={Link} to="/news/all" label="Tin tức" icon={<AnnouncementIcon />} />
-          <BottomNavigationAction component={Link} to="/introduce" label="Giới thiệu" icon={<InfoIcon />} />
-          <BottomNavigationAction component={Link} to="/certificates" label="Bằng khen" icon={<StarIcon />} />
+          <BottomNavigationAction component={Link} to="/member" label="Trang chủ" icon={<HomeIcon />} />
+          <BottomNavigationAction component={Link} to="/member/order" label="Lịch sử" icon={<HistoryIcon />} />
+          <BottomNavigationAction component={Link} to="/member/promotion" label="Ưu đãi" icon={<LocalOfferIcon />} />
+          <BottomNavigationAction component={Link} to="/account" label="Tài khoản" icon={<AccountCircleIcon />} />
         </BottomNavigation>
+        Bằng khen
       </Box>
 
       {/* Drawer */}
@@ -95,7 +94,6 @@ const BottomNav = () => {
               alignItems: 'center',
               padding: '8px 16px',
               borderBottom: '1px solid #ddd',
-              width: '100%',
             }}
           >
             <h3 style={{ margin: 0 }}>Sản phẩm</h3>
@@ -124,4 +122,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default BottomNavMember;
