@@ -21,6 +21,7 @@ interface Product {
   description: string;
   slug: string;
   bestseller: boolean;
+  quantity: number;
 }
 
 interface OrderProps {

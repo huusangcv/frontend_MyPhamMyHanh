@@ -8,14 +8,12 @@ import Typography from '@mui/material/Typography';
 import productMethods from '../../services/products';
 import categoryMethods from '../../services/categories';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { Rating } from '@mui/material';
 import { useAppDispatch } from '../../../hooks';
 import { addItemToCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './SameProducts.module.scss';
-import reviewMethods from '../../services/reviews';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import RatingByProduct from '../ratingByProduct/RatingByProduct';
@@ -42,11 +40,6 @@ export default function SameProducts({ categoryId, currentProduct }: PropsSamePr
   interface Category {
     _id: string;
     name: string;
-  }
-
-  interface Review {
-    _id: string;
-    rating: number;
   }
 
   const [products, setProducts] = React.useState<Product[]>([]);

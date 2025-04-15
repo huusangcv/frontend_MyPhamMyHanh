@@ -24,6 +24,7 @@ const Products = () => {
     description: string;
     slug: string;
     bestseller: boolean;
+    quantity: number;
   }
 
   interface Category {
