@@ -27,6 +27,7 @@ interface Product {
   description: string;
   slug: string;
   bestseller: boolean;
+  quantity: number;
 }
 
 interface PropsCardItem {
@@ -62,60 +63,65 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   });
+
+  const cardProduts = (isBestseller && products.filter((product) => product.bestseller)) || products;
+
   return (
     <>
-      {(isBestseller &&
-        products.map(
-          (product) =>
-            product.bestseller && (
-              <div className="col">
-                <Card key={product._id} className={cx('card')}>
-                  <Link to={`/product/${product.slug}`}>
+      {cardProduts.map(
+        (product) =>
+          product.bestseller && (
+            <div className="col">
+              <Card key={product._id} className={cx('card')}>
+                <Link to={`/product/${product.slug}`}>
+                  <div className={cx('card-media-wrapper')}>
                     <CardMedia
                       component="img"
-                      alt="green iguana"
+                      alt={product.name}
                       height="140"
                       image={`http://res.cloudinary.com${product.images[0]}`}
                     />
+                    {product.discount > 0 && <div className={cx('discount-label')}>-{product.discount}%</div>}
+                  </div>
+                </Link>
+                <CardContent>
+                  <Link to={`/product/${product.slug}`}>
+                    <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
+                      {product.name}
+                    </Typography>
                   </Link>
-                  <CardContent>
-                    <Link to={`/product/${product.slug}`}>
-                      <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
-                        {product.name}
-                      </Typography>
-                    </Link>
-                    {(product.discount > 0 && (
-                      <div className={cx('wrap-price')}>
-                        <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
-                          <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
-                        </Typography>
-                        <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
-                          <span> {formatter.format(product.price)}đ</span>
-                        </Typography>
-                      </div>
-                    )) || (
+                  {(product.discount > 0 && (
+                    <div className={cx('wrap-price')}>
                       <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
+                        <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
+                      </Typography>
+                      <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
                         <span> {formatter.format(product.price)}đ</span>
                       </Typography>
-                    )}
-
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      {categories.map((category) => {
-                        if (product.category_id === category._id) {
-                          return (
-                            <span key={category._id} className={cx('category-name')}>
-                              {category.name}
-                            </span>
-                          );
-                        }
-                      })}
+                    </div>
+                  )) || (
+                    <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
+                      <span> {formatter.format(product.price)}đ</span>
                     </Typography>
-                  </CardContent>
+                  )}
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {categories.map((category) => {
+                      if (product.category_id === category._id) {
+                        return (
+                          <span key={category._id} className={cx('category-name')}>
+                            {category.name}
+                          </span>
+                        );
+                      }
+                    })}
+                  </Typography>
+                </CardContent>
 
-                  <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <RatingByProduct currentProduct={product._id} />
+                <CardActions sx={{ justifyContent: 'space-between' }}>
+                  <RatingByProduct currentProduct={product._id} />
 
-                    <div className={cx('cta-wrap')}>
+                  <div className={cx('cta-wrap')}>
+                    {(product.quantity > 0 && (
                       <Button
                         size="small"
                         onClick={() => {
@@ -144,92 +150,13 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
                       >
                         <AddShoppingCartIcon />
                       </Button>
-                    </div>
-                  </CardActions>
-                </Card>
-              </div>
-            ),
-        )) ||
-        products.map((product) => (
-          <Card sx={{ maxWidth: 345 }} key={product._id} className={cx('card')}>
-            <Link to={`/product/${product.slug}`}>
-              <CardMedia
-                component="img"
-                alt="green iguana"
-                height="140"
-                image={`http://res.cloudinary.com${product.images[0]}`}
-              />
-            </Link>
-            <CardContent>
-              <Link to={`/product/${product.slug}`}>
-                <Typography gutterBottom variant="h5" component="div" className={cx('heading')}>
-                  {product.name}
-                </Typography>
-              </Link>
-              {(product.discount > 0 && (
-                <div className={cx('wrap-price')}>
-                  <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
-                    <span>{formatter.format(product.price * (1 - product.discount / 100))}đ</span>
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div" className={cx('price-after-discount')}>
-                    <span> {formatter.format(product.price)}đ</span>
-                  </Typography>
-                </div>
-              )) || (
-                <Typography gutterBottom variant="h5" component="div" className={cx('price')}>
-                  <span> {formatter.format(product.price)}đ</span>
-                </Typography>
-              )}
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {categories.map((category) => {
-                  if (product.category_id === category._id) {
-                    return (
-                      <span key={category._id} className={cx('category-name')}>
-                        {category.name}
-                      </span>
-                    );
-                  }
-                })}
-              </Typography>
-            </CardContent>
-
-            <CardActions sx={{ justifyContent: 'space-between' }}>
-              <RatingByProduct currentProduct={product._id} />
-
-              <div className={cx('cta-wrap')}>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    dispatch(
-                      addItemToCart({
-                        id: product._id,
-                        name: product.name,
-                        image: product.images[0],
-                        priceThrought: product.price,
-                        slug: product.slug,
-                        price: product.price * (1 - product.discount / 100),
-                        quantity: 1,
-                      }),
-                    );
-                    toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
-                      position: 'bottom-center',
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: false,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: 'light',
-                    });
-                  }}
-                >
-                  <AddShoppingCartIcon />
-                </Button>
-              </div>
-            </CardActions>
-          </Card>
-        ))}
+                    )) || <div className={cx('out-of-stock')}>Tạm hết hàng</div>}
+                  </div>
+                </CardActions>
+              </Card>
+            </div>
+          ),
+      )}
     </>
   );
 }

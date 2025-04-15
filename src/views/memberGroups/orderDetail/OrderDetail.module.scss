@@ -249,11 +249,19 @@
 
     .item-title {
       color: #717171;
+
+      &.green {
+        color: green;
+      }
     }
   }
 
   .has-text-weight-bold {
     font-weight: 700;
+
+    &.green {
+      color: green !important;
+    }
   }
 }
 

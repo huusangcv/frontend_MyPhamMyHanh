@@ -155,7 +155,9 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
 
         if (res.status) {
           setRepliesProduct((prevReply) => [res.data.newReply, ...prevReply]);
-          setCommentsProduct((prevComment) => [res.data.comment, ...prevComment]);
+          setCommentsProduct((prevComment) =>
+            prevComment.map((comment) => (comment._id === res.data.comment._id ? res.data.comment : comment)),
+          );
           setContentReply('');
           setShowReplyInput('');
         }
@@ -166,6 +168,8 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
       alert('Vui lòng nhập nội dung phản hồi');
     }
   };
+
+  console.log('check product', commentsProduct);
 
   return (
     <div className={cx('wapper')}>
@@ -342,12 +346,7 @@ const BlockCommentProduct = ({ id }: { id: string }) => {
                       {showReplyInput === comment._id && (
                         <div className={cx('form_reply_wrap')}>
                           <div className={cx('textarea-comment')}>
-                            <img
-                              src="https://cdn2.cellphones.com.vn/insecure/rs:fill:100:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/chibi2.png"
-                              width="100"
-                              alt="cps ant icon"
-                              className={cx('cps-ant-cmt')}
-                            />
+                            <img src={imgQuestAnwser} width="100" alt="cps ant icon" className={cx('cps-ant-cmt')} />
                             <textarea
                               id="text-area-1668320"
                               placeholder="Cửa hàng sẽ trả lời trong 1 giờ (sau 22h, phản hồi vào sáng hôm sau). Một số thông tin có thể thay đổi, Quý khách hãy đặt câu hỏi để được cập nhật mới nhất."

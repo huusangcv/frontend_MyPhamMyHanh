@@ -1,46 +1,74 @@
 .wapper {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.paymentResult__header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.paymentResult__body {
+  margin-bottom: 20px;
+}
+
+.status {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  position: fixed;
-  gap: 15px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 12px;
-  background: rgba($color: var(--primary-color), $alpha: 0.2);
-  .paymentResult__header {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--primary-color);
-  }
+  margin-bottom: 20px;
+}
 
-  .message-success {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    text-align: center;
-  }
+.icon-success {
+  font-size: 50px;
+  color: #28a745;
+  margin-bottom: 10px;
+}
 
-  .message-helper {
-    text-align: center;
-  }
+.icon-failed {
+  font-size: 50px;
+  color: #dc3545;
+  margin-bottom: 10px;
+}
 
-  .back {
-    margin-top: 15px;
-    display: block;
-    cursor: pointer;
-    background: var(--primary-color);
-    border-radius: 5px;
-    color: #fff;
-    margin: auto;
-    max-width: 600px;
-    padding: 10px;
-    text-align: center;
-    width: 100%;
+.message-success {
+  font-size: 18px;
+  color: #28a745;
+  font-weight: bold;
+}
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+.message-failed {
+  font-size: 18px;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.message-helper {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.paymentResult__footer {
+  margin-top: 20px;
+}
+
+.back {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.back:hover {
+  background-color: #0056b3;
 }

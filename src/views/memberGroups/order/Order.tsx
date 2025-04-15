@@ -31,6 +31,8 @@ interface OrderProps {
   }[];
   total: number;
   status: string;
+  paidAmount: number;
+  isPaid: boolean;
   createdAt: string;
 }
 
@@ -67,10 +69,14 @@ const Order = () => {
   }, []);
 
   const totalMoney = orders.reduce((acc, order) => {
-    return acc + order.total;
+    return acc + order.paidAmount;
   }, 0);
 
+  const firstPaidOrder = orders.find((order) => order.isPaid);
+
   const ordersList = orders.filter((order) => (swiperSelected === 'all' && order) || order.status === swiperSelected);
+
+  const date = (firstPaidOrder && new Date(firstPaidOrder.createdAt)) || new Date();
 
   // Hàm để ẩn số
   const maskPhoneNumber = () => {
@@ -132,7 +138,7 @@ const Order = () => {
           </div>
           <div className={cx('content__item')}>
             <p className={cx('item__content', 'title')}>{formatter.format(totalMoney)}đ</p>
-            <p className={cx('item__content')}>Tổng tiền tích lũy từ 01/01/2024</p>
+            <p className={cx('item__content')}>Tổng tiền tích lũy từ {date.toLocaleString()}</p>
           </div>
           {/* <div className={cx("content__item")}>
             <p className="item__content title">429K</p>

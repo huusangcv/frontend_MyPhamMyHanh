@@ -55,7 +55,7 @@ const caclTimePost = (createdAt: string) => {
   let timeAgo;
 
   if (secondsDiff < 60) {
-    timeAgo = `${secondsDiff} giây trước`;
+    timeAgo = `vừa xong`;
   } else if (secondsDiff < 3600) {
     const minutes = Math.floor(secondsDiff / 60);
     timeAgo = `${minutes} phút trước`;

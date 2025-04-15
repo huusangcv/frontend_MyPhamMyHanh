@@ -187,7 +187,7 @@ const Search = () => {
                 <>
                   <div className={cx('search__heading')}>
                     <h5>Tin tức</h5>
-                    <Link to="/news" className={cx('search__seemore')} onClick={() => setShowResultSearch(false)}>
+                    <Link to="/news/all" className={cx('search__seemore')} onClick={() => setShowResultSearch(false)}>
                       Xem thêm
                     </Link>
                   </div>

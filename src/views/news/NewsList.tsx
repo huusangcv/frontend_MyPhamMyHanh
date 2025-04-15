@@ -119,7 +119,7 @@ const NewsList = () => {
     let timeAgo;
 
     if (secondsDiff < 60) {
-      timeAgo = `${secondsDiff} vừa xong`;
+      timeAgo = `vừa xong`;
     } else if (secondsDiff < 3600) {
       const minutes = Math.floor(secondsDiff / 60);
       timeAgo = `${minutes} phút trước`;

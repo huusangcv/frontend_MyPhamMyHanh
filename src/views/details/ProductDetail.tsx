@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import productMethods from '../../services/products';
 import classNames from 'classnames/bind';
 import styles from './ProductDetail.module.scss';
-import { Avatar, Box, Grid, Rating } from '@mui/material';
+import { Avatar, Grid, Rating } from '@mui/material';
 import categoryMethods from '../../services/categories';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -22,6 +22,7 @@ import ModalReview from '../../components/modalReview/ModalReview';
 import reviewMethods from '../../services/reviews';
 import BlockCommentProduct from '../../components/blockCommentProduct/BlockCommentProduct';
 import { setShowAccountModal } from '../../redux/features/isShowAccountModal/isShowAccountModalSlice';
+import SkeletonLoading from '../../components/skeletonLoading/SkeletonLoading';
 const cx = classNames.bind(styles);
 const ProductDetail = () => {
   interface Product {
@@ -35,6 +36,7 @@ const ProductDetail = () => {
     description: string;
     image: string;
     slug: string;
+    quantity: number;
   }
 
   interface Category {
@@ -85,6 +87,7 @@ const ProductDetail = () => {
     description: '',
     slug: '',
     image: '',
+    quantity: 0,
   });
 
   const profile = useAppSelector((state) => state.profile);
@@ -354,58 +357,63 @@ const ProductDetail = () => {
                   </div>
 
                   <div className="d-flex" style={{ gap: 10 }}>
-                    <button
-                      className={cx('order-button')}
-                      onClick={() => {
-                        {
-                          dispatch(
-                            addItemToPayment({
-                              id: product._id,
-                              name: product.name,
-                              image: product.images[0],
-                              priceThrought: product.price,
-                              slug: product.slug,
-                              price: product.price * (1 - product.discount / 100),
-                              quantity: 1,
-                            }),
-                          );
-                          dispatch(
-                            addItemToCart({
-                              id: product._id,
-                              name: product.name,
-                              image: product.images[0],
-                              priceThrought: product.price,
-                              slug: product.slug,
-                              price: product.price * (1 - product.discount / 100),
-                              quantity: 1,
-                            }),
-                          );
-                        }
-                        navigate('/cart');
-                      }}
-                    >
-                      <strong>MUA NGAY</strong>
-                    </button>
-                    <button
-                      className={cx('add-to-cart-button')}
-                      onClick={() => {
-                        dispatch(
-                          addItemToCart({
-                            id: product._id,
-                            name: product.name,
-                            image: product.images[0],
-                            priceThrought: product.price,
-                            slug: product.slug,
-                            price: product.price * (1 - product.discount / 100),
-                            quantity: 1,
-                          }),
-                        );
-                      }}
-                    >
-                      <AddShoppingCartIcon />
-
-                      <span>Thêm vào giỏ</span>
-                    </button>
+                    {product.quantity > 0 ? (
+                      <>
+                        <button
+                          className={cx('order-button')}
+                          onClick={() => {
+                            dispatch(
+                              addItemToPayment({
+                                id: product._id,
+                                name: product.name,
+                                image: product.images[0],
+                                priceThrought: product.price,
+                                slug: product.slug,
+                                price: product.price * (1 - product.discount / 100),
+                                quantity: 1,
+                              }),
+                            );
+                            dispatch(
+                              addItemToCart({
+                                id: product._id,
+                                name: product.name,
+                                image: product.images[0],
+                                priceThrought: product.price,
+                                slug: product.slug,
+                                price: product.price * (1 - product.discount / 100),
+                                quantity: 1,
+                              }),
+                            );
+                            navigate('/cart');
+                          }}
+                        >
+                          <strong>MUA NGAY</strong>
+                        </button>
+                        <button
+                          className={cx('add-to-cart-button')}
+                          onClick={() => {
+                            dispatch(
+                              addItemToCart({
+                                id: product._id,
+                                name: product.name,
+                                image: product.images[0],
+                                priceThrought: product.price,
+                                slug: product.slug,
+                                price: product.price * (1 - product.discount / 100),
+                                quantity: 1,
+                              }),
+                            );
+                          }}
+                        >
+                          <AddShoppingCartIcon />
+                          <span>Thêm vào giỏ</span>
+                        </button>
+                      </>
+                    ) : (
+                      <div className={cx('out-of-stock')}>
+                        <strong>Tạm hết hàng</strong>
+                      </div>
+                    )}
                   </div>
                 </Grid>
               </Grid>
@@ -424,16 +432,11 @@ const ProductDetail = () => {
 
           <Grid container spacing={2}>
             <Grid item md={12} xs={12}>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))',
-                  gap: 2,
-                }}
-              >
-                <SameProducts categoryId={product.category_id} currentProduct={product._id} />
-              </Box>
+              <div className="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
+                {(isLoading && <SkeletonLoading />) || (
+                  <SameProducts categoryId={product.category_id} currentProduct={product._id} />
+                )}
+              </div>
             </Grid>
           </Grid>
           <hr />

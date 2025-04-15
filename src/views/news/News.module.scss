@@ -157,10 +157,8 @@
 }
 
 .wapper-right {
-  @media (max-width: 767.98px) {
-    &.above {
-      display: none;
-    }
+  &.above {
+    display: none;
   }
 
   h3 {
