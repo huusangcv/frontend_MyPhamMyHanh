@@ -112,13 +112,12 @@ const SlideSlick = () => {
               >
                 <div className={cx('slide-item__content')}>
                   <h2 className="sub-title">
-                    <a href={`https:myphammyhanh.regis.id.vn/product/${slide.link}`}>Dầu</a>
+                    <Link to={`/product/${slide.link}`}>Dầu</Link>
                   </h2>
                   <p className="desc">{slide.description}</p>
                   <div>
                     <Link
-                      to={`https:myphammyhanh.regis.id.vn/product/${slide.link}`}
-                      target="_blank"
+                      to={`/product/${slide.link}`}
                       rel="noreferrer"
                       className="ctaBtn"
                       style={{ '--cta-hover-color': slide.colorHover } as React.CSSProperties}
