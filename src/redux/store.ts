@@ -1,13 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Lưu trữ trên localStorage
-import { combineReducers } from "redux";
-import cartReducer from "./features/cart/cartSlice";
-import categoryReducer from "./features/category/categorySlice";
-import modalAccountReducer from "./features/isShowAccountModal/isShowAccountModalSlice";
-import profileReducer from "./features/profile/profileSlice";
-import paymentReducer from "./features/payment/paymentSlice";
-import infoShippingReducer from "./features/infoShipping/InfoShipping";
+import { configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // Lưu trữ trên localStorage
+import { combineReducers } from 'redux';
+import cartReducer from './features/cart/cartSlice';
+import categoryReducer from './features/category/categorySlice';
+import modalAccountReducer from './features/isShowAccountModal/isShowAccountModalSlice';
+import profileReducer from './features/profile/profileSlice';
+import paymentReducer from './features/payment/paymentSlice';
+import infoShippingReducer from './features/infoShipping/InfoShipping';
+import slideReducer from './features/slide/SlidesSlice';
 interface CartItem {
   id: string;
   name: string;
@@ -20,9 +21,9 @@ interface CartItem {
 
 // Cấu hình persist
 const persistConfig = {
-  key: "auth",
+  key: 'auth',
   storage,
-  whitelist: ["cart", "payment", "profile", "infoShipping"], // Chỉ lưu profile
+  whitelist: ['cart', 'payment', 'profile', 'infoShipping', 'slide'],
 };
 
 // Kết hợp tất cả các reducer
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   modalAccount: modalAccountReducer,
   profile: profileReducer,
+  slide: slideReducer,
   infoShipping: infoShippingReducer,
 });
 

@@ -1,15 +1,29 @@
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import styles from "./SildeSlick.module.scss";
-import classNames from "classnames/bind";
-import img1 from "../../assets/product-1.jpg";
-import img5 from "../../assets/product-5.jpg";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styles from './SildeSlick.module.scss';
+import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
+import slidesMethods from '../../services/slides';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { setSlide } from '../../redux/features/slide/SlidesSlice';
 const cx = classNames.bind(styles);
+
+interface Slide {
+  _id: string;
+  order: number;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  backGroundLinerGradient: string;
+  colorHover: string;
+}
 
 function NextArrow({ onClick }: { onClick: () => void }) {
   return (
-    <div className={cx("arrow", "arrow-next")} onClick={onClick}>
+    <div className={cx('arrow', 'arrow-next')} onClick={onClick}>
       <svg
         aria-hidden="true"
         focusable="false"
@@ -31,7 +45,7 @@ function NextArrow({ onClick }: { onClick: () => void }) {
 
 function PrevArrow({ onClick }: { onClick: () => void }) {
   return (
-    <div className={cx("arrow", "arrow-prev")} onClick={onClick}>
+    <div className={cx('arrow', 'arrow-prev')} onClick={onClick}>
       <svg
         aria-hidden="true"
         focusable="false"
@@ -51,6 +65,26 @@ function PrevArrow({ onClick }: { onClick: () => void }) {
   );
 }
 const SlideSlick = () => {
+  const slides = useAppSelector((state) => state.slide);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const fecthSlides = async () => {
+      try {
+        const { data, status } = await slidesMethods.getSidles();
+
+        if (status) {
+          dispatch(setSlide(data.data));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (slides[0]._id === '') {
+      fecthSlides();
+    }
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -62,77 +96,70 @@ const SlideSlick = () => {
     nextArrow: (
       <NextArrow
         onClick={function (): void {
-          throw new Error("Function not implemented.");
+          throw new Error('Function not implemented.');
         }}
       />
     ),
     prevArrow: (
       <PrevArrow
         onClick={function (): void {
-          throw new Error("Function not implemented.");
+          throw new Error('Function not implemented.');
         }}
       />
     ),
   };
   return (
-    <div className={cx("slider-container")}>
+    <div className={cx('slider-container')}>
       <Slider {...settings}>
-        <div>
-          <div
-            className={cx("slide-item")}
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(96,179,129,1) 27%, rgba(196,227,111,1) 100%)",
-            }}
-          >
-            <div className={cx("slide-item__content")}>
-              <h2 className="sub-title">
-                <a href="#!">Dầu</a>
-              </h2>
-              <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
-                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
-                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
-                cùng cần thiết.
-              </p>
-              <div>
-                <a
-                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ctaBtn"
-                  style={
-                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
-                  }
-                >
-                  Xem sản phẩm
-                </a>
+        {Array.isArray(slides) &&
+          slides.length > 0 &&
+          slides.map((slide) => (
+            <div key={slide._id}>
+              <div
+                className={cx('slide-item')}
+                style={{
+                  background: slide.backGroundLinerGradient,
+                }}
+              >
+                <div className={cx('slide-item__content')}>
+                  <h2 className="sub-title">
+                    <a href={`https:myphammyhanh.regis.id.vn/product/${slide.link}`}>Dầu</a>
+                  </h2>
+                  <p className="desc">{slide.description}</p>
+                  <div>
+                    <Link
+                      to={`https:myphammyhanh.regis.id.vn/product/${slide.link}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ctaBtn"
+                      style={{ '--cta-hover-color': slide.colorHover } as React.CSSProperties}
+                    >
+                      Xem sản phẩm
+                    </Link>
+                  </div>
+                </div>
+                <div className={cx('slide-item__image')}>
+                  <a href="#!">
+                    <img src={`https://res.cloudinary.com${slide.image}`} alt="" />
+                  </a>
+                </div>
               </div>
             </div>
-            <div className={cx("slide-item__image")}>
-              <a href="#!">
-                <img src={img1} alt="" />
-              </a>
-            </div>
-          </div>
-        </div>
+          ))}
         <div>
           <div
-            className={cx("slide-item")}
+            className={cx('slide-item')}
             style={{
-              background:
-                "linear-gradient(to right, rgb(104, 40, 250), rgb(255, 186, 164))",
+              background: 'linear-gradient(to right, rgb(104, 40, 250), rgb(255, 186, 164))',
             }}
           >
-            <div className={cx("slide-item__content")}>
+            <div className={cx('slide-item__content')}>
               <h2 className="sub-title">
                 <a href="#!">Mỹ phẩm</a>
               </h2>
               <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
-                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
-                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
-                cùng cần thiết.
+                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp bảo vệ cơ thể khỏi những tác động của môi
+                trường bên ngoài. Để có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô cùng cần thiết.
               </p>
               <div>
                 <a
@@ -140,143 +167,15 @@ const SlideSlick = () => {
                   target="_blank"
                   rel="noreferrer"
                   className="ctaBtn"
-                  style={
-                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
-                  }
+                  style={{ '--cta-hover-color': '#fe215e' } as React.CSSProperties}
                 >
                   Xem sản phẩm
                 </a>
               </div>
             </div>
-            <div className={cx("slide-item__image")}>
+            <div className={cx('slide-item__image')}>
               <a href="#!">
-                <img
-                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div
-            className={cx("slide-item")}
-            style={{
-              background:
-                "linear-gradient(to right, rgb(254, 33, 94), rgb(255, 148, 2))",
-            }}
-          >
-            <div className={cx("slide-item__content")}>
-              <h2 className="sub-title">
-                <a href="#!">Mỹ phẩm</a>
-              </h2>
-              <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
-                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
-                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
-                cùng cần thiết.
-              </p>
-              <div>
-                <a
-                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ctaBtn"
-                  style={
-                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
-                  }
-                >
-                  Xem sản phẩm
-                </a>
-              </div>
-            </div>
-            <div className={cx("slide-item__image")}>
-              <a href="#!">
-                <img
-                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div
-            className={cx("slide-item")}
-            style={{
-              background:
-                "linear-gradient(to right, rgb(254, 33, 94), rgb(255, 148, 2))",
-            }}
-          >
-            <div className={cx("slide-item__content")}>
-              <h2 className="sub-title">
-                <a href="#!">Mỹ phẩm</a>
-              </h2>
-              <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
-                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
-                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
-                cùng cần thiết.
-              </p>
-              <div>
-                <a
-                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ctaBtn"
-                  style={
-                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
-                  }
-                >
-                  Xem sản phẩm
-                </a>
-              </div>
-            </div>
-            <div className={cx("slide-item__image")}>
-              <a href="#!">
-                <img
-                  src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg"
-                  alt=""
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div
-            className={cx("slide-item")}
-            style={{
-              background:
-                "linear-gradient(to right, rgb(0, 126, 254), rgb(6, 195, 254))",
-            }}
-          >
-            <div className={cx("slide-item__content")}>
-              <h2 className="sub-title">
-                <a href="#!">Mỹ phẩm</a>
-              </h2>
-              <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp
-                bảo vệ cơ thể khỏi những tác động của môi trường bên ngoài. Để
-                có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô
-                cùng cần thiết.
-              </p>
-              <div>
-                <a
-                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ctaBtn"
-                  style={
-                    { "--cta-hover-color": "#fe215e" } as React.CSSProperties
-                  }
-                >
-                  Xem sản phẩm
-                </a>
-              </div>
-            </div>
-            <div className={cx("slide-item__image")}>
-              <a href="#!">
-                <img src={img5} alt="" />
+                <img src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg" alt="" />
               </a>
             </div>
           </div>
