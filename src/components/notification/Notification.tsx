@@ -25,6 +25,8 @@ const Notification = () => {
     setShowCart(!showCart);
   };
 
+  console.log('setNotifications', setNotifications);
+
   return (
     <div className={cx('cart')}>
       <div className={cx('cart__cta')} onClick={handleShowCart}>

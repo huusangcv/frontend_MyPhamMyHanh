@@ -8,7 +8,7 @@ import modalAccountReducer from './features/isShowAccountModal/isShowAccountModa
 import profileReducer from './features/profile/profileSlice';
 import paymentReducer from './features/payment/paymentSlice';
 import infoShippingReducer from './features/infoShipping/InfoShipping';
-import slideReducer from './features/slide/SlidesSlice';
+import slideReducer from './features/slide/slidesSlice';
 interface CartItem {
   id: string;
   name: string;
@@ -63,7 +63,7 @@ export type RootState = ReturnType<typeof store.getState> & {
     totalPrice: number;
     totalQuantity: number;
   };
-  paymetn: {
+  payment: {
     items: CartItem[];
     totalPrice: number;
     totalQuantity: number;

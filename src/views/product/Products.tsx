@@ -155,6 +155,8 @@ const Products = () => {
   //   };
   //   fetchFilteredProducts();
   // }, [slug, page, priceFilter, sortOption]);
+
+  console.log(priceFilter);
   return (
     <div className={cx('wapper')}>
       <div className={cx('header')}>

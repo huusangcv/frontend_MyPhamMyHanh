@@ -3,23 +3,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './SildeSlick.module.scss';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import slidesMethods from '../../services/slides';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { setSlide } from '../../redux/features/slide/SlidesSlice';
+import { setSlide } from '../../redux/features/slide/slidesSlice';
 const cx = classNames.bind(styles);
-
-interface Slide {
-  _id: string;
-  order: number;
-  title: string;
-  description: string;
-  image: string;
-  link: string;
-  backGroundLinerGradient: string;
-  colorHover: string;
-}
 
 function NextArrow({ onClick }: { onClick: () => void }) {
   return (
