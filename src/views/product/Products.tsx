@@ -44,7 +44,6 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [categoryDesc, setCategoryDesc] = useState<string>('Khám phá tất cả sản phẩm của chúng tôi.');
   const [priceFilter, setPriceFilter] = useState<string>('all');
-  const [sortOption, setSortOption] = useState<string>('default');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -62,14 +61,6 @@ const Products = () => {
     'pristine-white': 'PRISTINE WHITE - Làn da trắng sáng không tì vết.',
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setPriceFilter(event.target.value as string);
-  };
-
-  const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSortOption(event.target.value as string);
-  };
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -80,11 +71,6 @@ const Products = () => {
 
   const handleFilterSelect = (filter: string) => {
     setPriceFilter(filter);
-    handleClose();
-  };
-
-  const handleSortSelect = (sort: string) => {
-    setSortOption(sort);
     handleClose();
   };
 
@@ -169,7 +155,6 @@ const Products = () => {
   //   };
   //   fetchFilteredProducts();
   // }, [slug, page, priceFilter, sortOption]);
-  console.log('show', handleFilterChange, handleSortChange, priceFilter, sortOption);
   return (
     <div className={cx('wapper')}>
       <div className={cx('header')}>
@@ -189,10 +174,10 @@ const Products = () => {
             <MenuItem onClick={() => handleFilterSelect('medium')}>500k - 1 triệu</MenuItem>
             <MenuItem onClick={() => handleFilterSelect('high')}>Trên 1 triệu</MenuItem>
             <MenuItem disabled>Sắp xếp</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('default')}>Mặc định</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('price-asc')}>Giá tăng dần</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('price-desc')}>Giá giảm dần</MenuItem>
-            <MenuItem onClick={() => handleSortSelect('bestseller')}>Bán chạy</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('default')}>Mặc định</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('price-asc')}>Giá tăng dần</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('price-desc')}>Giá giảm dần</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('bestseller')}>Bán chạy</MenuItem>
           </Menu>
           <IconButton onClick={toggleExpand}>
             {isExpanded ? <ExpandLessIcon title="Thu gọn" /> : <ExpandMoreIcon title="Mở rộng" />}

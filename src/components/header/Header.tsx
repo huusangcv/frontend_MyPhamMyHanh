@@ -11,6 +11,7 @@ import ProductMenu from '../product-menu/ProductMenu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import ModalProfile from '../modalProfile/ModalProfile';
+// import Notification from '../notification/Notification';
 const cx = classNames.bind(styles);
 const Header = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Header = () => {
               </button>
             </div>
           )}
+          {/* <Notification /> */}
           <Cart />
           <ModalProfile />
         </div>
