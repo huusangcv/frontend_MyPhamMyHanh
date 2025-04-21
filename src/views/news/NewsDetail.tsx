@@ -358,6 +358,7 @@ const NewsDetail = () => {
       )}
       <ModelComment
         user={user}
+        newsId={news && news._id ? news._id : ''}
         isClosing={closing}
         onHandleClosing={handleClosing}
         comments={comments}

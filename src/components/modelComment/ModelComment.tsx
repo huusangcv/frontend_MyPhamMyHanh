@@ -34,6 +34,7 @@ interface PropsModelComment {
   handleSetComments: (updateFn: (prevComments: Comment[]) => Comment[]) => void;
   comments: Comment[];
   user: User;
+  newsId: string;
 }
 const ModelComment: React.FC<PropsModelComment> = ({
   isClosing,
@@ -41,6 +42,7 @@ const ModelComment: React.FC<PropsModelComment> = ({
   handleSetComments,
   comments,
   user,
+  newsId,
 }) => {
   const [text, setText] = useState('');
   const [showCommentBtn, setShowCommentBtn] = useState<boolean>(false);
@@ -67,10 +69,9 @@ const ModelComment: React.FC<PropsModelComment> = ({
     setIsLoading(true);
     const data = {
       user_id: profile._id,
-      news_id: '67cc82ef67a5a003aa8bbd2a',
+      news_id: newsId,
       content: text,
     };
-
     try {
       const result = await commentPostMethods.createCommentPost(data);
       if (result.status) {

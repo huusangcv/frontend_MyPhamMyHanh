@@ -3,11 +3,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './SildeSlick.module.scss';
 import classNames from 'classnames/bind';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import slidesMethods from '../../services/slides';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { setSlide } from '../../redux/features/slide/slidesSlice';
+import { Skeleton } from '@mui/material';
 const cx = classNames.bind(styles);
 
 function NextArrow({ onClick }: { onClick: () => void }) {
@@ -53,13 +54,45 @@ function PrevArrow({ onClick }: { onClick: () => void }) {
     </div>
   );
 }
+
+function SlideSkeletonLoading() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  return (
+    <Slider {...settings}>
+      {[1, 2, 3, 4].map((item) => (
+        <div key={item}>
+          <div className={cx('slide-item')} style={{ background: '#f5f5f5' }}>
+            <div className={cx('slide-item__content')}>
+              <Skeleton variant="rectangular" height={40} width="60%" />
+              <Skeleton variant="text" height={100} width="80%" />
+              <Skeleton variant="rectangular" height={40} width={150} />
+            </div>
+            <div className={cx('slide-item__image')}>
+              <Skeleton variant="rectangular" height={400} width="100%" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </Slider>
+  );
+}
+
 const SlideSlick = () => {
   const slides = useAppSelector((state) => state.slide);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fecthSlides = async () => {
       try {
+        setLoading(true);
         const { data, status } = await slidesMethods.getSidles();
 
         if (status) {
@@ -67,21 +100,29 @@ const SlideSlick = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     if (slides[0]._id === '') {
       fecthSlides();
+    } else {
+      setLoading(false);
     }
   }, []);
+
+  if (loading) {
+    return <SlideSkeletonLoading />;
+  }
 
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 2000,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     nextArrow: (
       <NextArrow
         onClick={function (): void {
@@ -112,7 +153,7 @@ const SlideSlick = () => {
               >
                 <div className={cx('slide-item__content')}>
                   <h2 className="sub-title">
-                    <Link to={`/product/${slide.link}`}>Dầu</Link>
+                    <Link to={`/product/${slide.link}`}>{slide.title}</Link>
                   </h2>
                   <p className="desc">{slide.description}</p>
                   <div>
@@ -134,40 +175,6 @@ const SlideSlick = () => {
               </div>
             </div>
           ))}
-        <div>
-          <div
-            className={cx('slide-item')}
-            style={{
-              background: 'linear-gradient(to right, rgb(104, 40, 250), rgb(255, 186, 164))',
-            }}
-          >
-            <div className={cx('slide-item__content')}>
-              <h2 className="sub-title">
-                <a href="#!">Mỹ phẩm</a>
-              </h2>
-              <p className="desc">
-                Da là một trong những bộ phận quan trọng nhất của cơ thể, giúp bảo vệ cơ thể khỏi những tác động của môi
-                trường bên ngoài. Để có một làn da khỏe mạnh và tươi tắn, việc chăm sóc da là điều vô cùng cần thiết.
-              </p>
-              <div>
-                <a
-                  href="https://www.youtube.com/channel/UCNSCWwgW-rwmoE3Yc4WmJhw"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="ctaBtn"
-                  style={{ '--cta-hover-color': '#fe215e' } as React.CSSProperties}
-                >
-                  Xem sản phẩm
-                </a>
-              </div>
-            </div>
-            <div className={cx('slide-item__image')}>
-              <a href="#!">
-                <img src="https://myphammyhanh.com/storage/images/origin/20240930165303_66fa74ff274dd.jpg" alt="" />
-              </a>
-            </div>
-          </div>
-        </div>
       </Slider>
     </div>
   );
