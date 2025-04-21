@@ -1,8 +1,128 @@
 @import url('../addressInfo//AddressInfo.module.scss');
+.wrapper {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.top-nav-bar {
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 16px;
+}
+
+.back-button {
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.nav-bar__title {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.container {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 16px;
+
+  &:last-child {
+    margin-bottom: 16px;
+  }
+}
+
 .group-input {
-  margin: 30px 0;
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   label {
-    font-size: 1.4rem !important;
+    margin-left: 8px;
+    color: #333;
+  }
+
+  input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}
+
+.select {
+  :global {
+    .css-13cymwt-control {
+      border-color: transparent;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+      box-shadow: none;
+
+      &:hover {
+        border-bottom-color: rgba(0, 0, 0, 0.87);
+      }
+    }
+
+    .css-t3ipsp-control {
+      border-color: transparent;
+      border-radius: 0;
+      border-bottom: 2px solid #ee4d2d;
+      box-shadow: none;
+
+      &:hover {
+        border-bottom-color: #ee4d2d;
+      }
+    }
+
+    .css-1dimb5e-singleValue {
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .css-1jqq78o-placeholder {
+      color: rgba(0, 0, 0, 0.42);
+    }
+  }
+}
+
+.button__add-address {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #ee4d2d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #d73211;
+  }
+
+  &:disabled {
+    background-color: #ffd3c8;
+    cursor: not-allowed;
+  }
+
+  &.loading {
+    background-color: #ffd3c8;
+    cursor: wait;
   }
 }

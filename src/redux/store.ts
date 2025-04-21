@@ -17,6 +17,7 @@ interface CartItem {
   price: number;
   priceThrought: number;
   quantity: number;
+  category_id: string;
 }
 
 // Cấu hình persist

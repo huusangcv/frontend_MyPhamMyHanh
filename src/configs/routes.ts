@@ -21,7 +21,7 @@ const routes = {
   memberAccount: '/member/account/user-info',
   memberChangePassword: '/member/change-password',
   memberAddressInfo: '/member/account/user-info/address-info',
-  memberUpdateAddress: '/member/account/user-info/address-info/update-address',
+  memberUpdateAddress: '/member/account/user-info/address-info/update-address/:id',
   memberSocialAccount: '/member/social-account',
   memberPromotion: '/member/promotion',
   memberAccountSupport: '/member/account/support',

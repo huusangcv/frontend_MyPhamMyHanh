@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX } from 'react';
 
 const menuItems: {
   href: string;
@@ -6,16 +6,10 @@ const menuItems: {
   icon: JSX.Element;
 }[] = [
   {
-    href: "/member",
-    label: "Trang chủ",
+    href: '/member',
+    label: 'Trang chủ',
     icon: (
-      <svg
-        width="25"
-        height="24"
-        viewBox="0 0 25 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M3.5 20V9.67412C3.5 9.04041 3.80033 8.4442 4.30954 8.067L11.3095 2.88182C12.0167 2.35797 12.9833 2.35797 13.6905 2.88182L20.6905 8.067C21.1997 8.4442 21.5 9.04041 21.5 9.67412V20C21.5 21.1046 20.6046 22 19.5 22H5.5C4.39543 22 3.5 21.1046 3.5 20Z"
           stroke="#121219"
@@ -31,16 +25,10 @@ const menuItems: {
     ),
   },
   {
-    href: "/member/order",
-    label: "Lịch sử mua hàng",
+    href: '/member/order',
+    label: 'Lịch sử mua hàng',
     icon: (
-      <svg
-        width="25"
-        height="24"
-        viewBox="0 0 25 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M7.56203 19.7C8.38203 18.82 9.63203 18.89 10.352 19.85L11.362 21.2C12.172 22.27 13.482 22.27 14.292 21.2L15.302 19.85C16.022 18.89 17.272 18.82 18.092 19.7C19.872 21.6 21.322 20.97 21.322 18.31V7.04C21.332 3.01 20.392 2 16.612 2H9.05203C5.27203 2 4.33203 3.01 4.33203 7.04V18.3C4.33203 20.97 5.79203 21.59 7.56203 19.7Z"
           stroke="#292D32"
@@ -79,71 +67,65 @@ const menuItems: {
       </svg>
     ),
   },
+  // {
+  //   href: "/member/promotion",
+  //   label: "Ưu đãi của bạn",
+  //   icon: (
+  //     <svg
+  //       width="25"
+  //       height="24"
+  //       viewBox="0 0 25 24"
+  //       fill="none"
+  //       xmlns="http://www.w3.org/2000/svg"
+  //     >
+  //       <path
+  //         d="M20.1367 10H4.13672V18C4.13672 21 5.13672 22 8.13672 22H16.1367C19.1367 22 20.1367 21 20.1367 18V10Z"
+  //         stroke="#292D32"
+  //         strokeWidth="1.5"
+  //         strokeMiterlimit="10"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       ></path>
+  //       <path
+  //         d="M21.668 7V8C21.668 9.1 21.138 10 19.668 10H4.66797C3.13797 10 2.66797 9.1 2.66797 8V7C2.66797 5.9 3.13797 5 4.66797 5H19.668C21.138 5 21.668 5.9 21.668 7Z"
+  //         stroke="#292D32"
+  //         strokeWidth="1.5"
+  //         strokeMiterlimit="10"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       ></path>
+  //       <path
+  //         d="M11.8068 4.99945H6.28678C5.94678 4.62945 5.95678 4.05945 6.31678 3.69945L7.73678 2.27945C8.10678 1.90945 8.71678 1.90945 9.08678 2.27945L11.8068 4.99945Z"
+  //         stroke="#292D32"
+  //         strokeWidth="1.5"
+  //         strokeMiterlimit="10"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       ></path>
+  //       <path
+  //         d="M18.0395 4.99945H12.5195L15.2395 2.27945C15.6095 1.90945 16.2195 1.90945 16.5895 2.27945L18.0095 3.69945C18.3695 4.05945 18.3795 4.62945 18.0395 4.99945Z"
+  //         stroke="#292D32"
+  //         strokeWidth="1.5"
+  //         strokeMiterlimit="10"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       ></path>
+  //       <path
+  //         d="M9.10938 10V15.14C9.10938 15.94 9.98938 16.41 10.6594 15.98L11.5994 15.36C11.9394 15.14 12.3694 15.14 12.6994 15.36L13.5894 15.96C14.2494 16.4 15.1394 15.93 15.1394 15.13V10H9.10938Z"
+  //         stroke="#292D32"
+  //         strokeWidth="1.5"
+  //         strokeMiterlimit="10"
+  //         strokeLinecap="round"
+  //         strokeLinejoin="round"
+  //       ></path>
+  //     </svg>
+  //   ),
+  // },
   {
-    href: "/member/promotion",
-    label: "Ưu đãi của bạn",
+    href: '/member/account/user-info',
+    label: 'Tài khoản của bạn',
     icon: (
-      <svg
-        width="25"
-        height="24"
-        viewBox="0 0 25 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M20.1367 10H4.13672V18C4.13672 21 5.13672 22 8.13672 22H16.1367C19.1367 22 20.1367 21 20.1367 18V10Z"
-          stroke="#292D32"
-          strokeWidth="1.5"
-          strokeMiterlimit="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-        <path
-          d="M21.668 7V8C21.668 9.1 21.138 10 19.668 10H4.66797C3.13797 10 2.66797 9.1 2.66797 8V7C2.66797 5.9 3.13797 5 4.66797 5H19.668C21.138 5 21.668 5.9 21.668 7Z"
-          stroke="#292D32"
-          strokeWidth="1.5"
-          strokeMiterlimit="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-        <path
-          d="M11.8068 4.99945H6.28678C5.94678 4.62945 5.95678 4.05945 6.31678 3.69945L7.73678 2.27945C8.10678 1.90945 8.71678 1.90945 9.08678 2.27945L11.8068 4.99945Z"
-          stroke="#292D32"
-          strokeWidth="1.5"
-          strokeMiterlimit="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-        <path
-          d="M18.0395 4.99945H12.5195L15.2395 2.27945C15.6095 1.90945 16.2195 1.90945 16.5895 2.27945L18.0095 3.69945C18.3695 4.05945 18.3795 4.62945 18.0395 4.99945Z"
-          stroke="#292D32"
-          strokeWidth="1.5"
-          strokeMiterlimit="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-        <path
-          d="M9.10938 10V15.14C9.10938 15.94 9.98938 16.41 10.6594 15.98L11.5994 15.36C11.9394 15.14 12.3694 15.14 12.6994 15.36L13.5894 15.96C14.2494 16.4 15.1394 15.93 15.1394 15.13V10H9.10938Z"
-          stroke="#292D32"
-          strokeWidth="1.5"
-          strokeMiterlimit="10"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-      </svg>
-    ),
-  },
-  {
-    href: "/member/account/user-info",
-    label: "Tài khoản của bạn",
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
           stroke="#292D32"
@@ -162,16 +144,10 @@ const menuItems: {
     ),
   },
   {
-    href: "/member/social-account",
-    label: "Liên kết tài khoản",
+    href: '/member/social-account',
+    label: 'Liên kết tài khoản',
     icon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M16.96 6.16992C18.96 7.55992 20.34 9.76992 20.62 12.3199"
           stroke="#292D32"
@@ -218,16 +194,10 @@ const menuItems: {
     ),
   },
   {
-    href: "/member/account/support",
-    label: "Hỗ trợ",
+    href: '/member/account/support',
+    label: 'Hỗ trợ',
     icon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M6.9 20.6C8.4 21.5 10.2 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 13.8 2.5 15.5 3.3 17L2.44044 20.306C2.24572 21.0549 2.93892 21.7317 3.68299 21.5191L6.9 20.6Z"
           stroke="#17191C"
@@ -245,46 +215,34 @@ const menuItems: {
       </svg>
     ),
   },
+  // {
+  //   href: '/member/account/feedback',
+  //   label: 'Góp ý phản hồi',
+  //   icon: (
+  //     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //       <path
+  //         d="M18 18.8597H17.24C16.44 18.8597 15.68 19.1697 15.12 19.7297L13.41 21.4197C12.63 22.1897 11.36 22.1897 10.58 21.4197L8.87 19.7297C8.31 19.1697 7.54 18.8597 6.75 18.8597H6C4.34 18.8597 3 17.5298 3 15.8898V4.97974C3 3.33974 4.34 2.00977 6 2.00977H18C19.66 2.00977 21 3.33974 21 4.97974V15.8898C21 17.5198 19.66 18.8597 18 18.8597Z"
+  //         stroke="#292D32"
+  //         stroke-width="1.5"
+  //         stroke-miterlimit="10"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       ></path>
+  //       <path
+  //         d="M12.28 14.96C12.13 15.01 11.88 15.01 11.72 14.96C10.42 14.51 7.5 12.66 7.5 9.51001C7.5 8.12001 8.62 7 10 7C10.82 7 11.54 7.39 12 8C12.46 7.39 13.18 7 14 7C15.38 7 16.5 8.12001 16.5 9.51001C16.49 12.66 13.58 14.51 12.28 14.96Z"
+  //         stroke="#292D32"
+  //         stroke-width="1.5"
+  //         stroke-linecap="round"
+  //         stroke-linejoin="round"
+  //       ></path>
+  //     </svg>
+  //   ),
+  // },
   {
-    href: "/member/account/feedback",
-    label: "Góp ý phản hồi",
+    href: '/member/account/logout',
+    label: 'Thoát tài khoản',
     icon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M18 18.8597H17.24C16.44 18.8597 15.68 19.1697 15.12 19.7297L13.41 21.4197C12.63 22.1897 11.36 22.1897 10.58 21.4197L8.87 19.7297C8.31 19.1697 7.54 18.8597 6.75 18.8597H6C4.34 18.8597 3 17.5298 3 15.8898V4.97974C3 3.33974 4.34 2.00977 6 2.00977H18C19.66 2.00977 21 3.33974 21 4.97974V15.8898C21 17.5198 19.66 18.8597 18 18.8597Z"
-          stroke="#292D32"
-          stroke-width="1.5"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M12.28 14.96C12.13 15.01 11.88 15.01 11.72 14.96C10.42 14.51 7.5 12.66 7.5 9.51001C7.5 8.12001 8.62 7 10 7C10.82 7 11.54 7.39 12 8C12.46 7.39 13.18 7 14 7C15.38 7 16.5 8.12001 16.5 9.51001C16.49 12.66 13.58 14.51 12.28 14.96Z"
-          stroke="#292D32"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-      </svg>
-    ),
-  },
-  {
-    href: "/member/account/logout",
-    label: "Thoát tài khoản",
-    icon: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M8.90039 7.56023C9.21039 3.96023 11.0604 2.49023 15.1104 2.49023H15.2404C19.7104 2.49023 21.5004 4.28023 21.5004 8.75023V15.2702C21.5004 19.7402 19.7104 21.5302 15.2404 21.5302H15.1104C11.0904 21.5302 9.24039 20.0802 8.91039 16.5402"
           stroke="#292D32"

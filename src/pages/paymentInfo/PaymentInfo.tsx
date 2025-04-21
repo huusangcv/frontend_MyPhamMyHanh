@@ -10,6 +10,9 @@ import { setInfoShipping } from '../../redux/features/infoShipping/InfoShipping'
 import { toast } from 'react-toastify';
 import addressMethods from '../../services/fastDelivery';
 import fastDeliveryMethods from '../../services/fastDelivery';
+import { addressService } from '../../services/addressInfo';
+import { Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
+
 interface City {
   ProvinceID: number;
   ProvinceName: string;
@@ -22,6 +25,19 @@ interface City {
 interface Option {
   value: number;
   label: string;
+}
+
+export interface Address {
+  _id: string;
+  userId: string;
+  fullName: string;
+  phoneNumber: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
 }
 
 const formatter = new Intl.NumberFormat('vi-VN', {
@@ -48,11 +64,14 @@ const PaymentInfo = () => {
   const [districtCode, setDistrictCode] = useState<number>(0);
   const [wards, setWards] = useState<Option[]>([]);
   const [ward, setWard] = useState('');
+  const [wardCode, setWardCode] = useState<number>(0);
 
   const [currentAddress, setCurrentAddress] = useState<string>('pickup');
   const [fee, setFee] = useState<number>(0);
   const profile = useAppSelector((state) => state.profile);
   const paymentInfo = useAppSelector((state) => state.payment);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [selectedSavedAddress, setSelectedSavedAddress] = useState<string>('');
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -77,12 +96,95 @@ const PaymentInfo = () => {
       setEmail(profile.email);
       setPhone(profile.phone);
       setName(profile.username);
+      fetchSavedAddresses();
     }
   }, [profile]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const fetchSavedAddresses = async () => {
+    try {
+      const response = await addressService.getUserAddresses(profile._id);
+      if (response.status) {
+        setSavedAddresses(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching saved addresses:', error);
+      toast.error('Không thể tải danh sách địa chỉ đã lưu');
+    }
+  };
+
+  const handleSavedAddressChange = async (addressId: string) => {
+    setSelectedSavedAddress(addressId);
+
+    if (addressId === '') {
+      // Reset form when "Use new address" is selected
+      setName(profile.username || '');
+      setPhone(profile.phone || '');
+      setAddress('');
+      setCity('');
+      setDistrict('');
+      setWard('');
+      setFee(0);
+      return;
+    }
+
+    const selectedAddress = savedAddresses.find((addr) => addr._id === addressId);
+    if (selectedAddress) {
+      setName(selectedAddress.fullName);
+      setPhone(selectedAddress.phoneNumber);
+      setAddress(selectedAddress.addressLine);
+      setCity(selectedAddress.city);
+      setDistrict(selectedAddress.state);
+
+      // Find and set the city option
+      const cityOption = cities.find((c) => c.label === selectedAddress.city);
+      if (cityOption) {
+        // Fetch districts for the selected city
+        const districtRes = await addressMethods.getDistricts(cityOption.value);
+        const newDistricts = districtRes.data.map((district: City) => ({
+          value: district.DistrictID,
+          label: district.DistrictName,
+        }));
+        setDistricts(newDistricts);
+
+        // Find and set the district option
+        const districtOption = newDistricts.find((d: any) => d.label === selectedAddress.state);
+        if (districtOption) {
+          setDistrictCode(districtOption.value);
+
+          // Fetch wards for the selected district
+          const wardRes = await addressMethods.getWards(districtOption.value);
+          const newWards = wardRes.data.map((ward: City) => ({
+            value: ward.WardCode,
+            label: ward.WardName,
+          }));
+          setWards(newWards);
+
+          // Find and set the ward option
+          const wardOption = newWards.find((w: any) => String(w.value) === selectedAddress.postalCode);
+          if (wardOption) {
+            setWard(wardOption.label);
+            setWardCode(wardOption.value);
+
+            // Calculate shipping fee
+            try {
+              const feeRes = await fastDeliveryMethods.getFee({
+                insurance_value: paymentInfo.totalPrice,
+                to_district_id: districtOption.value,
+                to_ward_code: wardOption.value.toString(),
+              });
+              setFee(feeRes.data.total);
+            } catch (error) {
+              console.error('Error calculating fee:', error);
+            }
+          }
+        }
+      }
+    }
+  };
 
   //hanlde setCity address
   const handleChangeCity = async (newValue: SingleValue<Option>) => {
@@ -128,6 +230,7 @@ const PaymentInfo = () => {
   const handleChangeWard = (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
       setWard(newValue.label);
+      setWardCode(newValue.value);
       const fectFee = async () => {
         try {
           const res = await fastDeliveryMethods.getFee({
@@ -395,66 +498,156 @@ const PaymentInfo = () => {
                 </div>
               )) || (
                 <div className={cx('block-payment__main')}>
-                  <div className={cx('customer-receiver')}>
-                    <TextField
-                      id="standard-basic"
-                      label="TÊN NGƯỜI NHẬN"
-                      placeholder="Họ tên người nhận"
-                      variant="standard"
-                      value={name}
-                      onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)}
-                      sx={{ width: '100%', height: '100%' }}
-                    />
-                    <TextField
-                      id="standard-basic"
-                      label="SĐT NGƯỜI NHẬN"
-                      placeholder="Số điện thoại người nhận"
-                      variant="standard"
-                      value={phone}
-                      onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)}
-                      sx={{ width: '100%', height: '100%' }}
-                    />
-                  </div>
-                  <div className={cx('customer-receiver')}>
-                    <Select
-                      placeholder="Chọn tỉnh/thành phố"
-                      defaultValue={cities[0]}
-                      className={cx('select')}
-                      onChange={handleChangeCity}
-                      options={cities}
-                    />
-                    <Select
-                      placeholder="Chọn quận/huyện"
-                      className={cx('select')}
-                      onChange={handleChangeDistrict}
-                      options={districts}
-                    />
-                  </div>
+                  {savedAddresses.length > 0 ? (
+                    <>
+                      <div className={cx('saved-addresses')}>
+                        <FormControl component="fieldset" sx={{ width: '100%', marginBottom: 2 }}>
+                          <RadioGroup
+                            value={selectedSavedAddress}
+                            onChange={(e) => handleSavedAddressChange(e.target.value)}
+                          >
+                            {savedAddresses.map((savedAddress) => (
+                              <FormControlLabel
+                                key={savedAddress._id}
+                                value={savedAddress._id}
+                                control={<Radio />}
+                                label={
+                                  <div className={cx('saved-address-item')}>
+                                    <div className={cx('saved-address-name')}>
+                                      {savedAddress.fullName} - {savedAddress.phoneNumber}
+                                    </div>
+                                    <div className={cx('saved-address-details')}>
+                                      {savedAddress.addressLine}, {savedAddress.state}, {savedAddress.city}
+                                    </div>
+                                    {savedAddress.isDefault && <div className={cx('default-badge')}>Mặc định</div>}
+                                  </div>
+                                }
+                              />
+                            ))}
+                            <FormControlLabel value="" control={<Radio />} label="Sử dụng địa chỉ mới" />
+                          </RadioGroup>
+                        </FormControl>
+                      </div>
+
+                      {selectedSavedAddress === '' && (
+                        <div className={cx('new-address-form')}>
+                          <div className={cx('customer-receiver')}>
+                            <TextField
+                              label="TÊN NGƯỜI NHẬN"
+                              placeholder="Họ tên người nhận"
+                              variant="standard"
+                              value={name}
+                              onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)}
+                              sx={{ width: '100%', height: '100%' }}
+                            />
+                            <TextField
+                              label="SĐT NGƯỜI NHẬN"
+                              placeholder="Số điện thoại người nhận"
+                              variant="standard"
+                              value={phone}
+                              onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)}
+                              sx={{ width: '100%', height: '100%' }}
+                            />
+                          </div>
+                          <div className={cx('customer-receiver')}>
+                            <Select
+                              placeholder="Chọn tỉnh/thành phố"
+                              defaultValue={cities[0]}
+                              className={cx('select')}
+                              onChange={handleChangeCity}
+                              options={cities}
+                            />
+                            <Select
+                              placeholder="Chọn quận/huyện"
+                              className={cx('select')}
+                              onChange={handleChangeDistrict}
+                              options={districts}
+                            />
+                          </div>
+                          <div className={cx('customer-receiver')} style={{ marginTop: 10 }}>
+                            <Select
+                              placeholder="Chọn phường/xã"
+                              className={cx('select')}
+                              onChange={(newValue) => handleChangeWard(newValue)}
+                              options={wards}
+                            />
+                            <TextField
+                              label="ĐỊA CHỈ"
+                              placeholder="Số nhà, tên đường"
+                              variant="standard"
+                              value={address}
+                              onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                                setAddress(e.target.value)
+                              }
+                              sx={{ width: '100%', height: '100%' }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className={cx('new-address-form')}>
+                      <div className={cx('customer-receiver')}>
+                        <TextField
+                          label="TÊN NGƯỜI NHẬN"
+                          placeholder="Họ tên người nhận"
+                          variant="standard"
+                          value={name}
+                          onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)}
+                          sx={{ width: '100%', height: '100%' }}
+                        />
+                        <TextField
+                          label="SĐT NGƯỜI NHẬN"
+                          placeholder="Số điện thoại người nhận"
+                          variant="standard"
+                          value={phone}
+                          onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)}
+                          sx={{ width: '100%', height: '100%' }}
+                        />
+                      </div>
+                      <div className={cx('customer-receiver')}>
+                        <Select
+                          placeholder="Chọn tỉnh/thành phố"
+                          defaultValue={cities[0]}
+                          className={cx('select')}
+                          onChange={handleChangeCity}
+                          options={cities}
+                        />
+                        <Select
+                          placeholder="Chọn quận/huyện"
+                          className={cx('select')}
+                          onChange={handleChangeDistrict}
+                          options={districts}
+                        />
+                      </div>
+                      <div className={cx('customer-receiver')} style={{ marginTop: 10 }}>
+                        <Select
+                          placeholder="Chọn phường/xã"
+                          className={cx('select')}
+                          onChange={(newValue) => handleChangeWard(newValue)}
+                          options={wards}
+                        />
+                        <TextField
+                          label="ĐỊA CHỈ"
+                          placeholder="Số nhà, tên đường"
+                          variant="standard"
+                          value={address}
+                          onChange={(e: { target: { value: SetStateAction<string> } }) => setAddress(e.target.value)}
+                          sx={{ width: '100%', height: '100%' }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   <div className={cx('customer-receiver')} style={{ marginTop: 10 }}>
-                    <Select
-                      placeholder="Chọn phường/xã"
-                      className={cx('select')}
-                      onChange={(newValue) => handleChangeWard(newValue)}
-                      options={wards}
-                    />
                     <TextField
-                      id="standard-basic"
-                      label="ĐỊA CHỈ"
-                      placeholder="Số nhà, tên đường"
-                      variant="standard"
-                      value={address}
-                      onChange={(e: { target: { value: SetStateAction<string> } }) => setAddress(e.target.value)}
-                      sx={{ width: '100%', height: '100%' }}
-                    />
-                  </div>
-                  <div className={cx('customer-receiver')} style={{ marginTop: 10 }}>
-                    <TextField
-                      id="standard-basic"
                       label="Ghi chú khác (nếu có)"
-                      placeholder="Số nhà, tên đường"
+                      placeholder="Ghi chú"
                       variant="standard"
                       value={note}
                       onChange={(e: { target: { value: SetStateAction<string> } }) => setNote(e.target.value)}
+                      multiline
+                      rows={4}
                       sx={{ width: '100%', height: '100%' }}
                     />
                   </div>
@@ -484,23 +677,31 @@ const PaymentInfo = () => {
 
           <div
             className={cx('go-back')}
-            onClick={() => {
-              dispatch(
-                setInfoShipping({
-                  name: profile.username,
-                  phone,
-                  email,
-                  currentAddress,
-                  address:
-                    (currentAddress === 'pickup' &&
-                      'Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam') ||
-                    `${address}, ${ward}, ${district}, ${city}`,
-                  shipping: (currentAddress !== 'pickup' && fee > 0 && fee) || 0,
-                  personGet: `${name} - ${phone}`,
-                  note,
-                }),
-              );
-              handleValidation();
+            onClick={async () => {
+              const leadtime = await fastDeliveryMethods.getLeadtime({
+                to_district_id: districtCode,
+                to_ward_code: wardCode.toString(),
+              });
+
+              if (leadtime) {
+                dispatch(
+                  setInfoShipping({
+                    name: profile.username,
+                    phone,
+                    email,
+                    currentAddress,
+                    address:
+                      (currentAddress === 'pickup' &&
+                        'Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam') ||
+                      `${address}, ${ward}, ${district}, ${city}`,
+                    shipping: (currentAddress !== 'pickup' && fee > 0 && fee) || 0,
+                    personGet: `${name} - ${phone}`,
+                    note,
+                    leadtimeOrder: leadtime.data.leadtime_order,
+                  }),
+                );
+                handleValidation();
+              }
             }}
           >
             Tiếp tục

@@ -9,6 +9,7 @@ interface PaymentItem {
   price: number;
   priceThrought: number;
   quantity: number;
+  category_id: string;
 }
 
 // Định nghĩa kiểu cho trạng thái giỏ hàng

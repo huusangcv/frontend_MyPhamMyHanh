@@ -1,18 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  name: "",
-  phone: "",
-  email: "",
-  currentAddress: "",
-  address: "",
+  name: '',
+  phone: '',
+  email: '',
+  currentAddress: '',
+  address: '',
   shipping: 0,
-  personGet: "",
-  note: "",
+  personGet: '',
+  note: '',
+  leadtimeOrder: {
+    from_estimate_date: '',
+    to_estimate_date: '',
+  },
 };
 
 export const infoShippingSlice = createSlice({
-  name: "infoShipping",
+  name: 'infoShipping',
   initialState,
   reducers: {
     setInfoShipping: (_state, action) => action.payload,

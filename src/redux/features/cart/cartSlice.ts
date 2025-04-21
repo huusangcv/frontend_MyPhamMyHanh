@@ -33,6 +33,11 @@ export const cartSlice = createSlice({
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
 
+      if (existingItem && existingItem.quantity >= 10) {
+        alert('Số lượng sản phẩm tối đa là 10 - Bạn muốn đặt với số lượng lớn hơn vui lòng liên hệ với cửa hàng');
+        return;
+      }
+
       if (existingItem) {
         existingItem.quantity += newItem.quantity;
       } else {
@@ -70,6 +75,11 @@ export const cartSlice = createSlice({
     increaseItemToCart(state, action: PayloadAction<CartItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
+
+      if (existingItem && existingItem.quantity >= 10) {
+        alert('Số lượng sản phẩm tối đa là 10 - Bạn muốn đặt với số lượng lớn hơn vui lòng liên hệ với cửa hàng');
+        return;
+      }
 
       if (existingItem) {
         existingItem.quantity += 1;

@@ -30,6 +30,7 @@ interface Product {
   product_id: string;
   quantity: number;
   price: number;
+  category_id: string;
 }
 
 interface PropsOrder {
@@ -46,6 +47,10 @@ interface PropsOrder {
   shipping: number;
   mustPay: number;
   stillHaveToPay: number;
+  leadtimeOrder: {
+    fromEstimateDate: string;
+    toEstimateDate: string;
+  };
 }
 const cx = classNames.bind(styles);
 const Payment = () => {
@@ -73,6 +78,7 @@ const Payment = () => {
         product_id: item.id,
         quantity: item.quantity,
         price: item.price,
+        category_id: item.category_id,
       };
     });
     const orderId = generateShortId();
@@ -90,6 +96,10 @@ const Payment = () => {
       products: productsId,
       reference: orderId,
       paymentMethod,
+      leadtimeOrder: {
+        fromEstimateDate: infoShipping.leadtimeOrder.from_estimate_date,
+        toEstimateDate: infoShipping.leadtimeOrder.to_estimate_date,
+      },
     };
     if (paymentMethod !== '') {
       const id = toast.loading('Loading...');

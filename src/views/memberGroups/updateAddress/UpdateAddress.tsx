@@ -2,10 +2,15 @@ import classNames from 'classnames/bind';
 import styles from './UpdateAddress.module.scss';
 import { TextField } from '@mui/material';
 import Select, { SingleValue } from 'react-select';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import fastDeliveryMethods from '../../../services/fastDelivery';
+import { addressService } from '../../../services/addressInfo';
+import { useSelector } from 'react-redux';
+
 const cx = classNames.bind(styles);
 
-import { SetStateAction, useEffect, useState } from 'react';
-import fastDeliveryMethods from '../../../services/fastDelivery';
 interface City {
   ProvinceID: number;
   ProvinceName: string;
@@ -15,138 +20,259 @@ interface City {
   district_code: number;
   WardCode: number;
 }
+
 interface Option {
   value: number;
   label: string;
 }
 
+interface FormData {
+  userId: string;
+  fullName: string;
+  phoneNumber: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
+}
+
 const UpdateAddress = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const profile = useSelector((state: any) => state.profile);
+
+  const [formData, setFormData] = useState<FormData>({
+    userId: '',
+    fullName: '',
+    phoneNumber: '',
+    addressLine: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: 'Việt Nam', // Mặc định là Việt Nam
+    isDefault: false,
+  });
+
   const [cities, setCities] = useState<Option[]>([]);
-  const [city, setCity] = useState<string>('');
   const [districts, setDistricts] = useState<Option[]>([]);
-  const [district, setDistrict] = useState('');
-  const [districtCode, setDistrictCode] = useState<number>(0);
   const [wards, setWards] = useState<Option[]>([]);
-  const [ward, setWard] = useState('');
-
-  const [address, setAddress] = useState<string>('');
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      try {
-        const response = await fastDeliveryMethods.getAddress();
-        const newCities = response.data.map((city: City) => {
-          return {
-            value: city.ProvinceID,
-            label: city.ProvinceName,
-          };
-        });
-        setCities(newCities);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchAddress();
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     scroll({
       top: 0,
     });
-  }, []);
+    fetchCities();
+    if (profile?._id) {
+      setFormData((prev) => ({ ...prev, userId: profile._id }));
+    }
+  }, [profile]);
 
-  //hanlde setCity address
+  useEffect(() => {
+    if (id) {
+      fetchAddressDetails();
+    }
+  }, [id, cities]);
+
+  const fetchCities = async () => {
+    try {
+      const response = await fastDeliveryMethods.getAddress();
+      const newCities = response.data.map((city: City) => ({
+        value: city.ProvinceID,
+        label: city.ProvinceName,
+      }));
+      setCities(newCities);
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+      toast.error('Không thể tải danh sách tỉnh/thành phố');
+    }
+  };
+
+  const fetchAddressDetails = async () => {
+    try {
+      if (id && id !== 'add') {
+        const response = await addressService.getAddressById(id);
+        if (response.status) {
+          const address = response.data;
+          setFormData({
+            userId: address.userId,
+            fullName: address.fullName,
+            phoneNumber: address.phoneNumber,
+            addressLine: address.addressLine,
+            city: address.city,
+            state: address.state,
+            postalCode: address.postalCode || '',
+            country: address.country,
+            isDefault: address.isDefault,
+          });
+
+          // Load districts and wards based on selected city
+          const cityOption = cities.find((c) => c.label === address.city);
+          if (cityOption) {
+            await handleChangeCity({ value: cityOption.value, label: address.city });
+
+            // Load districts
+            const districtRes = await fastDeliveryMethods.getDistricts(cityOption.value);
+            const districtOption = districtRes.data.find((d: City) => d.DistrictName === address.state);
+            if (districtOption) {
+              await handleChangeDistrict({ value: districtOption.DistrictID, label: districtOption.DistrictName });
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching address details:', error);
+      toast.error('Không thể tải thông tin địa chỉ');
+    }
+  };
+
   const handleChangeCity = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
-      setCity(newValue.label);
+      setFormData((prev) => ({ ...prev, city: newValue.label, state: '' }));
       try {
         const res = await fastDeliveryMethods.getDistricts(newValue.value);
-        const newDistricts = res.data.map((district: City) => {
-          return {
-            value: district.DistrictID,
-            label: district.DistrictName,
-          };
-        });
+        const newDistricts = res.data.map((district: City) => ({
+          value: district.DistrictID,
+          label: district.DistrictName,
+        }));
         setDistricts(newDistricts);
+        setWards([]);
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching districts:', error);
+        toast.error('Không thể tải danh sách quận/huyện');
       }
     }
   };
 
-  //hanlde District address
   const handleChangeDistrict = async (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
-      setDistrict(newValue.label);
-      setDistrictCode(newValue.value);
+      setFormData((prev) => ({ ...prev, state: newValue.label }));
       try {
         const res = await fastDeliveryMethods.getWards(newValue.value);
-        const newWards = res.data.map((ward: City) => {
-          return {
-            value: ward.WardCode,
-            label: ward.WardName,
-          };
-        });
-
+        const newWards = res.data.map((ward: City) => ({
+          value: ward.WardCode,
+          label: ward.WardName,
+        }));
         setWards(newWards);
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching wards:', error);
+        toast.error('Không thể tải danh sách phường/xã');
       }
     }
   };
 
-  //hanlde Ward address
   const handleChangeWard = (newValue: SingleValue<Option>) => {
     if (newValue !== null) {
-      setWard(newValue.label);
+      // Cập nhật postalCode với mã ward
+      setFormData((prev) => ({ ...prev, postalCode: String(newValue.value) }));
     }
   };
 
-  console.log('check', cities, city, district, districtCode, ward);
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      let response;
+      if (id && id !== 'add') {
+        response = await addressService.updateAddress(id, formData);
+      } else {
+        response = await addressService.createAddress(formData);
+      }
+
+      if (response.status) {
+        toast.success(id ? 'Cập nhật địa chỉ thành công' : 'Thêm địa chỉ mới thành công');
+        navigate('/member/account/user-info/address-info');
+      }
+    } catch (error) {
+      console.error('Error submitting address:', error);
+      toast.error('Đã có lỗi xảy ra, vui lòng thử lại');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.fullName.trim()) {
+      toast.error('Vui lòng nhập họ tên');
+      return false;
+    }
+    if (!formData.phoneNumber.trim()) {
+      toast.error('Vui lòng nhập số điện thoại');
+      return false;
+    }
+    if (!formData.city) {
+      toast.error('Vui lòng chọn tỉnh/thành phố');
+      return false;
+    }
+    if (!formData.state) {
+      toast.error('Vui lòng chọn quận/huyện');
+      return false;
+    }
+    if (!formData.postalCode) {
+      toast.error('Vui lòng chọn phường/xã');
+      return false;
+    }
+    if (!formData.addressLine.trim()) {
+      toast.error('Vui lòng nhập địa chỉ cụ thể');
+      return false;
+    }
+    return true;
+  };
 
   return (
-    <div className={cx('wapper')}>
+    <div className={cx('wrapper')}>
       <div className={cx('top-nav-bar')}>
         <div className={cx('navbar-container')}>
-          <div>
-            <div data-v-5170e23d="" className={cx('icon')}>
+          <div onClick={() => navigate(-1)} className={cx('back-button')}>
+            <div className={cx('icon')}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.1" clip-path="url(#clip0_11167_71432)">
-                  <path d="M25 12H7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <path
-                    d="M12 19L5 12L12 5"
-                    stroke="black"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_11167_71432">
-                    <rect width="24" height="24" fill="white"></rect>
-                  </clipPath>
-                </defs>
+                <path d="M25 12H7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                <path
+                  d="M12 19L5 12L12 5"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
               </svg>
             </div>
           </div>
-          <div className={cx('nav-bar__title')}>Thêm địa chỉ mới</div>
+          <div className={cx('nav-bar__title')}>{id ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ mới'}</div>
         </div>
       </div>
 
       <div className={cx('container')}>
         <div className={cx('group-input')}>
           <TextField
-            id="standard-basic"
-            label="Đặt tên gợi nhớ (ví dụ: Nhà của Sang)"
+            label="Họ và tên"
             variant="standard"
-            sx={{ width: '100%', fontSize: '2rem' }}
-            size="large"
+            value={formData.fullName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData((prev) => ({ ...prev, fullName: e.target.value }))
+            }
+            sx={{ width: '100%' }}
+          />
+        </div>
+        <div className={cx('group-input')}>
+          <TextField
+            label="Số điện thoại"
+            variant="standard"
+            value={formData.phoneNumber}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))
+            }
+            sx={{ width: '100%' }}
           />
         </div>
         <div className={cx('group-input')}>
           <Select
             placeholder="Chọn tỉnh/thành phố"
-            defaultValue={cities[0]}
+            value={cities.find((city) => city.label === formData.city)}
             className={cx('select')}
             onChange={handleChangeCity}
             options={cities}
@@ -155,38 +281,52 @@ const UpdateAddress = () => {
         <div className={cx('group-input')}>
           <Select
             placeholder="Chọn quận/huyện"
+            value={districts.find((district) => district.label === formData.state)}
             className={cx('select')}
             onChange={handleChangeDistrict}
             options={districts}
+            isDisabled={!formData.city}
           />
         </div>
         <div className={cx('group-input')}>
           <Select
             placeholder="Chọn phường/xã"
+            value={wards.find((ward) => String(ward.value) === formData.postalCode)}
             className={cx('select')}
-            onChange={(newValue) => handleChangeWard(newValue)}
+            onChange={handleChangeWard}
             options={wards}
+            isDisabled={!formData.state}
           />
         </div>
         <div className={cx('group-input')}>
           <TextField
-            id="standard-basic"
-            label="ĐỊA CHỈ"
+            label="Địa chỉ cụ thể"
             placeholder="Số nhà, tên đường"
             variant="standard"
-            value={address}
-            onChange={(e: { target: { value: SetStateAction<string> } }) => setAddress(e.target.value)}
-            sx={{ width: '100%', height: '100%' }}
+            value={formData.addressLine}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData((prev) => ({ ...prev, addressLine: e.target.value }))
+            }
+            sx={{ width: '100%' }}
           />
         </div>
         <div className={cx('group-input')}>
-          <input type="checkbox" id="checkbox" />
-          <label htmlFor="checkbox">Đặt làm địa chỉ mặt định</label>
+          <input
+            type="checkbox"
+            id="isDefault"
+            checked={formData.isDefault}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFormData((prev) => ({ ...prev, isDefault: e.target.checked }))
+            }
+          />
+          <label htmlFor="isDefault">Đặt làm địa chỉ mặc định</label>
         </div>
       </div>
 
       <div className={cx('container')}>
-        <button className={cx('button__add-address')}>Xác nhận thêm địa chỉ</button>
+        <button className={cx('button__add-address', { loading })} onClick={handleSubmit} disabled={loading}>
+          {loading ? 'Đang xử lý...' : id ? 'Cập nhật địa chỉ' : 'Thêm địa chỉ mới'}
+        </button>
       </div>
     </div>
   );
