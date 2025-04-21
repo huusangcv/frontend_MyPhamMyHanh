@@ -371,6 +371,7 @@ const ProductDetail = () => {
                                 slug: product.slug,
                                 price: product.price * (1 - product.discount / 100),
                                 quantity: 1,
+                                category_id: product.category_id,
                               }),
                             );
                             dispatch(
@@ -382,6 +383,7 @@ const ProductDetail = () => {
                                 slug: product.slug,
                                 price: product.price * (1 - product.discount / 100),
                                 quantity: 1,
+                                category_id: product.category_id,
                               }),
                             );
                             navigate('/cart');
@@ -401,6 +403,7 @@ const ProductDetail = () => {
                                 slug: product.slug,
                                 price: product.price * (1 - product.discount / 100),
                                 quantity: 1,
+                                category_id: product.category_id,
                               }),
                             );
                           }}
