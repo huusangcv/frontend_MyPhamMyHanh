@@ -158,6 +158,7 @@ export default function SameProducts({ categoryId, currentProduct }: PropsSamePr
                                 slug: product.slug,
                                 price: product.price * (1 - product.discount / 100),
                                 quantity: 1,
+                                category_id: product.category_id,
                               }),
                             );
                             toast.success('Thêm sản phẩm vào giỏ hàng thành công', {

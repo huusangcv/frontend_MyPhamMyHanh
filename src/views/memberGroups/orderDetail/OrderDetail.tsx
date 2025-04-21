@@ -112,6 +112,7 @@ const OrderDetail = () => {
             slug: data.slug,
             price: data.price * (1 - data.discount / 100),
             quantity: 1,
+            category_id: data.category_id,
           }),
         );
         dispatch(
@@ -123,6 +124,7 @@ const OrderDetail = () => {
             slug: data.slug,
             price: data.price * (1 - data.discount / 100),
             quantity: 1,
+            category_id: data.category_id,
           }),
         );
         navigate('/cart');
