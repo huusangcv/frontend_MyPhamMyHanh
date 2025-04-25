@@ -97,8 +97,8 @@ const Payment = () => {
       reference: orderId,
       paymentMethod,
       leadtimeOrder: {
-        fromEstimateDate: infoShipping.leadtimeOrder.from_estimate_date,
-        toEstimateDate: infoShipping.leadtimeOrder.to_estimate_date,
+        fromEstimateDate: infoShipping.leadtimeOrder && infoShipping.leadtimeOrder.from_estimate_date,
+        toEstimateDate: infoShipping.leadtimeOrder && infoShipping.leadtimeOrder.to_estimate_date,
       },
     };
     if (paymentMethod !== '') {
@@ -121,24 +121,26 @@ const Payment = () => {
             dispatch(removeItemsToPayment(paymentInfo.items));
             dispatch(removeItemsToCart(paymentInfo.items));
           }
-          console.log(res.data.message);
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          const res = await orderMethods.createOrder(data);
+          const timer = setTimeout(async () => {
+            const res = await orderMethods.createOrder(data);
+            if (res.status) {
+              toast.update(id, {
+                render: 'Đặt hàng thành công',
+                type: 'success',
+                isLoading: false,
+              });
+              dispatch(removeItemsToPayment(paymentInfo.items));
+              dispatch(removeItemsToCart(paymentInfo.items));
+              navigate('/cart/payment-result');
+            }
+          }, 3000);
 
-          if (res.status) {
-            toast.update(id, {
-              render: 'Đặt hàng thành công',
-              type: 'success',
-              isLoading: false,
-            });
-            dispatch(removeItemsToPayment(paymentInfo.items));
-            dispatch(removeItemsToCart(paymentInfo.items));
-            navigate('/cart/payment-result');
-          }
+          return () => clearTimeout(timer);
         } catch (error) {
           console.log(error);
         }

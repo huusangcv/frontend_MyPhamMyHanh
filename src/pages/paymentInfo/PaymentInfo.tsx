@@ -678,12 +678,11 @@ const PaymentInfo = () => {
           <div
             className={cx('go-back')}
             onClick={async () => {
-              const leadtime = await fastDeliveryMethods.getLeadtime({
-                to_district_id: districtCode,
-                to_ward_code: wardCode.toString(),
-              });
-
-              if (leadtime) {
+              if (currentAddress !== 'pickup') {
+                const leadtime = await fastDeliveryMethods.getLeadtime({
+                  to_district_id: districtCode,
+                  to_ward_code: wardCode.toString(),
+                });
                 dispatch(
                   setInfoShipping({
                     name: profile.username,
@@ -698,6 +697,23 @@ const PaymentInfo = () => {
                     personGet: `${name} - ${phone}`,
                     note,
                     leadtimeOrder: leadtime.data.leadtime_order,
+                  }),
+                );
+                handleValidation();
+              } else {
+                dispatch(
+                  setInfoShipping({
+                    name: profile.username,
+                    phone,
+                    email,
+                    currentAddress,
+                    address:
+                      (currentAddress === 'pickup' &&
+                        'Số 240, Tổ 6, Ấp Long Hạ, Xã Kiến An, Huyện Chợ Mới, Tỉnh An Giang, Việt Nam') ||
+                      `${address}, ${ward}, ${district}, ${city}`,
+                    shipping: (currentAddress !== 'pickup' && fee > 0 && fee) || 0,
+                    personGet: `${name} - ${phone}`,
+                    note,
                   }),
                 );
                 handleValidation();

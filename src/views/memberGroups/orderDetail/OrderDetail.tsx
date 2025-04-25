@@ -40,6 +40,10 @@ interface OrderProps {
   coupon: number;
   isPaid: boolean;
   paidAmount: number;
+  leadtimeOrder: {
+    fromEstimateDate: string;
+    toEstimateDate: string;
+  };
 }
 
 const OrderDetail = () => {
@@ -71,6 +75,10 @@ const OrderDetail = () => {
     coupon: 0,
     isPaid: false,
     paidAmount: 0,
+    leadtimeOrder: {
+      fromEstimateDate: '',
+      toEstimateDate: '',
+    },
   });
 
   const dispatch = useAppDispatch();
@@ -197,7 +205,13 @@ const OrderDetail = () => {
                   {order.status === 'cancelled' && 'Đã huỷ'}
                 </div>
               </div>
-              <div className={cx('order-detail__date')}>{new Date(order.createdAt).toLocaleDateString('vi-VN')}</div>
+              <div className={cx('order-detail__date')}>
+                <div>Ngày đặt hàng: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</div>
+                <div>
+                  Ngày giao hàng dự kiến: {new Date(order.leadtimeOrder.fromEstimateDate).toLocaleDateString('vi-VN')} -{' '}
+                  {new Date(order.leadtimeOrder.toEstimateDate).toLocaleDateString('vi-VN')}
+                </div>
+              </div>
               <div className={cx('order-detail__products')}>
                 <div className={cx('block-product-list')}>
                   <div className={cx('product-list')}>

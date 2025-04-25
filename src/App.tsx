@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux';
 import { setShowAccountModal } from './redux/features/isShowAccountModal/isShowAccountModalSlice';
 import usersMethods from './services/users';
 import { setProfile } from './redux/features/profile/profileSlice';
-
+import { QueryParamProvider } from 'use-query-params';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 interface RouteType {
   path: string;
   component: React.FC;
@@ -71,54 +72,56 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {(Cookies.get('customer') &&
-          profile._id !== '' &&
-          privateRoutes.map((route: RouteType, index: number) => {
-            const Page = route.component;
-            let Layout = DefaultLayout;
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <Routes>
+          {(Cookies.get('customer') &&
+            profile._id !== '' &&
+            privateRoutes.map((route: RouteType, index: number) => {
+              const Page = route.component;
+              let Layout = DefaultLayout;
 
-            if (route.layout) {
-              Layout = route.layout;
-            } else if (route.layout === null) {
-              Layout = Fragment;
-            }
+              if (route.layout) {
+                Layout = route.layout;
+              } else if (route.layout === null) {
+                Layout = Fragment;
+              }
 
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page></Page>
-                  </Layout>
-                }
-              />
-            );
-          })) ||
-          publicRoutes.map((route: RouteType, index: number) => {
-            const Page = route.component;
-            let Layout = DefaultLayout;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <Page></Page>
+                    </Layout>
+                  }
+                />
+              );
+            })) ||
+            publicRoutes.map((route: RouteType, index: number) => {
+              const Page = route.component;
+              let Layout = DefaultLayout;
 
-            if (route.layout) {
-              Layout = route.layout;
-            } else if (route.layout === null) {
-              Layout = Fragment;
-            }
+              if (route.layout) {
+                Layout = route.layout;
+              } else if (route.layout === null) {
+                Layout = Fragment;
+              }
 
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page></Page>
-                  </Layout>
-                }
-              />
-            );
-          })}
-      </Routes>
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <Page></Page>
+                    </Layout>
+                  }
+                />
+              );
+            })}
+        </Routes>
+      </QueryParamProvider>
     </BrowserRouter>
   );
 };

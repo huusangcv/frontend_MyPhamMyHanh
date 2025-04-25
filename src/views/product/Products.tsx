@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
-import { Box, Grid, Pagination, PaginationItem, Stack, MenuItem, IconButton, Menu } from '@mui/material';
+import { Box, Grid, Stack, MenuItem, IconButton, Menu } from '@mui/material';
 import { useEffect, useState } from 'react';
 import productMethods from '../../services/products';
 import CardItem from '../../components/card/Card';
@@ -9,8 +9,9 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import queryString from 'query-string';
+import { Link, useParams } from 'react-router-dom';
+import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
+import Pagination from '../../components/pagination/Pagination';
 const cx = classNames.bind(styles);
 const Products = () => {
   interface Product {
@@ -34,19 +35,24 @@ const Products = () => {
   }
 
   const { slug } = useParams();
-  const location = useLocation();
-  const { page } = queryString.parse(location.search, {
-    parseNumbers: true,
-  });
   const [categoryName, setCategoryName] = useState('TẤT CẢ SẢN PHẨM');
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [categoryDesc, setCategoryDesc] = useState<string>('Khám phá tất cả sản phẩm của chúng tôi.');
-  const [priceFilter, setPriceFilter] = useState<string>('all');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const [query, setQuery] = useQueryParams({
+    category: StringParam,
+    priceFilter: StringParam,
+    sortOption: StringParam,
+    page: NumberParam,
+  });
+
+  const { priceFilter, sortOption, page } = query;
+  const currentPage = page || 1;
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -70,8 +76,25 @@ const Products = () => {
   };
 
   const handleFilterSelect = (filter: string) => {
-    setPriceFilter(filter);
-    handleClose();
+    if (filter !== 'all') {
+      setQuery({ page, sortOption, priceFilter: filter }, 'push');
+      handleClose();
+    } else {
+      setQuery({ page, sortOption }, 'push');
+    }
+  };
+
+  const handleOptionSelect = (option: string) => {
+    if (option !== 'default') {
+      setQuery({ page, priceFilter, sortOption: option }, 'push');
+      handleClose();
+    } else {
+      setQuery({ page, priceFilter }, 'push');
+    }
+  };
+
+  const handlePageClick = (event: any) => {
+    setQuery({ priceFilter, sortOption, page: event.selected + 1 }, 'push');
   };
 
   useEffect(() => {
@@ -133,30 +156,31 @@ const Products = () => {
     setCategoryDesc(categoryDescriptions[slug || 'all'] || 'Khám phá sản phẩm của chúng tôi.');
   }, [slug]);
 
-  // useEffect(() => {
-  //   const fetchFilteredProducts = async () => {
-  //     try {
-  //       const { status, data } = await productMethods.getFilteredProducts({
-  //         category: slug || 'all',
-  //         page: page as number,
-  //         price: priceFilter,
-  //         sort: sortOption,
-  //       });
+  useEffect(() => {
+    const fetchFilteredProducts = async () => {
+      try {
+        const { status, data } = await productMethods.getProductsByfilter({
+          category: slug || 'all',
+          page: page as number,
+          price: priceFilter as string,
+          sort: sortOption as string,
+        });
 
-  //       if (status) {
-  //         setProducts(data.products);
-  //         setTotalPages(data.totalPages);
-  //       } else {
-  //         setTotalPages(1);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchFilteredProducts();
-  // }, [slug, page, priceFilter, sortOption]);
+        if (status) {
+          setProducts(data.products);
+          setTotalPages(data.totalPages);
+        } else {
+          setTotalPages(1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (priceFilter || sortOption) {
+      fetchFilteredProducts();
+    }
+  }, [slug, page, priceFilter, sortOption]);
 
-  console.log(priceFilter);
   return (
     <div className={cx('wapper')}>
       <div className={cx('header')}>
@@ -172,14 +196,14 @@ const Products = () => {
           <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
             <MenuItem disabled>Lọc theo giá</MenuItem>
             <MenuItem onClick={() => handleFilterSelect('all')}>Tất cả</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('low')}>Dưới 500k</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('medium')}>500k - 1 triệu</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('high')}>Trên 1 triệu</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('low')}>Dưới 100k</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('medium')}>100k - 300k</MenuItem>
+            <MenuItem onClick={() => handleFilterSelect('high')}>Trên 300k</MenuItem>
             <MenuItem disabled>Sắp xếp</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('default')}>Mặc định</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('price-asc')}>Giá tăng dần</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('price-desc')}>Giá giảm dần</MenuItem>
-            <MenuItem onClick={() => handleFilterSelect('bestseller')}>Bán chạy</MenuItem>
+            <MenuItem onClick={() => handleOptionSelect('default')}>Mặc định</MenuItem>
+            <MenuItem onClick={() => handleOptionSelect('price-asc')}>Giá tăng dần</MenuItem>
+            <MenuItem onClick={() => handleOptionSelect('price-desc')}>Giá giảm dần</MenuItem>
+            <MenuItem onClick={() => handleOptionSelect('bestseller')}>Bán chạy</MenuItem>
           </Menu>
           <IconButton onClick={toggleExpand}>
             {isExpanded ? <ExpandLessIcon title="Thu gọn" /> : <ExpandMoreIcon title="Mở rộng" />}
@@ -206,27 +230,29 @@ const Products = () => {
                       <ArrowForwardIosIcon />
                     </span>
                   </li>
-                  {categories.map((category) => (
-                    <li
-                      key={category._id}
-                      className={cx(category.slug === slug && 'active')}
-                      onClick={() => {
-                        setCategoryName(category.name);
-                      }}
-                    >
-                      <Link to={`/products/${category.slug}`}>{category.name}</Link>
-                      <span className={cx('category-arrow')}>
-                        <ArrowForwardIosIcon />
-                      </span>
-                    </li>
-                  ))}
+                  {Array.isArray(categories) &&
+                    categories.length > 0 &&
+                    categories.map((category) => (
+                      <li
+                        key={category._id}
+                        className={cx(category.slug === slug && 'active')}
+                        onClick={() => {
+                          setCategoryName(category.name);
+                        }}
+                      >
+                        <Link to={`/products/${category.slug}`}>{category.name}</Link>
+                        <span className={cx('category-arrow')}>
+                          <ArrowForwardIosIcon />
+                        </span>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </Grid>
           )}
           <Grid item md={isExpanded ? 12 : 9}>
             <div className={cx('list-products')}>
-              {(products && (
+              {(products && products.length > 0 && (
                 <Box
                   sx={{
                     width: '100%',
@@ -242,23 +268,7 @@ const Products = () => {
 
             {totalPages > 1 && (
               <div className="pagination">
-                <Stack spacing={2}>
-                  <Pagination
-                    showFirstButton
-                    showLastButton
-                    size="large"
-                    color="primary"
-                    count={totalPages}
-                    renderItem={(item) => (
-                      <PaginationItem
-                        component={Link}
-                        to={`${item.page === 1 ? '' : `?page=${item.page}`}`}
-                        {...item}
-                      />
-                    )}
-                    boundaryCount={2}
-                  />
-                </Stack>
+                <Pagination handlePageClick={handlePageClick} totalPages={totalPages} page={currentPage} />
               </div>
             )}
           </Grid>
