@@ -9,12 +9,27 @@ import { setProfile } from '../../../redux/features/profile/profileSlice';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { addressService } from '../../../services/addressInfo';
 const cx = classNames.bind(styles);
+
+interface Address {
+  _id: string;
+  userId: string;
+  fullName: string;
+  phoneNumber: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault: boolean;
+}
 const AccountInfo = () => {
   const profile = useAppSelector((state) => state.profile);
   const [showEditName, setShowEditName] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
+  const [addresses, setAddresses] = useState<Address[]>([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -73,6 +88,34 @@ const AccountInfo = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await addressService.getUserAddresses(profile._id);
+      if (response.status) {
+        setAddresses(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+      toast.error('Không thể tải danh sách địa chỉ');
+    }
+  };
+
+  useEffect(() => {
+    scroll({
+      top: 0,
+    });
+    if (profile?._id) {
+      fetchAddresses();
+    }
+  }, [profile]);
+
+  const addressDetaul = addresses.find((address) => address.isDefault) || {
+    addressLine: '',
+    state: '',
+    city: '',
+    country: '',
   };
   return (
     <div className={cx('wapper')}>
@@ -148,7 +191,10 @@ const AccountInfo = () => {
             <input
               id="address"
               type="text"
-              placeholder={`Địa chỉ: ${profile.address || 'Chưa có địa chỉ mặc định'}`}
+              placeholder={
+                (addressDetaul.addressLine === '' && 'Địa chỉ: Chưa có địa chỉ mặc định') ||
+                `Địa chỉ: ${addressDetaul.addressLine}, ${addressDetaul.state}, ${addressDetaul.city}, ${addressDetaul.country}`
+              }
               className={cx('group__item')}
               readOnly
             />
