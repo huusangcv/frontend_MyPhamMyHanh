@@ -207,10 +207,10 @@ const OrderDetail = () => {
               </div>
               <div className={cx('order-detail__date')}>
                 <div>Ngày đặt hàng: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</div>
-                <div>
+                {/* <div>
                   Ngày giao hàng dự kiến: {new Date(order.leadtimeOrder.fromEstimateDate).toLocaleDateString('vi-VN')} -{' '}
                   {new Date(order.leadtimeOrder.toEstimateDate).toLocaleDateString('vi-VN')}
-                </div>
+                </div> */}
               </div>
               <div className={cx('order-detail__products')}>
                 <div className={cx('block-product-list')}>
