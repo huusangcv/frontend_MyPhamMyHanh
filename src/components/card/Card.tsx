@@ -9,11 +9,14 @@ import categoryMethods from '../../services/categories';
 import classNames from 'classnames/bind';
 import styles from './Card.module.scss';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useAppDispatch } from '../../../hooks';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { addItemToCart } from '../../redux/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import RatingByProduct from '../ratingByProduct/RatingByProduct';
+import productMethods from '../../services/products';
 const cx = classNames.bind(styles);
 
 interface Product {
@@ -28,6 +31,7 @@ interface Product {
   slug: string;
   bestseller: boolean;
   quantity: number;
+  likes: string[];
 }
 
 interface PropsCardItem {
@@ -37,6 +41,7 @@ interface PropsCardItem {
 
 export default function CardItem({ products, isBestseller = false }: PropsCardItem) {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.profile);
 
   interface Category {
     _id: string;
@@ -66,11 +71,43 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
 
   const cardProduts = (isBestseller && products.filter((product) => product.bestseller)) || products;
 
+  const handleLikeProduct = async (productId: string) => {
+    try {
+      if (user._id === '') {
+        toast.error('Vui lòng đăng nhập để thích sản phẩm', {
+          position: 'bottom-center',
+          autoClose: 3000,
+        });
+        return;
+      }
+
+      const isLiked = products.find((p) => p._id === productId)?.likes?.includes(user._id);
+      const { status } = isLiked
+        ? await productMethods.unlikeProduct(productId, { userId: user._id })
+        : await productMethods.likeProduct(productId, { userId: user._id });
+
+      if (status) {
+        // You'll need to implement a way to update the products state in the parent component
+        // For now, we'll just show a toast message
+        toast.success(isLiked ? 'Đã bỏ thích sản phẩm' : 'Đã thích sản phẩm', {
+          position: 'bottom-center',
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      console.error('Error liking product:', error);
+      toast.error('Có lỗi xảy ra, vui lòng thử lại sau', {
+        position: 'bottom-center',
+        autoClose: 3000,
+      });
+    }
+  };
+
   return (
     <>
       {cardProduts.map((product) => (
-        <div className="col">
-          <Card key={product._id} className={cx('card')}>
+        <div className="col" key={product._id}>
+          <Card className={cx('card')}>
             <Link to={`/product/${product.slug}`}>
               <div className={cx('card-media-wrapper')}>
                 <CardMedia
@@ -116,9 +153,23 @@ export default function CardItem({ products, isBestseller = false }: PropsCardIt
             </CardContent>
 
             <CardActions sx={{ justifyContent: 'space-between' }}>
-              <RatingByProduct currentProduct={product._id} />
+              <div className={cx('action-left')}>
+                <RatingByProduct currentProduct={product._id} />
+              </div>
 
               <div className={cx('cta-wrap')}>
+                <Button
+                  sx={{ position: 'absolute !important', top: '10px !important', right: '15px !important' }}
+                  size="small"
+                  onClick={() => handleLikeProduct(product._id)}
+                  className={cx('like-button')}
+                >
+                  {user && product.likes?.includes(user._id) ? (
+                    <FavoriteIcon sx={{ color: 'red' }} />
+                  ) : (
+                    <FavoriteBorderIcon />
+                  )}
+                </Button>
                 {(product.quantity > 0 && (
                   <Button
                     size="small"

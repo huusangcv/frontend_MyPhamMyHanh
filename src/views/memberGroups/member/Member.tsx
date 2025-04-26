@@ -22,6 +22,7 @@ interface Product {
   slug: string;
   bestseller: boolean;
   quantity: number;
+  likes: string[];
 }
 
 interface OrderProps {
@@ -59,7 +60,7 @@ const Member = () => {
       try {
         const { status, data } = await productMethods.getProducts();
         if (status) {
-          const favoriteProducts = data.products.filter((product: Product) => product.bestseller);
+          const favoriteProducts = data.products.filter((product: Product) => product.likes.includes(profile._id));
           setProducts(favoriteProducts);
           setIsLoading(false);
         }

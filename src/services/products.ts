@@ -1,5 +1,7 @@
 import axios from '../utils/customizeAxios';
-
+interface PropsDataLike {
+  userId: string;
+}
 const productMethods = {
   getProducts: async (page = 1, limit = 10) => {
     const result = await axios.get(`products?page=${page}&limit=${limit}`);
@@ -35,6 +37,14 @@ const productMethods = {
   },
   searchProducts: async (q: string) => {
     const result = await axios.get(`products/search?q=${q}`);
+    return result;
+  },
+  likeProduct: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`products/like/${id}`, data);
+    return result;
+  },
+  unlikeProduct: async (id: string, data: PropsDataLike) => {
+    const result = await axios.patch(`products/unlike/${id}`, data);
     return result;
   },
 };
