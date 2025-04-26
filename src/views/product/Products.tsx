@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
-import { Box, Grid, Stack, MenuItem, IconButton, Menu } from '@mui/material';
+import { Box, Grid, MenuItem, IconButton, Menu } from '@mui/material';
 import { useEffect, useState } from 'react';
 import productMethods from '../../services/products';
 import CardItem from '../../components/card/Card';
@@ -26,6 +26,7 @@ const Products = () => {
     slug: string;
     bestseller: boolean;
     quantity: number;
+    likes: string[];
   }
 
   interface Category {
