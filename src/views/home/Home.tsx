@@ -19,6 +19,7 @@ interface Product {
   slug: string;
   bestseller: boolean;
   quantity: number;
+  likes: string[];
 }
 const cx = classNames.bind(styles);
 const Home = () => {
