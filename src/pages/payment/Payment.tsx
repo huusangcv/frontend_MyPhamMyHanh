@@ -13,6 +13,7 @@ import PaymentMethod from '../../components/isShowMethodsPayment/IsShowMethodsPa
 import delivery from '../../assets/delivery.jfif';
 import paymentMethods from '../../services/payments';
 import { v4 as uuidv4 } from 'uuid';
+import productMethods from '../../services/products';
 const formatter = new Intl.NumberFormat('vi-VN', {
   style: 'decimal',
   minimumFractionDigits: 0,
@@ -30,6 +31,17 @@ interface Product {
   product_id: string;
   quantity: number;
   price: number;
+  category_id: string;
+}
+
+interface CartItem {
+  id: string;
+  name: string;
+  image: string;
+  slug: string;
+  price: number;
+  priceThrought: number;
+  quantity: number;
   category_id: string;
 }
 
@@ -56,6 +68,7 @@ const cx = classNames.bind(styles);
 const Payment = () => {
   const [showModalListItem, setShowModalListItem] = useState<boolean>(false);
   const [showModalPaymentMethods, setShowModalPaymentMethods] = useState<boolean>(false);
+  const [unavailableProducts, setUnavailableProducts] = useState<CartItem[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<string>('');
   const paymentInfo = useAppSelector((state) => state.payment);
   const profile = useAppSelector((state) => state.profile);
@@ -68,7 +81,41 @@ const Payment = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  //handlePayment with onClick event
+  // pseudo-code // 1. Kiểm tra số lượng sản phẩm trong giỏ hàng có đủ không
+
+  useEffect(() => {
+    paymentInfo.items.forEach((product: CartItem) => {
+      const timer = setTimeout(async () => {
+        const { data, status } = await productMethods.getDetailProductById(product.id);
+        if (status) {
+          if (!data || data.quantity < product.quantity) {
+            setUnavailableProducts((prev) => [
+              ...prev,
+              {
+                id: data._id,
+                name: data.name,
+                image: data.images[0],
+                slug: data.slug,
+                price: data.price,
+                priceThrought: data.price,
+                quantity: data.quantity,
+                category_id: data._id,
+              },
+            ]);
+          }
+        }
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    });
+
+    return () => setUnavailableProducts([]);
+  }, []);
+
+  console.log('unavailableProducts', unavailableProducts);
+
+  //handlePayment with
+  // onClick event
   const handlePayment = async () => {
     const productsId = paymentInfo.items.map((item) => {
       return {
@@ -101,8 +148,37 @@ const Payment = () => {
         toEstimateDate: infoShipping.leadtimeOrder && infoShipping.leadtimeOrder.to_estimate_date,
       },
     };
+
     if (paymentMethod !== '') {
       const id = toast.loading('Loading...');
+
+      // Kiểm tra sản phẩm không đủ số lượng
+      if (unavailableProducts.length > 0) {
+        const unavailableProductsList = unavailableProducts.map((item) => {
+          return paymentInfo.items
+            .map(
+              (product) =>
+                item.quantity < product.quantity &&
+                `${product.name} (Cần: ${product.quantity}, Còn: ${item.quantity - 1})`,
+            )
+            .join('\n');
+        });
+
+        const shouldContinue = window.confirm(
+          `Có ${unavailableProducts.length} sản phẩm không đủ số lượng:\n${unavailableProductsList}\n\nBạn có muốn tiếp tục thanh toán với số lượng còn lại không?`,
+        );
+
+        if (!shouldContinue) {
+          toast.update(id, {
+            render: 'Đã hủy thanh toán do sản phẩm không đủ số lượng',
+            type: 'error',
+            isLoading: false,
+            autoClose: 3000,
+          });
+          return navigate('/cart');
+        }
+      }
+
       if (paymentMethod === 'vnpay') {
         try {
           const res = await paymentMethods.createPaymentVNPAY({
@@ -123,26 +199,32 @@ const Payment = () => {
           }
         } catch (error) {
           console.log(error);
+          toast.update(id, {
+            render: 'Có lỗi xảy ra khi tạo thanh toán VNPAY',
+            type: 'error',
+            isLoading: false,
+          });
         }
       } else {
         try {
-          const timer = setTimeout(async () => {
-            const res = await orderMethods.createOrder(data);
-            if (res.status) {
-              toast.update(id, {
-                render: 'Đặt hàng thành công',
-                type: 'success',
-                isLoading: false,
-              });
-              dispatch(removeItemsToPayment(paymentInfo.items));
-              dispatch(removeItemsToCart(paymentInfo.items));
-              navigate('/cart/payment-result');
-            }
-          }, 3000);
-
-          return () => clearTimeout(timer);
+          const res = await orderMethods.createOrder(data);
+          if (res.status) {
+            toast.update(id, {
+              render: 'Đặt hàng thành công',
+              type: 'success',
+              isLoading: false,
+            });
+            dispatch(removeItemsToPayment(paymentInfo.items));
+            dispatch(removeItemsToCart(paymentInfo.items));
+            navigate('/cart/payment-result');
+          }
         } catch (error) {
           console.log(error);
+          toast.update(id, {
+            render: 'Có lỗi xảy ra khi tạo đơn hàng',
+            type: 'error',
+            isLoading: false,
+          });
         }
       }
     } else {

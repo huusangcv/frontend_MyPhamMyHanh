@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './OrderDetail.module.scss';
 import { useEffect, useState } from 'react';
 import orderMethods from '../../../services/orders';
+import refundOrderService from '../../../services/refundOrders';
 import logo from '../../../assets/logo-mobile.png';
 import { useAppDispatch } from '../../../../hooks';
 import productMethods from '../../../services/products';
@@ -26,6 +27,7 @@ interface OrderProps {
     price: number;
     quantity: number;
   }[];
+  user_id: string;
   total: number;
   status: string;
   createdAt: string;
@@ -50,6 +52,12 @@ const OrderDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   const [showMore, setShowMore] = useState<boolean>(false);
+  const [showRefundModal, setShowRefundModal] = useState<boolean>(false);
+  const [refundReason, setRefundReason] = useState<string>('');
+  const [refundMethod, setRefundMethod] = useState<string>('bank_transfer');
+  const [refundNotes, setRefundNotes] = useState<string>('');
+  const [refundStatus, setRefundStatus] = useState<'none' | 'pending' | 'approved' | 'rejected'>('none');
+  const [rejectionReason, setRejectionReason] = useState<string>('');
   const [order, setOrder] = useState<OrderProps>({
     _id: '',
     products: [
@@ -61,6 +69,7 @@ const OrderDetail = () => {
         quantity: 0,
       },
     ],
+    user_id: '',
     total: 0,
     status: '',
     createdAt: '',
@@ -80,6 +89,8 @@ const OrderDetail = () => {
       toEstimateDate: '',
     },
   });
+  const [refundDetails, setRefundDetails] = useState<any>(null);
+  const [processingRefund, setProcessingRefund] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -87,10 +98,19 @@ const OrderDetail = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await orderMethods.getDetailOrder(id as string);
+        const { data, status } = await orderMethods.getDetailOrder(id as string);
 
-        if (res.status) {
-          setOrder(res.data);
+        if (status) {
+          setOrder(data.data);
+          // Check if there's an existing refund request
+          const refundResponse = await refundOrderService.getRefundOrderByOrderId(id as string);
+          if (refundResponse.data) {
+            setRefundStatus(refundResponse.data.status);
+            setRefundDetails(refundResponse.data);
+            if (refundResponse.data.status === 'rejected' && refundResponse.data.notes) {
+              setRejectionReason(refundResponse.data.notes);
+            }
+          }
         }
       } catch (error) {
         console.log(error);
@@ -144,6 +164,104 @@ const OrderDetail = () => {
 
   const handleBack = () => {
     window.history.back(); // Trở về trang trước
+  };
+
+  const handleRefundRequest = async () => {
+    try {
+      const refundData = {
+        orderId: id as string,
+        userId: order.user_id,
+        amount: order.paidAmount,
+        reason: refundReason,
+        refundMethod,
+        notes: refundNotes,
+      };
+
+      const response = await refundOrderService.createRefundOrder(refundData);
+      if (response.status) {
+        setShowRefundModal(false);
+        setRefundStatus('pending');
+        // Reset form
+        setRefundReason('');
+        setRefundMethod('bank_transfer');
+        setRefundNotes('');
+      }
+    } catch (error) {
+      console.error('Error creating refund request:', error);
+    }
+  };
+
+  const handleProcessRefund = async () => {
+    if (!refundDetails || processingRefund) return;
+
+    try {
+      setProcessingRefund(true);
+      const response = await refundOrderService.processRefund(refundDetails._id);
+
+      if (response.status) {
+        // Update refund status
+        setRefundStatus('approved');
+        // Refresh order details to update payment status
+        const { data } = await orderMethods.getDetailOrder(id as string);
+        if (data.status) {
+          setOrder(data.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error processing refund:', error);
+    } finally {
+      setProcessingRefund(false);
+    }
+  };
+
+  const renderRefundButton = () => {
+    if (order.status !== 'delivered') return null;
+
+    switch (refundStatus) {
+      case 'pending':
+        return (
+          <div className={cx('refund-status-wrapper')}>
+            <button className={cx('refund-button', 'pending')} disabled>
+              Đang xử lý yêu cầu hoàn tiền
+            </button>
+          </div>
+        );
+      case 'approved':
+        return (
+          <div className={cx('refund-status-wrapper')}>
+            <button className={cx('refund-button', 'approved')} disabled>
+              Yêu cầu hoàn tiền đã được duyệt
+            </button>
+            {!refundDetails?.processed && (
+              <button className={cx('process-refund-button')} onClick={handleProcessRefund} disabled={processingRefund}>
+                {processingRefund ? 'Đang xử lý...' : 'Xác nhận hoàn tiền'}
+              </button>
+            )}
+          </div>
+        );
+      case 'rejected':
+        return (
+          <div className={cx('refund-status-wrapper')}>
+            <button className={cx('refund-button', 'rejected')} disabled>
+              Yêu cầu hoàn tiền bị từ chối
+            </button>
+            {rejectionReason && (
+              <div className={cx('rejection-reason')}>
+                <p className={cx('rejection-title')}>Lý do từ chối:</p>
+                <p className={cx('rejection-text')}>{rejectionReason}</p>
+              </div>
+            )}
+          </div>
+        );
+      default:
+        return (
+          <div className={cx('refund-status-wrapper')}>
+            <button className={cx('refund-button')} onClick={() => setShowRefundModal(true)}>
+              Yêu cầu hoàn tiền
+            </button>
+          </div>
+        );
+    }
   };
 
   return (
@@ -207,16 +325,19 @@ const OrderDetail = () => {
               </div>
               <div className={cx('order-detail__date')}>
                 <div>Ngày đặt hàng: {new Date(order.createdAt).toLocaleDateString('vi-VN')}</div>
-                {/* <div>
-                  Ngày giao hàng dự kiến: {new Date(order.leadtimeOrder.fromEstimateDate).toLocaleDateString('vi-VN')} -{' '}
-                  {new Date(order.leadtimeOrder.toEstimateDate).toLocaleDateString('vi-VN')}
-                </div> */}
+                {order && order.leadtimeOrder && (
+                  <div>
+                    Ngày giao hàng dự kiến: {new Date(order.leadtimeOrder.fromEstimateDate).toLocaleDateString('vi-VN')}{' '}
+                    - {new Date(order.leadtimeOrder.toEstimateDate).toLocaleDateString('vi-VN')}
+                  </div>
+                )}
               </div>
               <div className={cx('order-detail__products')}>
                 <div className={cx('block-product-list')}>
                   <div className={cx('product-list')}>
                     <div className={cx('product-list-container')}>
                       {order &&
+                        Array.isArray(order.products) &&
                         order.products.length > 0 &&
                         order.products.map((product, index) => {
                           if (showMore || index === 0) {
@@ -269,7 +390,7 @@ const OrderDetail = () => {
                           }
                         })}
                     </div>
-                    {order.products.length > 1 && (
+                    {order && Array.isArray(order.products) && order.products.length > 1 && (
                       <>
                         {(showMore && (
                           <div className={cx('showmore')} onClick={() => setShowMore(false)}>
@@ -432,6 +553,38 @@ const OrderDetail = () => {
             </div>
           </div>
         </div>
+
+        {renderRefundButton()}
+
+        {showRefundModal && (
+          <div className={cx('modal-overlay')}>
+            <div className={cx('modal-content')}>
+              <h2>Yêu cầu hoàn tiền</h2>
+              <div className={cx('form-group')}>
+                <label>Lý do hoàn tiền:</label>
+                <textarea value={refundReason} onChange={(e) => setRefundReason(e.target.value)} required />
+              </div>
+              <div className={cx('form-group')}>
+                <label>Phương thức hoàn tiền:</label>
+                <select value={refundMethod} onChange={(e) => setRefundMethod(e.target.value)}>
+                  <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                  <option value="cash">Tiền mặt</option>
+                  <option value="e_wallet">Ví điện tử</option>
+                </select>
+              </div>
+              <div className={cx('form-group')}>
+                <label>Ghi chú (không bắt buộc):</label>
+                <textarea value={refundNotes} onChange={(e) => setRefundNotes(e.target.value)} />
+              </div>
+              <div className={cx('modal-buttons')}>
+                <button onClick={() => setShowRefundModal(false)}>Hủy</button>
+                <button onClick={handleRefundRequest} disabled={!refundReason}>
+                  Gửi yêu cầu
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

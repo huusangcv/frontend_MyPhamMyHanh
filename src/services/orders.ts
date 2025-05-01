@@ -6,6 +6,7 @@ interface Product {
   product_id: string;
   quantity: number;
   price: number;
+  category_id: string;
 }
 
 interface PropsOrder {
@@ -19,6 +20,13 @@ interface PropsOrder {
   products: Product[];
   reference: string;
   paymentMethod: string;
+  shipping: number;
+  mustPay: number;
+  stillHaveToPay: number;
+  leadtimeOrder: {
+    fromEstimateDate: string;
+    toEstimateDate: string;
+  };
 }
 const orderMethods = {
   createOrder: async (data: PropsOrder) => {

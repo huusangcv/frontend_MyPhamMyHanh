@@ -302,3 +302,184 @@
     height: 10px;
   }
 }
+
+.refund-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 0 16px;
+}
+
+.refund-status-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.rejection-reason {
+  background-color: #fff3f3;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  padding: 12px 16px;
+  width: 100%;
+  margin-top: 8px;
+
+  .rejection-title {
+    color: #d32f2f;
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  .rejection-text {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+.refund-button {
+  background-color: #ff4842;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+  min-width: 200px;
+
+  &:hover {
+    background-color: #ff2d2d;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &.pending {
+    background-color: #ffa500;
+    &:hover {
+      background-color: #ffa500;
+    }
+  }
+
+  &.approved {
+    background-color: #28a745;
+    &:hover {
+      background-color: #28a745;
+    }
+  }
+
+  &.rejected {
+    background-color: #dc3545;
+    &:hover {
+      background-color: #dc3545;
+    }
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 20px;
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #ff4842;
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+
+    &:first-child {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      color: #333;
+
+      &:hover {
+        background-color: #e5e5e5;
+      }
+    }
+
+    &:last-child {
+      background-color: #ff4842;
+      border: none;
+      color: white;
+
+      &:hover {
+        background-color: #ff2d2d;
+      }
+
+      &:disabled {
+        background-color: #ffb3b3;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
