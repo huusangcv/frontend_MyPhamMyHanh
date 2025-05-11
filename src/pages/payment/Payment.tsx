@@ -12,6 +12,7 @@ import { removeItemsToCart } from '../../redux/features/cart/cartSlice';
 import PaymentMethod from '../../components/isShowMethodsPayment/IsShowMethodsPayment';
 import delivery from '../../assets/delivery.jfif';
 import paymentMethods from '../../services/payments';
+import promotionMethods from '../../services/promotions';
 import { v4 as uuidv4 } from 'uuid';
 import productMethods from '../../services/products';
 const formatter = new Intl.NumberFormat('vi-VN', {
@@ -73,6 +74,12 @@ const Payment = () => {
   const paymentInfo = useAppSelector((state) => state.payment);
   const profile = useAppSelector((state) => state.profile);
   const infoShipping = useAppSelector((state) => state.infoShipping);
+  const [promotionCode, setPromotionCode] = useState<string>('');
+  const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [isValidatingCode, setIsValidatingCode] = useState<boolean>(false);
+  const [showPromotionModal, setShowPromotionModal] = useState<boolean>(false);
+  const [availablePromotions, setAvailablePromotions] = useState<any[]>([]);
+  const [isLoadingPromotions, setIsLoadingPromotions] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -241,6 +248,55 @@ const Payment = () => {
     }
   };
 
+  const handleApplyPromotion = async () => {
+    if (!promotionCode.trim()) {
+      toast.error('Vui lòng nhập mã giảm giá');
+      return;
+    }
+
+    setIsValidatingCode(true);
+    try {
+      const response = await promotionMethods.validatePromotionCode(promotionCode);
+      if (response.status) {
+        setDiscountAmount(response.data.discountValue || 0);
+        toast.success('Áp dụng mã giảm giá thành công');
+      } else {
+        toast.error(response.data.message || 'Mã giảm giá không hợp lệ');
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi kiểm tra mã giảm giá');
+    } finally {
+      setIsValidatingCode(false);
+    }
+  };
+
+  // Update the total calculation to include discount
+  const calculateTotal = () => {
+    return paymentInfo.totalPrice + infoShipping.shipping - discountAmount;
+  };
+
+  // Add function to fetch available promotions
+  const fetchAvailablePromotions = async () => {
+    setIsLoadingPromotions(true);
+    try {
+      const response = await promotionMethods.getPromotions();
+      if (response.status) {
+        setAvailablePromotions(response.data);
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi tải danh sách mã giảm giá');
+    } finally {
+      setIsLoadingPromotions(false);
+    }
+  };
+
+  // Add useEffect to fetch promotions when modal opens
+  useEffect(() => {
+    if (showPromotionModal) {
+      fetchAvailablePromotions();
+    }
+  }, [showPromotionModal]);
+
   return (
     <div className={cx('supper-cart-container')}>
       <div className={cx('cart-header')} data-v-5273d083="">
@@ -292,9 +348,21 @@ const Payment = () => {
                   placeholder="Nhập mã giảm giá (chỉ áp dụng 1 lần)"
                   variant="standard"
                   sx={{ width: '100%', height: '100%' }}
+                  value={promotionCode}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPromotionCode(e.target.value)}
                 />
-                <button data-v-403c5d58="" disabled className={cx('button__voucher')}>
-                  Áp dụng
+                <button
+                  data-v-403c5d58=""
+                  className={cx('button__voucher')}
+                  onClick={handleApplyPromotion}
+                  disabled={isValidatingCode}
+                >
+                  {isValidatingCode ? 'Đang kiểm tra...' : 'Áp dụng'}
+                </button>
+              </div>
+              <div className={cx('promotion-actions')}>
+                <button className={cx('view-promotions-btn')} onClick={() => setShowPromotionModal(true)}>
+                  Xem mã giảm giá khả dụng
                 </button>
               </div>
             </div>
@@ -316,6 +384,7 @@ const Payment = () => {
                     {formatter.format(paymentInfo.totalPrice)}đ
                   </p>
                 </div>
+
                 <div data-v-497ee55d="" className={cx('quote-block__item')}>
                   <p data-v-497ee55d="" className={cx('quote-block__title')}>
                     Phí vận chuyển
@@ -324,6 +393,16 @@ const Payment = () => {
                     {(infoShipping.shipping > 0 && <>{formatter.format(infoShipping.shipping)}đ</>) || 'Miễn phí'}
                   </p>
                 </div>
+                {discountAmount > 0 && (
+                  <div data-v-497ee55d="" className={cx('quote-block__item')}>
+                    <p data-v-497ee55d="" className={cx('quote-block__title')}>
+                      Giảm giá
+                    </p>
+                    <p data-v-497ee55d="" className={cx('quote-block__value')}>
+                      {formatter.format(discountAmount)}đ
+                    </p>
+                  </div>
+                )}
               </div>
               <div data-v-497ee55d="" className={cx('info-quote__bottom')}>
                 <div data-v-497ee55d="" className={cx('quote-bottom__title')}>
@@ -331,7 +410,7 @@ const Payment = () => {
                   <span data-v-497ee55d="">(đã gồm VAT)</span>
                 </div>
                 <p data-v-497ee55d="" className={cx('quote-bottom__value')}>
-                  {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
+                  {formatter.format(calculateTotal())}đ
                 </p>
               </div>
             </div>
@@ -641,7 +720,7 @@ const Payment = () => {
               </p>
               <div data-v-46ce1f8b="" className="price d-flex flex-column align-items-end">
                 <span data-v-46ce1f8b="" className={cx('total')}>
-                  {formatter.format(paymentInfo.totalPrice + infoShipping.shipping)}đ
+                  {formatter.format(calculateTotal())}đ
                 </span>
               </div>
             </div>
@@ -714,6 +793,54 @@ const Payment = () => {
         <div id="viewProductStudent"></div>
         <div id="listConfirmedBMSMModal"></div>
         <div className={cx('clear')}></div>
+      </div>
+
+      {/* Add Promotion Modal */}
+      <div className={cx('modal__promotion', { show: showPromotionModal })}>
+        <div className={cx('promotion-overlay')} onClick={() => setShowPromotionModal(false)}></div>
+        <div className={cx('promotion-modal')}>
+          <div className={cx('promotion-modal__header')}>
+            <h3>Mã giảm giá khả dụng</h3>
+            <button className={cx('close-btn')} onClick={() => setShowPromotionModal(false)}>
+              ×
+            </button>
+          </div>
+          <div className={cx('promotion-modal__body')}>
+            {isLoadingPromotions ? (
+              <div className={cx('loading')}>Đang tải...</div>
+            ) : availablePromotions.length > 0 ? (
+              <div className={cx('promotion-list')}>
+                {availablePromotions.map((promo, index) => (
+                  <div key={index} className={cx('promotion-item')}>
+                    <div className={cx('promotion-info')}>
+                      <h4>{promo.code}</h4>
+                      <p className={cx('promotion-desc')}>{promo.description}</p>
+                      <p className={cx('promotion-period')}>
+                        Áp dụng: {new Date(promo.startDate).toLocaleDateString()} -{' '}
+                        {new Date(promo.endDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className={cx('promotion-discount')}>
+                      <span>Giảm {formatter.format(promo.discountValue)}đ</span>
+                    </div>
+                    <button
+                      className={cx('apply-btn')}
+                      onClick={() => {
+                        setPromotionCode(promo.code);
+                        setShowPromotionModal(false);
+                        handleApplyPromotion();
+                      }}
+                    >
+                      Áp dụng
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className={cx('no-promotions')}>Không có mã giảm giá khả dụng</div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -5,12 +5,13 @@ const generateShortId = () => {
   return uuidv4().replace(/-/g, '').slice(0, 12);
 };
 const chatbotAiMethods = {
-  createContent: async (content: string, url: string) => {
+  createContent: async (content: string, url: string, userId?: string) => {
     const result = await axios.post(
       'openaiChatbot',
       {
         content,
         url,
+        userId,
       },
       {
         timeout: 30000,

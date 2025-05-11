@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 const PaymentResult = () => {
   const queryParams = useQueryParams();
   const queryString = queryParams.toString();
-  const [paymentResult, setPaymentResult] = useState<string>('ĐẶT HÀNG THÀNH CÔNG');
+  const [paymentResult, setPaymentResult] = useState<string>('Đang hiển thị kết quả thanh toán...'); // Kết quả thanh toán
   const [isPaymentSuccess, setIsPaymentSuccess] = useState<boolean>(true); // Trạng thái giao dịch
 
   useEffect(() => {
@@ -35,8 +35,15 @@ const PaymentResult = () => {
     };
     if (queryString) {
       fetchPaymentResult();
+    } else {
+      setPaymentResult('Thanh toán thành công!');
+      setIsPaymentSuccess(true);
     }
   }, [queryString]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   return (
     <div className={cx('wapper')}>

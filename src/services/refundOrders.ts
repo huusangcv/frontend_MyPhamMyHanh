@@ -11,7 +11,7 @@ const refundOrderService = {
   }) => {
     try {
       const response = await axios.post(`refunds`, data);
-      return response.data;
+      return response;
     } catch (error) {
       throw error;
     }
