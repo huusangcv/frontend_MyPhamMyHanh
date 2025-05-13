@@ -272,7 +272,8 @@ const Payment = () => {
 
   // Update the total calculation to include discount
   const calculateTotal = () => {
-    return paymentInfo.totalPrice + infoShipping.shipping - discountAmount;
+    const totalPrice = paymentInfo.totalPrice + infoShipping.shipping - discountAmount;
+    return totalPrice > 0 ? totalPrice : 0;
   };
 
   // Add function to fetch available promotions
